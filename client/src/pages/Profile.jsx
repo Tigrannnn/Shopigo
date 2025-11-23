@@ -1,0 +1,131 @@
+import cls from "../styles/Profile.module.scss"
+import { ReactComponent as UserIcon } from '../assets/icons/user.svg';
+import { useFavoritesState } from '../store/useFavoritesState';
+import { useOrderState } from '../store/useOrderState';
+import { useBasketState } from '../store/useBasketState';
+import { ReactComponent as BasketIcon } from '../assets/icons/basket.svg';
+import { ReactComponent as OrdersIcon } from '../assets/icons/orders.svg';
+import { ReactComponent as LikeIcon } from '../assets/icons/like.svg';
+import { BASKET_ROUTE, FAVORITES_ROUTE, ORDERS_ROUTE } from '../utils/consts';
+import { useNavigate } from 'react-router-dom';
+import { ReactComponent as CommentIcon } from '../assets/icons/comment.svg';
+import { ReactComponent as CreditCardIcon } from '../assets/icons/creditCard.svg';
+import { ReactComponent as LogOut } from '../assets/icons/logout.svg';
+import { useProfileState } from "../store/useProfileState";
+import ProductCard from "../components/ProductCard";
+import { useRecentlyWatchedState } from "../store/useRecentlyWatchedState";
+
+function Profile() {
+    const name = useProfileState(state => state.name)
+    const surname = useProfileState(state => state.surname)
+    const balance = useProfileState(state => state.balance)
+    const favoriteProducts = useFavoritesState(state => state.favoriteProducts)
+    const orderProducts = useOrderState(state => state.orderProducts)
+    const basketProducts = useBasketState(state => state.basketProducts)
+
+    const recentlyWatched = useRecentlyWatchedState(state => state.recentlyWatched)
+
+    const navigate = useNavigate()
+
+    const openCenterModal = useProfileState(state => state.openCenterModal)
+
+    return (
+        <div className={cls.Profile}>
+            <aside className={cls.sidebar}>
+                <div className={cls.sidebarHeader}>
+                    <div className={cls.userIconWrapper}>
+                        <UserIcon className={cls.userIcon} />
+                    </div>
+                    <div className={cls.profileUserNameWrapper}>
+                        <h1 className={cls.profileUserName}>{name} {surname} {name || surname ? '' : 'Shopigo User'}</h1>
+                    </div>
+                </div>
+                <button className={cls.profileButton} onClick={() => openCenterModal('changeProfile')}>
+                    <div className={cls.profileButtonIcon}>
+                        <UserIcon />
+                    </div>
+                    <span>Change Profile</span>
+                </button>
+                <button className={cls.profileButton} onClick={() => openCenterModal('payment')}>
+                    <div className={cls.profileButtonIcon}>
+                        <CreditCardIcon />
+                    </div>
+                    <span>Payment methods</span>
+                </button>
+                <button className={cls.profileButton} onClick={() => openCenterModal('logout')}>
+                    <div className={cls.profileButtonIcon}>
+                        <LogOut />
+                    </div>
+                    <span>Log Out</span>
+                </button>
+            </aside>
+            <section className={cls.mainSection}>
+                <div className={cls.balanceWrapper}>
+                    <h2 className={cls.balanceTitle}>Balance</h2>
+                    <h3 className={cls.balanceAmount}>{balance} dram</h3>
+                </div>
+
+                <div className={cls.userActivity}>
+                    <div className={cls.basket} onClick={() => navigate(BASKET_ROUTE)}>
+                        <div className={cls.basketInfoWrapper}>
+                            <h2 className={cls.basketTitle}>Basket</h2>
+                            <p className={cls.basketDescription}>{basketProducts.length} products</p>
+                        </div>
+                        <div className={cls.basketIconWrapper}>
+                            <BasketIcon className={cls.basketIcon} />
+                        </div>
+                    </div>
+                    <div className={cls.favorites} onClick={() => navigate(FAVORITES_ROUTE)}>
+                        <div className={cls.favoritesInfoWrapper}>
+                            <h2 className={cls.favoritesTitle}>Favorites</h2>
+                            <p className={cls.favoritesDescription}>{favoriteProducts.length} products</p>
+                        </div>
+                        <div className={cls.favoritesIconWrapper}>
+                            <LikeIcon className={cls.favoritesIcon} />
+                        </div>
+                    </div>
+                    <div className={cls.orders} onClick={() => navigate(ORDERS_ROUTE)}>
+                        <div className={cls.ordersInfoWrapper}>
+                            <h2 className={cls.ordersTitle}>Orders</h2>
+                            <p className={cls.ordersDescription}>{orderProducts.length} orders</p>
+                        </div>
+                        <div className={cls.ordersIconWrapper}>
+                            <OrdersIcon className={cls.ordersIcon} />
+                        </div>
+                    </div>
+                </div>
+                
+                <div className={cls.support}>
+                    <div className={cls.supportHeader}>
+                        <h2>Support and feedback</h2>
+                    </div>
+                    <div className={cls.supportInfoWrapper}>
+                        <div className={cls.supportInfoItem}>
+                            <span><CommentIcon /> Write to support</span>
+                        </div>
+                    </div>
+                </div>
+                
+                {
+                    recentlyWatched.length > 0 &&
+                    <div className={cls.recentlyWatchedWrapper}>
+                        <h3>Recently Watched</h3>
+                        <div className={cls.recentlyWatched}>
+                            {
+                                recentlyWatched.map((product) => (
+                                    <ProductCard 
+                                        key={product.id}
+                                        product={product}
+                                    />
+                                ))
+                            }
+                        </div>
+                    </div>
+                }
+                
+            </section>
+        </div>
+    )
+}
+
+export default Profile

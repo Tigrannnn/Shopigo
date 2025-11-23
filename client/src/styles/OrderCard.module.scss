@@ -1,0 +1,229 @@
+@import '../styles/global.scss';
+
+.OrderCard {
+    width: 100%;
+    min-height: 135px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
+    @include boxShadow;
+
+    &:hover {
+        transform: translateY(-1px);
+    }
+    
+    @media (max-width: 768px) {
+        min-height: 120px;
+        padding: 15px;
+        gap: 15px;
+    }
+    
+    @media (max-width: 480px) {
+        flex-direction: column;
+        align-items: flex-start;
+        min-height: auto;
+        gap: 15px;
+    }
+}
+
+.imgWrapper {
+    width: 100px;
+    height: 133.33px;
+    flex-shrink: 0;
+    transition: $transition;
+    cursor: pointer;
+    border-radius: 8px;
+    overflow: hidden;
+
+    &:hover {
+        transform: scale(1.03);
+    }
+    
+    &:focus-visible {
+        outline: 2px solid $siteBcColor;
+        outline-offset: 2px;
+    }
+    
+    @include active;
+
+    .productImage {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+    
+    @media (max-width: 768px) {
+        width: 80px;
+        height: 106.67px;
+    }
+    
+    @media (max-width: 480px) {
+        width: 100%;
+        height: 266.67px; 
+    }
+}
+
+.nameWrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    min-width: 0;
+    
+    @media (max-width: 768px) {
+        gap: 6px;
+    }
+
+    .productName {
+        font-size: 18px;
+        @include underline;
+        
+        @media (max-width: 768px) {
+            font-size: 16px;
+        }
+    }
+
+    .productColor,
+    .productDate {
+        color: lighten($textColor, 20%);
+        margin: 0;
+        font-size: 14px;
+        
+        @media (max-width: 768px) {
+            font-size: 13px;
+        }
+    }
+
+    .orderInfo {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        margin-top: 4px;
+        
+        @media (max-width: 768px) {
+            gap: 4px;
+        }
+
+        .orderDate {
+            color: lighten($textColor, 30%);
+            margin: 0;
+            font-size: 13px;
+            font-weight: 500;
+            
+            @media (max-width: 768px) {
+                font-size: 12px;
+            }
+        }
+
+        .statusWrapper {
+            .status {
+                display: inline-block;
+                padding: 4px 12px;
+                border-radius: 20px;
+                color: white;
+                font-size: 12px;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                
+                @media (max-width: 768px) {
+                    padding: 3px 10px;
+                    font-size: 11px;
+                }
+            }
+        }
+    }
+
+    .actionButtons {
+        display: flex;
+        gap: 12px;
+        margin-top: 8px;
+        
+        @media (max-width: 768px) {
+            gap: 10px;
+            margin-top: 6px;
+        }
+
+        .actionButton {
+            background: none;
+            border: none;
+            padding: 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: $transition;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            
+            &:hover {
+                background-color: rgba(0, 0, 0, 0.05);
+                transform: scale(1.1);
+            }
+            
+            &:focus-visible {
+                outline: 2px solid $siteBcColor;
+                outline-offset: 2px;
+            }
+            
+            @include active;
+
+            .likeIcon,
+            .shareIcon,
+            .trashIcon {
+                width: 28px;
+                height: 28px;
+                color: #666;
+                stroke-width: 2;
+                transition: $transition;
+                
+                @media (max-width: 768px) {
+                    width: 24px;
+                    height: 24px;
+                }
+            }
+
+            .likeIcon {
+                color: $likeColor;
+            }
+        }
+    }
+}
+
+.priceWrapper {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+    
+    @media (max-width: 480px) {
+        align-self: flex-end;
+    }
+
+    .price {
+        font-size: 20px;
+        font-weight: 700;
+        color: $textColor;
+        margin: 0;
+        
+        @media (max-width: 768px) {
+            font-size: 18px;
+        }
+    }
+
+    .quantity {
+        font-size: 14px;
+        font-weight: 500;
+        color: lighten($textColor, 30%);
+        margin: 0;
+        
+        @media (max-width: 768px) {
+            font-size: 13px;
+        }
+    }
+}

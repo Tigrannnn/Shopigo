@@ -1,0 +1,262 @@
+@import './global.scss';
+
+.Basket {
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    padding: 0 20px;
+    gap: 30px;
+    
+    @media (max-width: 1200px) {
+        padding: 0 15px;
+        gap: 25px;
+    }
+    
+    @media (max-width: 768px) {
+        padding: 0 10px;
+        gap: 20px;
+    }
+}
+
+.emptyBasket {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+    color: $textColor;
+
+    h2 {
+        font-size: 20px;
+        font-weight: 500;
+        color: $textColor;
+        margin: 0;
+        letter-spacing: 2.5px;
+        line-height: 1.5;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    .goToMainPage {
+        @include defaultButton;
+        padding: 15px 25px;
+    }
+}
+
+.basketHeader {
+    h1 {
+        font-size: 32px;
+        font-weight: 600;
+        color: $textColor;
+        margin: 0;
+        
+        sup {
+            font-size: 18px;
+            color: $siteBcColor;
+            font-weight: 500;
+        }
+        
+        @media (max-width: 768px) {
+            font-size: 28px;
+            
+            sup {
+                font-size: 16px;
+            }
+        }
+    }
+}
+
+.mainBlock {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 30px;
+    align-items: start;
+    
+    @media (max-width: 1200px) {
+        grid-template-columns: 1fr 350px;
+        gap: 25px;
+    }
+    
+    @media (max-width: 992px) {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
+
+.leftSide {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    
+    @media (max-width: 768px) {
+        gap: 15px;
+    }
+
+    .selectAllBlock {
+        width: 100%;
+        min-height: 80px;
+        background-color: #f8f9fa;
+        border: 2px solid #e9ecef;
+        padding: 20px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        
+        @media (max-width: 768px) {
+            min-height: 70px;
+            padding: 15px;
+        }
+        
+        .selectAllText {
+            font-size: 18px;
+            font-weight: 500;
+            color: $textColor;
+            margin-left: 12px;
+            
+            @media (max-width: 768px) {
+                font-size: 16px;
+            }
+        }
+    }
+
+    .productListBlock {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        
+        @media (max-width: 768px) {
+            gap: 15px;
+        }
+    }
+}
+
+.rightSide {
+    .orderBlock {
+        width: 100%;
+        min-height: 400px;
+        display: flex;
+        flex-direction: column;
+        padding: 30px;
+        border-radius: 12px;
+        @include boxShadow;
+        background: white;
+        position: sticky;
+        top: 20px;
+
+        @media (max-width: 992px) {
+            position: static;
+            min-height: auto;
+        }
+        
+        @media (max-width: 768px) {
+            padding: 20px;
+        }
+
+        .chooseAddressWrapper {
+            margin-bottom: 25px;
+
+            h2 {
+                font-size: 20px;
+                font-weight: 600;
+                color: $textColor;
+                margin: 0;
+                cursor: pointer;
+                transition: $transition;
+                position: relative;
+                display: inline-block;
+                
+                &::after {
+                    content: '';
+                    position: absolute;
+                    left: 0;
+                    bottom: -2px;
+                    width: 0;
+                    height: 2px;
+                    background-color: lighten($siteBcColor, 5%);
+                    transition: $transition;
+                    transform-origin: left;
+                }
+
+                &:hover {
+                    color: $siteBcColor;
+                    transform: scale(1.02);
+
+                    &::after {
+                        width: 100%;
+                    }
+                }
+                
+                &:focus-visible {
+                    outline: 2px solid $siteBcColor;
+                    outline-offset: 2px;
+                }
+                
+                @include active;
+                
+                @media (max-width: 768px) {
+                    font-size: 18px;
+                }
+            }
+        }
+
+        .priceInfoBlockWrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 25px;
+
+            .priceInfoWrapper {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 8px 0;
+                color: $textColor;
+                
+                span {
+                    font-size: 16px;
+                    font-weight: 500;
+                    
+                    &:first-child {
+                        color: lighten($textColor, 20%);
+                        font-weight: 400;
+                    }
+                }
+                
+                &.totalPrice {
+                    border-top: 2px solid #e9ecef;
+                    padding-top: 15px;
+                    margin-top: 5px;
+                    
+                    span {
+                        font-size: 20px;
+                        font-weight: 600;
+                        color: $textColor;
+                        
+                        &:last-child {
+                            color: $siteBcColor;
+                        }
+                    }
+                }
+            }
+        }
+
+        .orderButtonWrapper {
+            .orderButton {
+                width: 100%;
+                height: 55px;
+                @include defaultButton;
+                color: white;
+                font-size: 18px;
+                font-weight: 600;
+
+                @media (max-width: 768px) {
+                    height: 50px;
+                    font-size: 16px;
+                }
+            }
+        }
+    }
+}

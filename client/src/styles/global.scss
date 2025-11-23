@@ -1,0 +1,461 @@
+$siteBcColor: rgb(6, 117, 117);
+$borderSize: 2.5px;
+$transition: .45s;
+$likeColor: #e74c3c;
+$textColor: rgb(0, 0, 0);
+$starColor: #f39c12;
+$inputOutlineColor: rgba(76, 201, 201, 0.3);
+
+@mixin mainBorder($color: $siteBorderColor, $size: $borderSize) {
+    border: $size solid $color;
+}
+@mixin blackBorder($size: 1px) {
+    border: $size solid black;
+}
+@mixin active() {
+    &:active{
+        transition: .1s;
+        transform: scale(0.98);
+    }
+}
+@mixin boxShadow($color: rgba(0, 0, 0, 0.3), $hoverColor: rgba(0, 0, 0, 0.4)) {
+  box-shadow: 0 4px 16px $color;
+  transition: $transition;
+
+  &:hover {
+    box-shadow: 0 4px 16px $hoverColor;
+  }
+}
+@mixin actionButton{
+  background: none;
+  border: none;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: $transition;
+  
+  &:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+      transform: scale(1.1);
+  }
+  
+  &:focus-visible {
+      outline: 2px solid $siteBcColor;
+      outline-offset: 2px;
+  }
+  
+  @include active;
+}
+@mixin defaultButton ($color: $siteBcColor, $scale: 1.03) {
+    border-radius: 10px;
+    border: 0;
+    transition: $transition;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    background-color: $color;
+    color: white;
+    @include boxShadow;
+
+    &:hover{
+        transform: scale($scale);
+        background-color: lighten($color, 8%);
+    }
+
+    &:active {
+      background-color: darken($color, 2%)
+    }
+
+    @include active;
+}
+
+@mixin boxShadowButton($color: white) {
+  @include defaultButton($color);
+  color: $textColor;
+
+  &:hover{
+    background-color: darken($color, 6%);
+  }
+
+  &:active {
+    background-color: darken($color, 12%);
+  }
+}
+
+@mixin secondaryButton ($color: lighten($siteBcColor, 40%), $scale: 1.03) {
+    @include defaultButton($color, $scale);
+    color: black;
+
+    &:hover {
+        background-color: lighten($color, 10%);
+    }
+
+    &:active {
+        background-color: darken($color, 2%);
+    }
+
+    @include active;
+}
+
+@mixin underline($scale: 1.03) {  
+  transition: $transition;
+  position: relative;
+  cursor: pointer;
+
+  &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -2px;
+      width: 0;
+      height: 2px;
+      background: $siteBcColor;
+      transition: $transition;
+  }
+
+  &:hover {
+      color: lighten($siteBcColor, 10%);
+      transform: scale($scale);
+      
+      &::after {
+          width: 100%;
+      }
+  }
+  
+  @include active;
+}
+@mixin tabButtons{
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  color: lighten($textColor, 60%);
+
+  h4 {
+      font-size: 24px;
+      font-weight: 600;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: $transition;
+
+      &:hover {
+          transform: scale(1.05);
+          color: lighten($textColor, 30%);
+      }
+
+      &:active {
+          color: darken($textColor, 10%);
+      }
+
+      @include active;
+
+      sup {
+          font-size: 16px;
+          font-weight: 600;
+          color: $siteBcColor;
+          margin: 0;
+          padding: 0;
+      }
+  }
+
+  .titleActive {
+      color: $textColor;
+
+      &:hover {
+          color: lighten($textColor, 10%);
+      }
+
+      &:active {
+          color: darken($textColor, 10%);
+      }
+
+      @include active;
+  }
+}
+@mixin input{
+  display: flex;
+  align-items: center;
+  border: 2px solid #b3b3b3;
+  transition: $transition;
+  background: #fdfdfd;
+  outline: 5px solid transparent;
+
+  &:hover {
+      border-color: $siteBcColor;
+      background: white;
+  }
+
+  &:focus-within {
+      border-color: $siteBcColor;
+      background: white;
+      outline-color: $inputOutlineColor;
+  }
+  
+  &::placeholder {
+      color: #adb5bd;
+  }
+}
+@mixin filter {
+  width: 100%;
+  display: flex;
+  gap: 20px;
+  padding: 20px 0;
+
+  .filterItem {
+      @include boxShadowButton;
+      height: 40px;
+      padding: 20px;
+      gap: 10px;
+      font-size: 14px;
+      color: lighten($textColor, 40%);
+
+      &:hover {
+          color: $textColor;
+      }
+
+      svg{
+          width: 20px;
+          height: 20px;
+      }
+  }
+}
+@mixin productList($width: 220px, $gap: 25px) {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax($width, 1fr));
+  gap: $gap;
+  align-items: start;
+  
+  @media (max-width: 1400px) {
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: $gap - 7px;
+  }
+  
+  @media (max-width: 1200px) {
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: $gap - 12px;
+  }
+  
+  @media (max-width: 768px) {
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 10px;
+      padding: 24px 8px 0 8px;
+  }
+  
+  @media (max-width: 480px) {
+      grid-template-columns: 1fr;
+      gap: 14px;
+      padding: 16px 4px 0 4px;
+  }
+}
+
+
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.globalWrapper{
+    padding: 150px 5% 50px;
+    position: relative;
+}
+
+.overlay{
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.285);
+    z-index: 98;
+}
+
+p, h1, h2, h3, h4, h5, h6, span{
+  font-weight: 600;
+    margin: 0;
+    line-height: 1;
+}
+
+a{
+    text-decoration: none;
+    color: inherit;
+    outline: none;
+    
+    &:focus{
+        outline: none;
+    }
+}
+
+
+.toast {
+  width: fit-content;
+  padding: 20px 30px;
+  @include boxShadow;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  transition: $transition;
+  position: fixed;
+  bottom: 50px;
+  left: 50%;
+  transform: translate(-50%, -50%) translateY(50px);
+  background-color: white;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1000;
+  margin-top: 500px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  
+  @media (max-width: 768px) {
+      width: 280px;
+      height: 45px;
+  }
+
+  p {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 500;
+      color: #2c3e50;
+  }
+
+  span{
+    margin: 0;
+    padding: 0;
+    margin-left: 7px;
+    color: $siteBcColor;
+    @include underline;
+  }
+}
+
+.toastShow {
+  opacity: 1;
+  transform: translate(-50%, -50%) translateY(0);
+  pointer-events: auto;
+}
+
+
+.neon-checkbox {
+  --primary: #00d3c1;
+  position: relative;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: $transition;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  @include active;
+}
+
+.neon-checkbox input {
+  display: none;
+}
+
+.neon-checkbox__frame {
+  position: relative;
+  width: 24px;
+  height: 24px;
+}
+
+.neon-checkbox__box {
+  position: absolute;
+  inset: 0;
+  background: white;
+  border-radius: 4px;
+  border: 2px solid #666;
+  transition: $transition;
+}
+
+.neon-checkbox__check {
+  position: absolute;
+  inset: 2px;
+  width: calc(100% - 4px);
+  height: calc(100% - 4px);
+  fill: none;
+  stroke: var(--primary);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 30;
+  stroke-dashoffset: 30;
+  transform-origin: center;
+  transition: $transition;
+}
+
+.neon-checkbox__glow {
+  position: absolute;
+  inset: -2px;
+  border-radius: 6px;
+  background: var(--primary);
+  opacity: 0;
+  filter: blur(6px);
+  transform: scale(1.1);
+  transition: $transition;
+}
+
+/* Hover Effects */
+.neon-checkbox:hover .neon-checkbox__box {
+  border-color: var(--primary);
+  transform: scale(1.05);
+}
+
+/* Checked State */
+.neon-checkbox input:checked ~ .neon-checkbox__frame .neon-checkbox__box {
+  border-color: var(--primary);
+  background: white;
+}
+
+.neon-checkbox input:checked ~ .neon-checkbox__frame .neon-checkbox__check {
+  stroke-dashoffset: 0;
+  transform: scale(1.1);
+}
+
+.neon-checkbox input:checked ~ .neon-checkbox__frame .neon-checkbox__glow {
+  opacity: 0.12;
+}
+
+
+
+
+// .loader {
+//     border: 4px solid rgba(0, 0, 0, .1);
+//     border-left-color: transparent;
+//     border-radius: 50%;
+//   }
+  
+//   .loader {
+//     border: 4px solid rgba(0, 0, 0, .1);
+//     border-left-color: transparent;
+//     width: 36px;
+//     height: 36px;
+//   }
+  
+//   .loader {
+//     border: 4px solid rgba(0, 0, 0, .1);
+//     border-left-color: transparent;
+//     width: 36px;
+//     height: 36px;
+//     animation: spin89345 1s linear infinite;
+//   }
+  
+//   @keyframes spin89345 {
+//     0% {
+//       transform: rotate(0deg);
+//     }
+  
+//     100% {
+//       transform: rotate(360deg);
+//     }
+//   }

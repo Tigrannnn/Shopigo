@@ -1,0 +1,242 @@
+@import './global.scss';
+
+.BasketProduct {
+    width: 100%;
+    min-height: 135px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
+    @include boxShadow;
+    
+    &:hover {
+        transform: translateY(-1px);
+    }
+    
+    @media (max-width: 768px) {
+        min-height: 120px;
+        padding: 15px;
+        gap: 15px;
+    }
+    
+    @media (max-width: 480px) {
+        flex-direction: column;
+        align-items: flex-start;
+        min-height: auto;
+        gap: 15px;
+    }
+}
+
+.imgWrapper {
+    width: 100px;
+    height: 133.33px;
+    flex-shrink: 0;
+    transition: $transition;
+    cursor: pointer;
+    border-radius: 8px;
+    overflow: hidden;
+
+    &:hover {
+        transform: scale(1.03);
+    }
+    
+    &:focus-visible {
+        outline: 2px solid $siteBcColor;
+        outline-offset: 2px;
+    }
+    
+    @include active;
+
+    .productImage {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+    
+    @media (max-width: 768px) {
+        width: 80px;
+        height: 106.67px;
+    }
+    
+    @media (max-width: 480px) {
+        width: 100%;
+        height: 266.67px; 
+    }
+}
+
+.nameWrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    min-width: 0;
+    
+    @media (max-width: 768px) {
+        gap: 6px;
+    }
+
+    .productName {
+        font-size: 18px;
+        @include underline;
+        
+        @media (max-width: 768px) {
+            font-size: 16px;
+        }
+    }
+
+    .productColor,
+    .productDate {
+        color: lighten($textColor, 20%);
+        margin: 0;
+        font-size: 14px;
+        
+        @media (max-width: 768px) {
+            font-size: 13px;
+        }
+    }
+
+    .actionButtons {
+        display: flex;
+        gap: 12px;
+        margin-top: 8px;
+        
+        @media (max-width: 768px) {
+            gap: 10px;
+            margin-top: 6px;
+        }
+
+        .actionButton {
+            background: none;
+            border: none;
+            padding: 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: $transition;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            
+            &:hover {
+                background-color: rgba(0, 0, 0, 0.05);
+                transform: scale(1.1);
+            }
+            
+            &:focus-visible {
+                outline: 2px solid $siteBcColor;
+                outline-offset: 2px;
+            }
+            
+            @include active;
+
+            .likeIcon,
+            .shareIcon,
+            .trashIcon {
+                width: 28px;
+                height: 28px;
+                color: #666;
+                stroke-width: 2;
+                transition: $transition;
+                
+                @media (max-width: 768px) {
+                    width: 24px;
+                    height: 24px;
+                }
+            }
+
+            .likeIcon {
+                color: $likeColor;
+            }
+        }
+    }
+}
+
+.priceWrapper {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    
+    @media (max-width: 480px) {
+        align-self: flex-end;
+    }
+
+    .price {
+        font-size: 20px;
+        font-weight: 700;
+        color: $textColor;
+        margin: 0;
+        
+        @media (max-width: 768px) {
+            font-size: 18px;
+        }
+    }
+}
+
+.addWrapper {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    
+    @media (max-width: 480px) {
+        align-self: flex-end;
+    }
+
+    .quantityControls {
+        height: 50px;
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        align-items: center;
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 0 15px;
+        
+        @media (max-width: 768px) {
+            height: 45px;
+            gap: 10px;
+            padding: 0 12px;
+        }
+
+        .btn {
+            width: 35px;
+            height: 35px;
+            @include defaultButton();
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+
+            @media (max-width: 768px) {
+                width: 30px;
+                height: 30px;
+                font-size: 16px;
+            }
+        }
+
+        .disabledBtn {
+            background-color: rgb(93, 93, 93);
+            cursor: default;
+
+            &:hover {
+                transform: scale(1);
+                background-color: rgb(93, 93, 93);
+            }
+        }
+        
+        .quantity {
+            min-width: 30px;
+            display: flex;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 600;
+            color: $textColor;
+            
+            @media (max-width: 768px) {
+                min-width: 25px;
+                font-size: 16px;
+            }
+        }
+    }
+}

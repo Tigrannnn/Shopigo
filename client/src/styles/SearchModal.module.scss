@@ -1,0 +1,98 @@
+@import './global.scss';
+
+.SearchModal {
+    width: 45%;
+    // min-height: 380px;
+    position: fixed;
+    top: 105px;
+    left: 47.5%;
+    background: white;
+    border-radius: 10px;
+    @include boxShadow;
+    transform: translateX(-50%) translateY(-200%);
+    transition: $transition;
+    z-index: 100;
+    opacity: 0;
+    pointer-events: none;
+    padding: 15px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    h2 {
+        font-size: 20px;
+        color: rgb(117, 116, 131);
+        margin-bottom: 10px;
+    }
+
+    .searchItemWrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        .searchItem {
+            @include defaultButton(white, 1.02);
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            @include boxShadow($color: rgba(0, 0, 0, 0.2), $hoverColor: rgba(0, 0, 0, 0.1));
+    
+            &:hover {
+                background: #f0f0f0;
+            }
+    
+            span {
+                width: 100%;
+                display: flex;
+                align-items: center;
+    
+                svg {
+                    color: rgb(131, 148, 163);
+                    width: 25px;
+                    height: 25px;
+                }
+    
+                p {
+                    font-size: 16px;
+                    font-weight: 600;
+                    color: $textColor;
+                }
+    
+                .searchInfoWrapper {
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+                    gap: 20px;
+                }
+    
+                .trashButton {
+                    background: none;
+                    border: none;
+                    transition: $transition;
+                    z-index: 101;
+                    padding: 5px;
+
+                    &:hover {
+                        svg {
+                            color: $textColor;
+                        }
+                    }
+
+                    .trashIcon {
+                        transition: $transition;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.open {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+}

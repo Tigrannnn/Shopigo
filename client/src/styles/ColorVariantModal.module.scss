@@ -1,0 +1,49 @@
+@import './global.scss';
+
+.colorVariantModal {
+    position: absolute;
+    top: 120px;
+    width: 200px;
+    min-height: calc((200px * 4 / 3) + 50px);
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.504);
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: transform .3s ease-in-out;
+    pointer-events: none;
+    transform: scale(0);
+    background: white;
+
+    img {
+        object-fit: cover;
+        border-radius: 10px;
+    }
+
+    .colorVariantInfo {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        padding: 0px 4px;
+        gap: 2px;
+
+        h5 {
+            font-size: 18px;
+            font-weight: 500;
+            color: $siteBcColor;
+            font-weight: 600;
+            margin: 0;
+
+            &:first-child {
+                color: red;
+            }
+        }
+    }
+
+    &.open {
+        pointer-events: auto;
+        transform: scale(1);
+    }
+}

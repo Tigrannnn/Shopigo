@@ -1,0 +1,85 @@
+@import '../styles/global.scss';
+
+.Catalog {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.catalogHeader {
+    display: flex;
+    flex-direction: column;
+    // @include blackBorder;
+
+    h1{
+        margin-bottom: 20px;
+    }
+
+    .breadcrumbs {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        // @include blackBorder;
+        padding: 1px;
+
+        .backButton {
+            background: none;
+            border: none;
+            padding: 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: $transition;
+            
+            &:hover {
+                background-color: rgba(0, 0, 0, 0.05);
+                transform: scale(1.1);
+            }
+            
+            &:focus-visible {
+                outline: 2px solid $siteBcColor;
+                outline-offset: 2px;
+            }
+            
+            @include active;
+
+            .backIcon {
+                width: 32px;
+                height: 32px;
+                color: lighten($textColor, 30%);
+                stroke-width: 2;
+            }
+        }        
+    
+        ul {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+    
+            li {
+                margin: 0;
+                padding: 0;
+                font-size: 20px;
+                color: lighten($textColor, 40%);
+                @include underline;
+            }
+    
+            span {
+                color: lighten($textColor, 50%);
+                font-size: 14px;
+            }
+        }
+    }
+
+    .filter{
+        @include filter;
+    }
+}
+
+.catalogContent {
+    @include productList(250px);
+}

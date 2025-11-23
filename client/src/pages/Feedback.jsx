@@ -1,0 +1,141 @@
+import { useFeedbackState } from '../store/useFeedbackState';
+import cls from '../styles/Feedback.module.scss';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useProductsState } from '../store/ProductsState';
+import { ReactComponent as BackIcon } from '../assets/icons/back.svg';
+import { ReactComponent as StarIcon } from '../assets/icons/star.svg';
+import { ReactComponent as LikeIcon } from '../assets/icons/like.svg';
+import { BASKET_ROUTE, PRODUCT_ROUTE } from '../utils/consts';
+import { useFavoritesState } from '../store/useFavoritesState';
+import { useBasketState } from '../store/useBasketState';
+import { useState } from 'react';
+import Comment from '../components/Comment';
+
+function Feedback() {
+    const feedback = useFeedbackState((state) => state.feedback)
+
+    const products = useProductsState(state => state.products)
+    const { id } = useParams()
+    const product = products.find(product => product.id === id)
+
+    const addToBasket = useBasketState(state => state.addToBasket)
+    const basketProducts = useBasketState(state => state.basketProducts)
+    const removeFromBasket = useBasketState(state => state.removeFromBasket)
+    const isBasket = basketProducts.some(item => item.id === product.id)
+
+    const addToFavorites = useFavoritesState(state => state.addToFavorites)
+    const removeFromFavorites = useFavoritesState(state => state.removeFromFavorites)
+    const favoriteProducts = useFavoritesState(state => state.favoriteProducts)
+    const isFavorite = favoriteProducts.some(item => item.id === product.id)
+
+    const [reviewVariant, setReviewVariant] = useState('this')
+
+    const navigate = useNavigate()
+
+    function handleBasketAction(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        if (isBasket) {
+            navigate(BASKET_ROUTE)
+        } else {
+            addToBasket(product)
+        }
+    }
+
+    return (
+        <div className={cls.Feedback}>
+            {
+                feedback === 'reviews' ? (
+                    <>
+                        <div className={cls.header}>
+                            <div className={cls.headerTop}>
+                                <button className={cls.backButton} onClick={() => navigate(-1)}>
+                                    <BackIcon />
+                                    <span>Back</span>
+                                </button>
+                            </div>
+                            <div className={cls.headerBottom}>
+                                <img src={product.images[0]} alt="" onClick={() => navigate(`${PRODUCT_ROUTE}/${product.id}`)}/>
+                                <div className={cls.headerBottomInfo}>
+                                    <Link to={`${PRODUCT_ROUTE}/${product.id}`}><h3>{product.seller.name}</h3> / <p>{product.name}</p></Link>
+                                    <span><StarIcon fill="currentColor"/> {product.rating} ∙ <p>83,964 product ratings</p></span>
+                                </div>
+                                <div className={cls.headerBottomPrice}>
+                                    <h3>{product.price} dram</h3>
+                                </div>
+                                <div className={cls.headerBottomButtons}>
+                                    <div className={cls.leftSide}>
+                                        <button 
+                                            className={isBasket ? cls.secondaryButton : ''} 
+                                            onClick={handleBasketAction}
+                                        >
+                                            <p>{isBasket ? "Go to Basket" : "Add to Basket"}</p>
+                                        </button>
+                                        <button 
+                                            className={isBasket ? '' : cls.secondaryButton}
+                                            onClick={() => isBasket ? removeFromBasket(product) : ''}
+                                        >
+                                            <p>{isBasket ? "Remove from Basket" : "Buy Now"}</p>
+                                        </button>
+                                    </div>
+                                    <button
+                                        className={cls.likeButton}
+                                        onClick={() => isFavorite ? removeFromFavorites(product) : addToFavorites(product)}
+                                        aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
+                                    >
+                                        <LikeIcon fill={isFavorite ? "currentColor" : "none"} stroke="currentColor"/>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div className={cls.feedbacks}>
+                            <div className={cls.feedbackTopSide}>
+                                <div className={cls.feedbackTopSideTitles}>
+                                    <h4
+                                        className={reviewVariant === 'this' ? cls.titleActive : ''}
+                                        onClick={() => setReviewVariant('this')}
+                                    >
+                                        This product variant reviews <sup>15</sup>
+                                    </h4>
+                                    <h4
+                                        className={reviewVariant === 'all' ? cls.titleActive : ''}
+                                        onClick={() => setReviewVariant('all')}
+                                    >
+                                        All Rewiews <sup>45</sup>
+                                    </h4>
+                                </div>
+
+                                <div className={cls.feedbackTopSideWrite}>
+                                    <button>Write a review</button>
+                                </div>
+
+                                <div className={cls.feedbackTopSideSort}>
+                                    <span>Sort by:</span>
+                                    <select>
+                                        <option value="newest">Newest</option>
+                                        <option value="oldest">Oldest</option>
+                                        <option value="highestRating">Highest Rating</option>
+                                        <option value="lowestRating">Lowest Rating</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div className={cls.commentList}>
+                                <Comment />
+                                <Comment />
+                                <Comment />
+                                <Comment />
+                            </div>
+                        </div>
+                    </>
+                ) : (
+                    <>
+                        <h2>Questions Section</h2>
+                    </>
+                )
+            }
+        </div>
+    );
+}
+
+export default Feedback;

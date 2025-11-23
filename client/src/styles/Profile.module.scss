@@ -1,0 +1,231 @@
+@import './global.scss';
+
+.Profile {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+
+    .sidebar {
+        width: 450px;
+        height: fit-content;
+        padding: 30px;
+        @include boxShadow;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        .sidebarHeader {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+
+            .userIconWrapper {
+                width: 55px;
+                height: 55px;
+                border-radius: 50%;
+                background-color: #f0f0f0;
+                cursor: pointer;
+                padding: 10px;
+                transition: $transition;
+
+                &:hover {
+                    background-color: #d9d9d9;
+                    transform: scale(1.08);
+                }
+
+                &:active {
+                    background-color: #c0c0c0;
+                    transform: scale(0.98);
+                    transition: .1s;
+                }
+
+                .userIcon {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+            }
+
+            .profileUserNameWrapper {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+
+                .profileUserName, span {
+                    font-size: 30px;
+                    font-weight: 600;
+                    margin: 0;
+                    color: $textColor;
+                    transition: $transition;
+                }
+            }
+        }
+
+        .profileButton {
+            @include boxShadowButton;
+            width: 100%;
+            padding: 20px;
+            gap: 10px;
+            justify-content: flex-start;
+
+            &:hover {
+                color: $siteBcColor;
+            }
+
+            .profileButtonIcon {
+                width: 15%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                svg {
+                    width: 30px;
+                    height: 30px;
+                    object-fit: cover;
+                }
+            }
+        }
+    }
+
+    .mainSection {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        .balanceWrapper {
+            width: 100%;
+            padding: 20px;
+            @include boxShadow;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+
+            h2, h3 {
+                color: $textColor;
+            }
+
+            h3 {
+                font-size: 20px;
+                font-weight: 600;
+            }
+        }
+
+        .userActivity {
+            width: 100%;
+            display: flex;
+            gap: 20px;
+
+            .basket, .orders, .favorites {
+                @include boxShadowButton;
+                width: (100% / 3);
+                padding: 20px;
+                gap: 10px;
+
+                .basketInfoWrapper, .ordersInfoWrapper, .favoritesInfoWrapper {
+                    width: 75%;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 5px;
+                }
+
+                .basketIconWrapper, .ordersIconWrapper, .favoritesIconWrapper {
+                    width: 25%;
+                    height: 100%;
+                    padding: 10px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    svg {
+                        width: 35px;
+                        height: 35px;
+                        object-fit: cover;
+                    }
+                }
+            }
+        }
+
+        .support {
+            width: 100%;
+            padding: 20px;
+            @include boxShadow;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+
+            .supportHeader {
+                display: flex;
+                align-items: center;
+
+                h2 {
+                    font-size: 23px;
+                    font-weight: 600;
+                    margin: 0;
+                    color: $textColor;
+                }  
+            }
+
+            .supportInfoWrapper {
+                display: flex;
+                gap: 10px;
+
+                .supportInfoItem {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+
+                    span {
+                        font-size: 18px;
+                        font-weight: 600;
+                        margin: 0;
+                        color: $textColor;
+                        cursor: pointer;
+                        transition: $transition;
+                        display: flex;
+                        align-items: center;
+                        gap: 10px;
+
+                        &:hover {
+                            transform: scale(1.03);
+                            color: $siteBcColor;
+                        }
+
+                        &:active {
+                            color: darken($siteBcColor, 5%);
+                        }
+
+                        @include active;
+
+                        svg {
+                            width: 30px;
+                            height: 30px;
+                            object-fit: cover;
+                        }
+                    }
+                }
+            }
+        }
+
+        .recentlyWatchedWrapper{
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            padding: 20px;
+            border-radius: 10px;
+            @include boxShadow;
+
+            .recentlyWatched {
+                @include productList(180px);
+                overflow-x: auto;
+                padding: 20px;
+                align-items: start;
+            }
+        }
+    }
+}
