@@ -53,7 +53,7 @@ export const useProductsState = create((set) => ({
             rating: 4.5,
             reviews: 320,
             questions: 10,
-            images: ['/Product2.webp', '/Product2.webp', '/Product2.webp', '/Product2.webp'],
+            images: ['/Product2.webp', '/Product2.webp', '/Product2.webp'],
             deliveryDays: 5,
             variants: {
                 colors: [

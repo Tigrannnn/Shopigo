@@ -29,7 +29,7 @@ const Category = sequelize.define('category', {
     icon: {type: DataTypes.STRING},
 })
 
-// Product
+// Product & ProductInfo
 const Product = sequelize.define('product', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     name: {type: DataTypes.STRING, allowNull: false},
@@ -37,8 +37,12 @@ const Product = sequelize.define('product', {
     description: {type: DataTypes.TEXT, allowNull: false},
     rating: {type: DataTypes.FLOAT, defaultValue: 0},
     image: {type: DataTypes.STRING, allowNull: false},
-    deliveryDays: {type: DataTypes.INTEGER, allowNull: false},
     article: {type: DataTypes.STRING, allowNull: false},
+})
+const ProductInfo = sequelize.define('product_info', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    title: {type: DataTypes.STRING, allowNull: false},
+    description: {type: DataTypes.TEXT, allowNull: false},
 })
 
 // ColorVariant & SizeVariant
@@ -88,7 +92,7 @@ const OrderProduct = sequelize.define('order_product', {
 // Review
 const Review = sequelize.define('review', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    rating: {type: DataTypes.INTEGER, defaultValue: 0},
+    rating: {type: DataTypes.INTEGER, allowNull: false},
     comment: {type: DataTypes.TEXT, allowNull: false},
 })
 
@@ -120,6 +124,9 @@ Seller.hasMany(Product)
 Product.belongsTo(Category)
 Category.hasMany(Product)
 
+Product.hasMany(ProductInfo, {as: 'productInfo'})
+ProductInfo.belongsTo(Product)
+
 Product.hasMany(Review)
 Review.belongsTo(Product)
 User.hasMany(Review)
@@ -138,6 +145,7 @@ module.exports = {
     Seller,
     Category,
     Product,
+    ProductInfo,
     ColorVariant,
     SizeVariant,
     Basket,

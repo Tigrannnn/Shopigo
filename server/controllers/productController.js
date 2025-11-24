@@ -1,4 +1,4 @@
-const { Product, Category, Seller, ColorVariant, SizeVariant, Review } = require('../models/models')
+const { Product, ProductInfo } = require('../models/models')
 const uuid = require('uuid')
 const path = require('path')
 const fs = require('fs')
@@ -6,10 +6,10 @@ const fs = require('fs')
 class ProductController {
     async create(req, res, next) {
         try {
-            const { name, price, description, rating, deliveryDays, article, categoryId, sellerId } = req.body
+            const { name, price, description, rating, article, categoryId, sellerId, productInfo } = req.body
 
             // Валидация обязательных полей
-            if (!name || !price || !description || !deliveryDays || !article || !categoryId || !sellerId) {
+            if (!name || !price || !article || !categoryId || !sellerId) {
                 return res.status(400).json({ message: 'All fields are required' })
             }
 
@@ -42,6 +42,17 @@ class ProductController {
                 return res.status(400).json({ message: 'Seller not found' })
             }
 
+            if (productInfo) {
+                productInfo = JSON.parse(productInfo)
+                productInfo.forEach(async (info) => {
+                    await ProductInfo.create({
+                        title: info.title,
+                        description: info.description,
+                        productId: info.idl
+                    })
+                })
+            }
+
             const product = await Product.create({
                 name,
                 price,
@@ -63,16 +74,20 @@ class ProductController {
 
     async getAll(req, res) {
         try {
-            const { categoryId, sellerId } = req.query
+            let { categoryId, sellerId, limit, page } = req.query
+            page = page || 1
+            limit = limit || 2
+            let offset = page * limit - limit
+
             let products
             if (categoryId && sellerId) {
-                products = await Product.findAll({ where: { categoryId, sellerId } })
+                products = await Product.findAll({ where: { categoryId, sellerId }, limit, offset })
             } else if (categoryId && !sellerId) {
-                products = await Product.findAll({ where: { categoryId } })
+                products = await Product.findAll({ where: { categoryId }, limit, offset })
             } else if (sellerId && !categoryId) {
-                products = await Product.findAll({ where: { sellerId } })
+                products = await Product.findAll({ where: { sellerId }, limit, offset })
             } else if (!categoryId && !sellerId) {
-                products = await Product.findAll()
+                products = await Product.findAll({limit, offset})
             }
             return res.json(products)
         } catch (error) {
@@ -88,13 +103,8 @@ class ProductController {
                 return res.status(400).json({ message: 'Product ID is required' })
             }
 
-            const product = await Product.findByPk(id, {
-                include: [
-                    { model: Category, attributes: ['id', 'name'] },
-                    { model: Seller, attributes: ['id', 'name', 'rating', 'reviews'] },
-                    { model: ColorVariant, attributes: ['id', 'color', 'image'] },
-                    { model: SizeVariant, attributes: ['id', 'size'] },
-                    { model: Review, attributes: ['id', 'rating', 'comment', 'createdAt'] }
+            const product = await Product.findOne({ where: { id }, include: [
+                    { model: ProductInfo, as: 'productInfo' }
                 ]
             })
 
