@@ -37,9 +37,9 @@ class UserController {
     }
 
     async auth(req, res) {
-        console.log('hello')
+        const token = generateJwt(req.user.id, req.user.email, req.user.role, req.user.name)
+        return res.status(200).json({ token })
     }
 }
 
 module.exports = new UserController()
-
