@@ -1,7 +1,7 @@
 const Router = require('express')
 const router = new Router()
 const CategoryController = require('../controllers/categoryController')
-const checkRoleMiddleware = require('../middleware/checkRoleMiddleware')
+const checkRoleMiddleware = require('../middleware/checkRoleMiddleware.js')
 
 router.get('/', CategoryController.getAll)
 

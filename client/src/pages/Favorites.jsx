@@ -4,8 +4,12 @@ import { useFavoritesState } from '../store/useFavoritesState'
 import { Link } from 'react-router-dom'
 import { SHOP_ROUTE } from '../utils/consts'
 import RecomendedBlock from '../components/RecommendedBlock.jsx'
+import { useEffect } from 'react'
 
 function Favorites() {
+    useEffect(() => {
+        document.title = 'Favorites'
+    }, [])
     const favoriteProducts = useFavoritesState(state => state.favoriteProducts)
 
     return(

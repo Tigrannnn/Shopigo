@@ -8,12 +8,18 @@ import { useSearchState } from "../store/useSearchState"
 import { useCountrySelectState } from "../store/useCountrySelectState"
 import { useSellerInfoState } from "../store/useSellerInfoState"
 import { useToastState } from "../store/useToastState"
-import { useProfileState } from "../store/useProfileState"
 import { useCatalogState } from "../store/useCatalogState"
 import FilterModal from "./FilterModal"
 import CenterModal from "./CenterModal"
+import { useCenterModalState } from "../store/useCenterModalState"
+import { useEffect, useState } from "react"
+import { auth } from "../http/userAPI"
+import { useProfileState } from "../store/useProfileState"
+import { ReactComponent as Loader } from '../assets/icons/loader.svg';
 
 function LayOut() {
+    const [isAppLoading, setIsAppLoading] = useState(true)
+
     const isMenuModalOpen = useMenuState(state => state.isMenuModalOpen)
     const setMenuModalClose = useMenuState(state => state.setMenuModalClose)
 
@@ -30,13 +36,15 @@ function LayOut() {
     const message = useToastState(state => state.message)
     const toastDelete = useToastState(state => state.toastDelete)
 
-    const centerModal = useProfileState(state => state.centerModal)
-    const closeCenterModal = useProfileState(state => state.closeCenterModal)
+    const centerModal = useCenterModalState(state => state.centerModal)
+    const closeCenterModal = useCenterModalState(state => state.closeCenterModal)
 
     const isFilterModalOpen = useCatalogState(state => state.isFilterModalOpen)
     const closeFilterModal = useCatalogState(state => state.closeFilterModal)
 
     const cancelAction = useToastState(state => state.cancelAction);
+
+    const setUser = useProfileState(state => state.setUser);
 
 
     function handleOverlay() {
@@ -60,26 +68,53 @@ function LayOut() {
         }
     }
 
+    const randomDelay = Math.floor(Math.random() * (5000 - 1000 + 1)) + 1000;
+    
+    useEffect(() => {
+        setTimeout(() => {
+            auth().then(data => {
+                setUser(data)
+            }).catch(e => 
+                e.message
+            ).finally(() => {
+                setIsAppLoading(false)
+            })
+        }, randomDelay);
+    }, [])
+
     return(
          <div onClick={handleOverlay}>
-            <Header />
             {
-                (isMenuModalOpen || isSearchModalOpen || centerModal !== '' || isFilterModalOpen) && 
-                <div className="overlay"></div>
-            }
-            <MenuModal onClick={(e) => {e.stopPropagation(); e.preventDefault()}}/>
-            <SearchModal onClick={(e) => {e.stopPropagation(); e.preventDefault()}}/>
-            <CenterModal />
-            <FilterModal />
-            <main className="globalWrapper">
-                <div className={`toast ${isToastShow ? 'toastShow' : ''}`}>
-                    <p>
-                        {message}
-                        {toastDelete && <span onClick={() => cancelAction()}>cancel</span>}
-                    </p>
+                isAppLoading &&
+                <div className="loaderWrapper">
+                    <div className="loader">
+                        <Loader />
+                    </div>
                 </div>
-                <Outlet />
-            </main>
+            }
+            {
+                !isAppLoading && 
+                <>
+                    <Header />
+                    {
+                        (isMenuModalOpen || isSearchModalOpen || centerModal !== '' || isFilterModalOpen) && 
+                        <div className="overlay"></div>
+                    }
+                    <MenuModal onClick={(e) => {e.stopPropagation(); e.preventDefault()}}/>
+                    <SearchModal onClick={(e) => {e.stopPropagation(); e.preventDefault()}}/>
+                    <CenterModal />
+                    <FilterModal />
+                    <main className="globalWrapper">
+                        <Outlet />
+                        <div className={`toast ${isToastShow ? 'toastShow' : ''}`}>
+                            <p>
+                                {message}
+                                {toastDelete && <span onClick={() => cancelAction()}>cancel</span>}
+                            </p>
+                        </div>
+                    </main>
+                </>
+            }
         </div>
     )
 }

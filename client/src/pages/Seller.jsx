@@ -5,6 +5,7 @@ import { ReactComponent as StarIcon } from '../assets/icons/star.svg';
 import ProductCard from "../components/ProductCard";
 import { useCatalogState } from "../store/useCatalogState";
 import RecomendedBlock from "../components/RecommendedBlock";
+import { useEffect } from 'react'
 
 function Seller() {
     const products = useProductsState(state => state.products)
@@ -12,6 +13,10 @@ function Seller() {
     const seller = products.map(product => product.seller).find(seller => seller.id === id)
 
     const openFilterModal = useCatalogState(state => state.openFilterModal)
+
+    useEffect(() => {
+        document.title = seller?.name || 'Seller'
+    }, [seller])
 
     return (
         <div className={cls.Seller}>

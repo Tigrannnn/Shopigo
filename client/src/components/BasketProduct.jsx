@@ -6,7 +6,7 @@ import { ReactComponent as TrashIcon } from '../assets/icons/trash.svg'
 import { useBasketState } from '../store/useBasketState'
 import { useFavoritesState } from '../store/useFavoritesState'
 import { ReactComponent as ShareIcon } from '../assets/icons/share.svg'
-import { useProfileState } from '../store/useProfileState'
+import { useCenterModalState } from '../store/useCenterModalState'
 
 function BasketProduct ({checkedAll, product}) {
     const { id, name, color, deliveryDays, images, price, quantity } = product
@@ -25,8 +25,8 @@ function BasketProduct ({checkedAll, product}) {
     const isFavorite = favoriteProducts.some(item => item.id === id)
 
     const navigate = useNavigate()
-    const openCenterModal = useProfileState(state => state.openCenterModal)
-    const setShareUrl = useProfileState(state => state.setShareUrl)
+    const openCenterModal = useCenterModalState(state => state.openCenterModal)
+    const setShareUrl = useCenterModalState(state => state.setShareUrl)
 
     return(
         <article className={cls.BasketProduct}>

@@ -3,13 +3,16 @@ import { useOrderState } from '../store/useOrderState';
 import { Link } from 'react-router-dom';
 import { BASKET_ROUTE, LOGIN_ROUTE } from '../utils/consts';
 import OrderCard from '../components/OrderCard';
-import { useProfileState } from '../store/useProfileState';
 import RecomendedBlock from '../components/RecommendedBlock';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useProfileState } from '../store/useProfileState';
 
 function Orders() {
+    useEffect(() => {
+        document.title = 'Orders'
+    }, [])
     const orderProducts = useOrderState(state => state.orderProducts)
-    const user = useProfileState(state => state.user)
+    const role = useProfileState(state => state.role)
     const [statusFilter, setStatusFilter] = useState('all')
 
     const filteredOrders = statusFilter === 'all' 
@@ -28,7 +31,7 @@ function Orders() {
     return (
         <div className={cls.Orders}>
             {
-                (user === 'guest') ? (
+                (role === 'GUEST') ? (
                     <div className={cls.notLoggedIn}>
                         <h1>You are not logged in</h1>
                         <h2>To access your personal account, you need to log in</h2>

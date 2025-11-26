@@ -11,13 +11,17 @@ import { useNavigate } from 'react-router-dom';
 import { ReactComponent as CommentIcon } from '../assets/icons/comment.svg';
 import { ReactComponent as CreditCardIcon } from '../assets/icons/creditCard.svg';
 import { ReactComponent as LogOut } from '../assets/icons/logout.svg';
-import { useProfileState } from "../store/useProfileState";
+import { useCenterModalState } from "../store/useCenterModalState";
 import ProductCard from "../components/ProductCard";
 import { useRecentlyWatchedState } from "../store/useRecentlyWatchedState";
+import { useEffect } from 'react'
+import { useProfileState } from "../store/useProfileState";
 
 function Profile() {
+    useEffect(() => {
+        document.title = 'Profile'
+    }, [])
     const name = useProfileState(state => state.name)
-    const surname = useProfileState(state => state.surname)
     const balance = useProfileState(state => state.balance)
     const favoriteProducts = useFavoritesState(state => state.favoriteProducts)
     const orderProducts = useOrderState(state => state.orderProducts)
@@ -27,7 +31,7 @@ function Profile() {
 
     const navigate = useNavigate()
 
-    const openCenterModal = useProfileState(state => state.openCenterModal)
+    const openCenterModal = useCenterModalState(state => state.openCenterModal)
 
     return (
         <div className={cls.Profile}>
@@ -37,7 +41,7 @@ function Profile() {
                         <UserIcon className={cls.userIcon} />
                     </div>
                     <div className={cls.profileUserNameWrapper}>
-                        <h1 className={cls.profileUserName}>{name} {surname} {name || surname ? '' : 'Shopigo User'}</h1>
+                        <h1 className={cls.profileUserName}>{name} {name ? '' : 'Shopigo User'}</h1>
                     </div>
                 </div>
                 <button className={cls.profileButton} onClick={() => openCenterModal('changeProfile')}>

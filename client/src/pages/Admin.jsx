@@ -9,12 +9,15 @@ import { ReactComponent as HistoryIcon } from '../assets/icons/history.svg'
 import { ReactComponent as TrashIcon } from '../assets/icons/trash.svg'
 import { ReactComponent as CameraIcon } from '../assets/icons/camera.svg'
 import { ReactComponent as SearchIcon } from '../assets/icons/search.svg'
-import { useState } from 'react'
-import { useProfileState } from '../store/useProfileState'
+import { useState, useEffect } from 'react'
+import { useCenterModalState } from "../store/useCenterModalState"
 
 function Admin() {
+    useEffect(() => {
+        document.title = 'Admin'
+    }, [])
     const [activeTab, setActiveTab] = useState('dashboard')
-    const openCenterModal = useProfileState(state => state.openCenterModal)
+    const openCenterModal = useCenterModalState(state => state.openCenterModal)
 
     // Mock data for demonstration
     const stats = {

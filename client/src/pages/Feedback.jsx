@@ -8,15 +8,33 @@ import { ReactComponent as LikeIcon } from '../assets/icons/like.svg';
 import { BASKET_ROUTE, PRODUCT_ROUTE } from '../utils/consts';
 import { useFavoritesState } from '../store/useFavoritesState';
 import { useBasketState } from '../store/useBasketState';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Comment from '../components/Comment';
+import { useLocation } from 'react-router-dom';
+import { REVIEW_ROUTE, QUESTION_ROUTE } from '../utils/consts';
 
 function Feedback() {
     const feedback = useFeedbackState((state) => state.feedback)
+    const location = useLocation()
 
     const products = useProductsState(state => state.products)
     const { id } = useParams()
     const product = products.find(product => product.id === id)
+
+    useEffect(() => {
+        if (product) {
+            const isReviewPage = location.pathname.includes(REVIEW_ROUTE)
+            const isQuestionPage = location.pathname.includes(QUESTION_ROUTE)
+            
+            if (isReviewPage) {
+                document.title = `${product.name} - Reviews`
+            } else if (isQuestionPage) {
+                document.title = `${product.name} - Questions`
+            } else {
+                document.title = product.name || 'Feedback'
+            }
+        }
+    }, [product, location.pathname])
 
     const addToBasket = useBasketState(state => state.addToBasket)
     const basketProducts = useBasketState(state => state.basketProducts)

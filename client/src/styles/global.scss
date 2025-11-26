@@ -273,6 +273,58 @@ $inputOutlineColor: rgba(76, 201, 201, 0.3);
     z-index: 98;
 }
 
+
+// Loader
+.loaderWrapper {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    background-color: rgba(255, 255, 255, 0.8);
+    z-index: 9999;
+
+    svg{
+      width: 150px;
+      height: 150px;
+      animation: rotate 3s infinite;
+
+      circle{
+        fill: none;
+        stroke-width: 10;
+        stroke: rgb(6, 117, 117);
+        stroke-linecap: round;
+        transform: translate(5px,5px);
+        stroke-dasharray: 440;
+        stroke-dashoffset: 440;
+        animation: load 2s ease-in infinite;
+
+        @keyframes load {
+          0%,100% {
+            stroke-dashoffset: 440;
+          }
+          50% {
+            stroke-dashoffset: 1;
+          }
+          50.01% {
+            stroke-dashoffset: 880;
+          }
+        }
+
+        @keyframes rotate {
+          0% {
+            transform: rotate(0deg);
+          }
+          100% {
+            transform: rotate(360deg);
+          }
+        }
+      }
+    }
+}
+
+
 p, h1, h2, h3, h4, h5, h6, span{
   font-weight: 600;
     margin: 0;
@@ -290,6 +342,7 @@ a{
 }
 
 
+// Toast
 .toast {
   width: fit-content;
   padding: 20px 30px;
@@ -341,6 +394,7 @@ a{
 }
 
 
+// Neon Checkbox Styles
 .neon-checkbox {
   --primary: #00d3c1;
   position: relative;
@@ -425,37 +479,3 @@ a{
 .neon-checkbox input:checked ~ .neon-checkbox__frame .neon-checkbox__glow {
   opacity: 0.12;
 }
-
-
-
-
-// .loader {
-//     border: 4px solid rgba(0, 0, 0, .1);
-//     border-left-color: transparent;
-//     border-radius: 50%;
-//   }
-  
-//   .loader {
-//     border: 4px solid rgba(0, 0, 0, .1);
-//     border-left-color: transparent;
-//     width: 36px;
-//     height: 36px;
-//   }
-  
-//   .loader {
-//     border: 4px solid rgba(0, 0, 0, .1);
-//     border-left-color: transparent;
-//     width: 36px;
-//     height: 36px;
-//     animation: spin89345 1s linear infinite;
-//   }
-  
-//   @keyframes spin89345 {
-//     0% {
-//       transform: rotate(0deg);
-//     }
-  
-//     100% {
-//       transform: rotate(360deg);
-//     }
-//   }

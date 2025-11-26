@@ -4,13 +4,14 @@ import { ReactComponent as CreditCardIcon } from '../assets/icons/creditCard.svg
 import { ReactComponent as XIcon } from '../assets/icons/x.svg';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState, useCallback } from 'react';
+import { useCenterModalState } from '../store/useCenterModalState';
 
 function CenterModal() {
-    const centerModal = useProfileState(state => state.centerModal)
-    const closeCenterModal = useProfileState(state => state.closeCenterModal)
-    const shareUrl = useProfileState(state => state.shareUrl)
-    const openCenterModal = useProfileState(state => state.openCenterModal)
-    const setUser = useProfileState(state => state.setUser)
+    const centerModal = useCenterModalState(state => state.centerModal)
+    const closeCenterModal = useCenterModalState(state => state.closeCenterModal)
+    const shareUrl = useCenterModalState(state => state.shareUrl)
+    const openCenterModal = useCenterModalState(state => state.openCenterModal)
+    const setLogOut = useProfileState(state => state.setLogOut)
     const userName = useProfileState(state => state.name)
     const setUserName = useProfileState(state => state.setName)
     
@@ -20,9 +21,10 @@ function CenterModal() {
     const navigate = useNavigate()
 
     const handleLogOut = () => {
-        setUser('guest')
+        setLogOut()
         closeCenterModal()
         navigate('/')
+        localStorage.removeItem('token')
     }
 
     const saveProfileChanges = useCallback(() => { 
@@ -32,7 +34,7 @@ function CenterModal() {
 
     useEffect(() => {
         const handleKeyDown = (e) => {
-            if (centerModal !== '') {
+            if (centerModal === 'changeProfile') {
                 if (e.key === 'Enter') {
                     saveProfileChanges()
                     closeCenterModal()

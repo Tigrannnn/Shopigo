@@ -99,6 +99,10 @@ function ProductPage() {
         closeSellerInfoModal();
     }, [setFeedback, closeSellerInfoModal]);
 
+    useEffect(() => {
+        document.title = product?.name || 'Product'
+    }, [product])
+
     return(
         <div className={cls.ProductPage}>
             <section className={cls.topSection}>

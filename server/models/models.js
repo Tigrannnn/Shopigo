@@ -8,7 +8,7 @@ const User = sequelize.define('user', {
     phone: {type: DataTypes.STRING, unique: true},
     email: {type: DataTypes.STRING, unique: true},
     password: {type: DataTypes.STRING},
-    role: {type: DataTypes.STRING, defaultValue: 'GUEST'}, 
+    role: {type: DataTypes.STRING, defaultValue: 'USER'},
 })
 
 // Seller
@@ -17,7 +17,6 @@ const Seller = sequelize.define('seller', {
     name: {type: DataTypes.STRING, allowNull: false},
     rating: {type: DataTypes.FLOAT, defaultValue: 0},
     reviews: {type: DataTypes.INTEGER, defaultValue: 0},
-    level: {type: DataTypes.STRING, defaultValue: 'Bronze'},
     productsSold: {type: DataTypes.INTEGER, defaultValue: 0},
     logo: {type: DataTypes.STRING},
 })

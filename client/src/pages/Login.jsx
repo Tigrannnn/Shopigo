@@ -3,11 +3,15 @@ import { Link } from 'react-router-dom'
 import { PRIVACY_POLICY_ROUTE, TERMS_OF_USE_ROUTE } from '../utils/consts'
 import { ReactComponent as EnvelopeIcon } from '../assets/icons/envelope.svg';
 import { ReactComponent as PhoneIcon } from '../assets/icons/phone.svg';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useCountrySelectState } from '../store/useCountrySelectState';
+import { login } from '../http/userAPI';
 import { useProfileState } from '../store/useProfileState';
 
 function Login() {
+    useEffect(() => {
+        document.title = 'Login'
+    }, [])
     const countries = [
         {
             name: 'Armenia',
@@ -44,7 +48,8 @@ function Login() {
     const [countrySelect, setCountrySelect] = useState(countries.find(country => country.name === 'Armenia'))
     const [inputPhoneState, setInputPhoneState] = useState('')
     const [inputEmailState, setInputEmailState] = useState('')
-    const [error, setError] = useState(false)
+    const [inputPasswordState, setInputPasswordState] = useState('')
+    const [error, setError] = useState('')
 
     const setUser = useProfileState(state => state.setUser)
     const setPhoneNumber = useProfileState(state => state.setPhoneNumber)
@@ -62,41 +67,59 @@ function Login() {
         openCountrySelectModal()
     }
 
-    function handleLogin() {
+
+    async function handleLogin() {
         if (step === 'enter') {
             if (authMethod === 'phone') {
                 setPhoneNumber(inputPhoneState)
                 if (inputPhoneState.replace(/\s/g, '').length !== countrySelect.mask.replace(/\s/g, '').length) {
-                    setError(true)
+                    setError('Incorrect phone format')
                     setTimeout(() => {
-                        setError(false)
+                        setError('')
                     }, 3000)
                 } else {
                     setError(false)
-                    setStep('code')
+                    setStep('password')
                     handleGetNewCode()
                 }
             } else if (authMethod === 'email') {
                 if (inputEmailState.includes('@') && inputEmailState.includes('.')) {
                     setEmail(inputEmailState)
                     setError(false)
-                    setStep('code')
+                    setStep('password')
                     handleGetNewCode()
                 } else {
-                    setError(true)
+                    setError('Incorrect email format')
                     setTimeout(() => {
-                        setError(false)
-                    }, 3000)
+                        setError('')
+                    }, 4000)
                 }
             }
         } else if (step === 'code') {
             if (inputCode === code) {
-                setUser('user')
+                setUser('')
             } else {
-                setError(true)
+                setError('')
                 setTimeout(() => {
-                    setError(false)
-                }, 3000)
+                    setError('')
+                }, 4000)
+            }
+        } else if (step === 'password') {
+            if (inputPasswordState.length >= 8) {
+                try {
+                    const data = await login(inputEmailState, inputPasswordState)
+                    setUser(data)
+                } catch (error) {
+                    setError(error.response.data.message)
+                    setTimeout(() => {
+                        setError('')
+                    }, 4000)
+                }
+            } else {
+                setError('Incorrect password format')
+                setTimeout(() => {
+                    setError('')
+                }, 4000)
             }
         }
     }
@@ -105,7 +128,7 @@ function Login() {
         const randomCode = Array.from({ length: 6 }, () => Math.floor(Math.random() * 10)).join('');
         setCode(randomCode)
         console.log(randomCode)
-        alert(randomCode)
+        // alert(randomCode)
     }
     
     return(
@@ -197,7 +220,7 @@ function Login() {
                                     <span>Log In</span>
                                 </button>
                                 {
-                                    error && <span className={cls.errorText}>{authMethod === 'phone' ? 'Incorrect phone format' : 'Incorrect email format'}</span>
+                                    error && <span className={cls.errorText}>{error}</span>
                                 }
                             </section>
                             
@@ -228,7 +251,10 @@ function Login() {
                                 </button>
                                 {
                                     authMethod === 'phone' && (
-                                        <button className={cls.socialButton} onClick={() => setAuthMethod('email')}>
+                                        <button className={cls.socialButton} onClick={() => {
+                                            setAuthMethod('email')
+                                            setError('')
+                                        }}>
                                             <div className={cls.socialIconWrapper}>
                                             <EnvelopeIcon className={cls.socialIcon} />
                                             </div>
@@ -239,7 +265,10 @@ function Login() {
 
                                 {
                                     authMethod === 'email' && (
-                                        <button className={cls.socialButton} onClick={() => setAuthMethod('phone')}>
+                                        <button className={cls.socialButton} onClick={() => {
+                                            setAuthMethod('phone')
+                                            setError('')
+                                        }}>
                                             <div className={cls.socialIconWrapper}>
                                                 <PhoneIcon className={cls.socialIcon} />
                                             </div>
@@ -256,6 +285,34 @@ function Login() {
                                         Privacy Policy
                                     </Link>
                                 </div>
+                            </section>
+                        </>
+                    )
+                }
+                {
+                    step === 'password' && (
+                        <>
+                            <section className={cls.loginHeaderSection}>
+                                <h1 className={cls.loginTitle}>Shopigo</h1>
+                            </section>
+                            <section className={cls.loginInputSection}>
+                                <div className={cls.inputWrapper}>
+                                    <input 
+                                        type="password" 
+                                        placeholder="Password" 
+                                        className={cls.input}
+                                        value={inputPasswordState}
+                                        onChange={(e) => setInputPasswordState(e.target.value)}
+                                        onKeyDown={(e) => {
+                                            if (e.key === 'Enter') {
+                                                handleLogin()
+                                            }
+                                        }}
+                                    />
+                                </div>
+                                {
+                                    error && <span className={cls.errorText}>{error}</span>
+                                }
                             </section>
                         </>
                     )
@@ -305,14 +362,14 @@ function Login() {
                                     />
                                 </div>
                                 {
-                                    error && <span className={cls.errorText}>Incorrect code</span>
+                                    error && <span className={cls.errorText}>{error}</span>
                                 }
                                 <span className={cls.getNewCode} onClick={handleGetNewCode}>Get new code</span>
                             </section>
 
                             <section className={cls.buttonsSection}>
                                 <button onClick={() => handleLogin()}>
-                                    <span>Register</span>
+                                    <span>Log In</span>
                                 </button>
                                 {
                                     authMethod === 'phone' && (
@@ -323,7 +380,7 @@ function Login() {
                                             }}
                                             className={cls.spanButton}
                                         >
-                                            Log in with email address
+                                            Continue with email address
                                         </span>
                                     )
                                 }
@@ -336,7 +393,7 @@ function Login() {
                                             }}
                                             className={cls.spanButton}
                                         >
-                                            Log in with phone number
+                                            Continue with phone number
                                         </span>
                                     )
                                 }

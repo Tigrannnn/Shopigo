@@ -8,7 +8,7 @@ const generateJwt = (id, email, role, name) => {
 
 class UserController {
     async login(req, res) {
-        const { email, password } = req.body
+        const { email, password, role } = req.body
 
         if (!email || !password) {
             return res.status(400).json({ message: 'Email and password are required' })
@@ -20,12 +20,12 @@ class UserController {
             if (!comparePassword) {
                 return res.status(400).json({ message: 'Invalid password' })
             }
-            const token = generateJwt(user.id, user.email, user.role, user.name)
+            const token = generateJwt(user.id, user.email, role || user.role, user.name)
             return res.status(200).json({ token })
         } else {
             try {
                 const hashPassword = await bcrypt.hash(password, 10)
-                const newUser = await User.create({ email, password: hashPassword })
+                const newUser = await User.create({ email, password: hashPassword, role })
                 // const basket = await Basket.create({ userId: newUser.id })
                 const token = generateJwt(newUser.id, newUser.email, newUser.role, newUser.name)
                 return res.status(200).json({ token })
@@ -38,7 +38,8 @@ class UserController {
 
     async auth(req, res) {
         const token = generateJwt(req.user.id, req.user.email, req.user.role, req.user.name)
-        return res.status(200).json({ token })
+        const user = req.user
+        return res.json({ token, user })
     }
 }
 

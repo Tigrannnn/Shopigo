@@ -7,11 +7,15 @@ import { Link } from 'react-router-dom'
 import { useOrderState } from '../store/useOrderState.js'
 import { useNavigate } from 'react-router-dom'
 import { ORDERS_ROUTE } from '../utils/consts'
-import { useProfileState } from '../store/useProfileState.js'
 import RecomendedBlock from '../components/RecommendedBlock.jsx';
+import { useEffect } from 'react'
+import { useProfileState } from '../store/useProfileState'
 
 function Basket() {
-    const user = useProfileState(state => state.user)
+    useEffect(() => {
+        document.title = 'Basket'
+    }, [])
+    const role = useProfileState(state => state.role)
     const basketProducts = useBasketState(state => state.basketProducts)
     const selectedIds = useBasketState(state => state.selectedIds)
     const selectAll = useBasketState(state => state.selectAll)
@@ -22,11 +26,11 @@ function Basket() {
     const navigate = useNavigate()
 
     const handleOrder = () => {
-        if (selectedIds.length > 0 && user !== 'guest') {
+        if (selectedIds.length > 0 && role !== 'GUEST') {
             addOrder(basketProducts.filter(product => selectedIds.includes(product.id)))
             deleteSelected()
             navigate(ORDERS_ROUTE)
-        } else if (user === 'guest') {
+        } else if (role === 'guest') {
             navigate(LOGIN_ROUTE)
         }
     }
@@ -82,7 +86,7 @@ function Basket() {
                                     <div className={cls.chooseAddressWrapper}>
                                         <h2
                                             onClick={() => 
-                                                user === 'guest' ? navigate(LOGIN_ROUTE) : handleChooseDeliveryAddress()
+                                                role === 'guest' ? navigate(LOGIN_ROUTE) : handleChooseDeliveryAddress()
                                             }
                                         >
                                             Choose delivery address

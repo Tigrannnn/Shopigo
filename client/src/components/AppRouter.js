@@ -4,15 +4,15 @@ import LayOut from "./LayOut"
 import { useProfileState } from "../store/useProfileState"
 
 function AppRouter() {
-    const user = useProfileState(state => state.user)
+    const role = useProfileState(state => state.role)
 
     return(
         <Routes>
             <Route path="/" element={<LayOut />}>
                 {routes.map(({path, element}) => {
-                    if (user === 'guest' && path === '/profile') {
+                    if (!role && path === '/profile') {
                         return <Route key={path} path={path} element={<Navigate to='/login' replace />} />
-                    } else if (user !== 'guest' && path === '/login') {
+                    } else if (role && path === '/login') {
                         return <Route key={path} path={path} element={<Navigate to='/profile' replace />} />
                     }
                     return <Route key={path} path={path} element={element} />

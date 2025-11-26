@@ -23,7 +23,7 @@ function Header() {
     const basketProducts = useBasketState(state => state.basketProducts)
     const favoriteProducts = useFavoritesState(state => state.favoriteProducts)
     const orderProducts = useOrderState(state => state.orderProducts)
-    const user = useProfileState(state => state.user)
+    const role = useProfileState(state => state.role)
     const addToSearchHistory = useSearchState(state => state.addToSearchHistory)
     const inputValue = useSearchState(state => state.inputValue)
     const setInputValue = useSearchState(state => state.setInputValue)
@@ -97,7 +97,7 @@ function Header() {
                 {/* User navigation */}
                 <nav className={cls.userNavigation}>
                     <Link 
-                        to={user ? BASKET_ROUTE : LOGIN_ROUTE} 
+                        to={BASKET_ROUTE} 
                         className={`${cls.navItem} ${isActiveRoute(BASKET_ROUTE) ? cls.navItemActive : ''}`}
                     >
                         <div className={cls.navIconWrapper}>
@@ -105,7 +105,6 @@ function Header() {
                                 className={cls.navIcon} 
                                 fill="none" 
                                 stroke="currentColor" 
-                                style={{color: user ? 'currentColor' : 'none'}}
                             />
                             <span 
                                 className={cls.notificationBadge} 
@@ -118,7 +117,7 @@ function Header() {
                     </Link>
 
                     <Link 
-                        to={user ? FAVORITES_ROUTE : LOGIN_ROUTE} 
+                        to={FAVORITES_ROUTE} 
                         className={`${cls.navItem} ${isActiveRoute(FAVORITES_ROUTE) ? cls.navItemActive : ''}`}
                     >
                         <div className={cls.navIconWrapper}>
@@ -126,7 +125,6 @@ function Header() {
                                 className={cls.navIcon} 
                                 fill="none" 
                                 stroke="currentColor" 
-                                style={{color: user ? 'currentColor' : 'none'}}
                             />
                             <span 
                                 className={cls.notificationBadge} 
@@ -146,7 +144,6 @@ function Header() {
                                 className={cls.navIcon} 
                                 fill="none" 
                                 stroke="currentColor" 
-                                style={{color: user ? 'currentColor' : 'none'}}
                             />
                             <span 
                                 className={cls.notificationBadge} 
@@ -158,18 +155,17 @@ function Header() {
                         <span className={cls.navLabel}>Orders</span>
                     </Link>
                     <Link 
-                        to={user !== 'guest' ? PROFILE_ROUTE : LOGIN_ROUTE} 
-                        className={`${cls.navItem} ${isActiveRoute(user !== 'guest' ? PROFILE_ROUTE : LOGIN_ROUTE) ? cls.navItemActive : ''}`}
+                        to={role ? PROFILE_ROUTE : LOGIN_ROUTE} 
+                        className={`${cls.navItem} ${isActiveRoute(role ? PROFILE_ROUTE : LOGIN_ROUTE) ? cls.navItemActive : ''}`}
                     >
                         <div className={cls.navIconWrapper}>
                             <UserIcon 
                                 className={cls.navIcon} 
                                 fill="none" 
                                 stroke="currentColor" 
-                                style={{color: user ? 'currentColor' : 'none'}}
                             />
                         </div>
-                        <span className={cls.navLabel}>{user !== 'guest' ? 'Profile' : 'Log In'}</span>
+                        <span className={cls.navLabel}>{role ? 'Profile' : 'Log In'}</span>
                     </Link>
                 </nav>
             </div>

@@ -1,8 +1,12 @@
 import { useNavigate } from 'react-router-dom'
 import cls from '../styles/Policy.module.scss'
 import { ReactComponent as BackIcon } from '../assets/icons/back.svg';
+import { useEffect } from 'react'
 
 function PrivacyPolicy() {
+    useEffect(() => {
+        document.title = 'Privacy Policy'
+    }, [])
     const navigate = useNavigate()
 
     return(

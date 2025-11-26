@@ -4,6 +4,7 @@ import { useCatalogState } from '../store/useCatalogState'
 import { SHOP_ROUTE } from '../utils/consts';
 import ProductCard from '../components/ProductCard.jsx'
 import { useProductsState } from '../store/ProductsState'
+import { useEffect } from 'react'
 
 function Catalog() {
   const { id } = useParams()
@@ -16,6 +17,10 @@ function Catalog() {
   const products = useProductsState(state => state.products)
 
   const navigate = useNavigate()
+
+  useEffect(() => {
+    document.title = category?.name || 'Catalog'
+  }, [category])
 
   return (
     <div className={cls.Catalog}>
