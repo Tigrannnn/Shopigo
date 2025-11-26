@@ -1,6 +1,6 @@
 import ProductCard from '../components/ProductCard.jsx'
 import cls from '../styles/Shop.module.scss'
-import { useProductsState } from '../store/ProductsState'
+import { useProductsState } from '../store/useProductsState.js'
 import { useEffect } from 'react'
 
 function Shop() {

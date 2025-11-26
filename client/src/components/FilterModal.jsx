@@ -1,11 +1,11 @@
 import cls from '../styles/FilterModal.module.scss';
-import { useCatalogState } from '../store/useCatalogState';
+import { useCategoryState } from '../store/useCategoryState';
 import { ReactComponent as XIcon } from '../assets/icons/x.svg';
 import { ReactComponent as CheckboxCheckIcon } from '../assets/icons/checkbox-check.svg';
 
 function FilterModal() {
-    const isFilterModalOpen = useCatalogState((state) => state.isFilterModalOpen);
-    const closeFilterModal = useCatalogState((state) => state.closeFilterModal);
+    const isFilterModalOpen = useCategoryState((state) => state.isFilterModalOpen);
+    const closeFilterModal = useCategoryState((state) => state.closeFilterModal);
 
     const handleFilterShow = () => {
         closeFilterModal()

@@ -13,7 +13,7 @@ import { useColorVariantState } from '../store/useColorVariantState';
 import ColorVariantModal from '../components/ColorVariantModal';
 import { useSellerInfoState } from '../store/useSellerInfoState';
 import SellerInfoModal from '../components/SellerInfoModal';
-import { useProductsState } from '../store/ProductsState';
+import { useProductsState } from '../store/useProductsState';
 import { useParams } from 'react-router-dom';
 import { useBasketState } from '../store/useBasketState';
 import { useFavoritesState } from '../store/useFavoritesState';
@@ -22,7 +22,7 @@ import { useToastState } from '../store/useToastState';
 import Comment from '../components/Comment';
 import { useFeedbackState } from '../store/useFeedbackState';
 import { useEffect } from 'react';
-import { useCatalogState } from '../store/useCatalogState';
+import { useCategoryState } from '../store/useCategoryState';
 import RecomendedBlock from '../components/RecommendedBlock.jsx'
 
 function ProductPage() {
@@ -42,7 +42,7 @@ function ProductPage() {
     const openSellerInfoModal = useSellerInfoState(state => state.openSellerInfoModal)
     const closeSellerInfoModal = useSellerInfoState(state => state.closeSellerInfoModal)
 
-    const catalog = useCatalogState(state => state.catalog)
+    const catalog = useCategoryState(state => state.catalog)
 
     const addToBasket = useBasketState(state => state.addToBasket)
     const basketProducts = useBasketState(state => state.basketProducts)

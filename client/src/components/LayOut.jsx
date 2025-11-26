@@ -8,14 +8,15 @@ import { useSearchState } from "../store/useSearchState"
 import { useCountrySelectState } from "../store/useCountrySelectState"
 import { useSellerInfoState } from "../store/useSellerInfoState"
 import { useToastState } from "../store/useToastState"
-import { useCatalogState } from "../store/useCatalogState"
+import { useCategoryState } from "../store/useCategoryState"
 import FilterModal from "./FilterModal"
 import CenterModal from "./CenterModal"
 import { useCenterModalState } from "../store/useCenterModalState"
 import { useEffect, useState } from "react"
-import { auth } from "../http/userAPI"
+import { auth } from "../http/userApi"
 import { useProfileState } from "../store/useProfileState"
 import { ReactComponent as Loader } from '../assets/icons/loader.svg';
+import { getCategories } from "../http/categoryApi"
 
 function LayOut() {
     const [isAppLoading, setIsAppLoading] = useState(true)
@@ -39,8 +40,9 @@ function LayOut() {
     const centerModal = useCenterModalState(state => state.centerModal)
     const closeCenterModal = useCenterModalState(state => state.closeCenterModal)
 
-    const isFilterModalOpen = useCatalogState(state => state.isFilterModalOpen)
-    const closeFilterModal = useCatalogState(state => state.closeFilterModal)
+    const isFilterModalOpen = useCategoryState(state => state.isFilterModalOpen)
+    const closeFilterModal = useCategoryState(state => state.closeFilterModal)
+    const setCategories = useCategoryState(state => state.setCategories)
 
     const cancelAction = useToastState(state => state.cancelAction);
 
@@ -78,6 +80,9 @@ function LayOut() {
                 e.message
             ).finally(() => {
                 setIsAppLoading(false)
+            })
+            getCategories().then(data => {
+                setCategories(data)
             })
         }, randomDelay);
     }, [])

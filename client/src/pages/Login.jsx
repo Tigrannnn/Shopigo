@@ -5,7 +5,7 @@ import { ReactComponent as EnvelopeIcon } from '../assets/icons/envelope.svg';
 import { ReactComponent as PhoneIcon } from '../assets/icons/phone.svg';
 import { useState, useEffect } from 'react';
 import { useCountrySelectState } from '../store/useCountrySelectState';
-import { login } from '../http/userAPI';
+import { login } from '../http/userApi';
 import { useProfileState } from '../store/useProfileState';
 
 function Login() {

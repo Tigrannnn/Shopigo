@@ -11,7 +11,7 @@ function CenterModal() {
     const closeCenterModal = useCenterModalState(state => state.closeCenterModal)
     const shareUrl = useCenterModalState(state => state.shareUrl)
     const openCenterModal = useCenterModalState(state => state.openCenterModal)
-    const setLogOut = useProfileState(state => state.setLogOut)
+    const logOut = useProfileState(state => state.logOut)
     const userName = useProfileState(state => state.name)
     const setUserName = useProfileState(state => state.setName)
     
@@ -21,7 +21,7 @@ function CenterModal() {
     const navigate = useNavigate()
 
     const handleLogOut = () => {
-        setLogOut()
+        logOut()
         closeCenterModal()
         navigate('/')
         localStorage.removeItem('token')

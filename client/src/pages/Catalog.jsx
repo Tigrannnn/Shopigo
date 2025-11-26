@@ -1,18 +1,18 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import cls from '../styles/Catalog.module.scss'
-import { useCatalogState } from '../store/useCatalogState'
+import { useCategoryState } from '../store/useCategoryState'
 import { SHOP_ROUTE } from '../utils/consts';
 import ProductCard from '../components/ProductCard.jsx'
-import { useProductsState } from '../store/ProductsState'
+import { useProductsState } from '../store/useProductsState'
 import { useEffect } from 'react'
 
 function Catalog() {
   const { id } = useParams()
 
-  const catalog = useCatalogState(state => state.catalog)
+  const catalog = useCategoryState(state => state.catalog)
   const category = catalog.find(item => item.id === +id)
 
-  const openFilterModal = useCatalogState(state => state.openFilterModal)
+  const openFilterModal = useCategoryState(state => state.openFilterModal)
 
   const products = useProductsState(state => state.products)
 

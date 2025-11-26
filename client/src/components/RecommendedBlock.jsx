@@ -1,4 +1,4 @@
-import { useProductsState } from "../store/ProductsState"
+import { useProductsState } from "../store/useProductsState"
 import { useRecentlyWatchedState } from "../store/useRecentlyWatchedState"
 import cls from '../styles/RecomendedBlock.module.scss'
 import ProductCard from "./ProductCard"

@@ -1,7 +1,7 @@
 import { useFeedbackState } from '../store/useFeedbackState';
 import cls from '../styles/Feedback.module.scss';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { useProductsState } from '../store/ProductsState';
+import { useProductsState } from '../store/useProductsState';
 import { ReactComponent as BackIcon } from '../assets/icons/back.svg';
 import { ReactComponent as StarIcon } from '../assets/icons/star.svg';
 import { ReactComponent as LikeIcon } from '../assets/icons/like.svg';

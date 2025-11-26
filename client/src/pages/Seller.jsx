@@ -1,9 +1,9 @@
 import cls from "../styles/Seller.module.scss"
 import { useParams } from "react-router-dom";
-import { useProductsState } from "../store/ProductsState";
+import { useProductsState } from "../store/useProductsState";
 import { ReactComponent as StarIcon } from '../assets/icons/star.svg';
 import ProductCard from "../components/ProductCard";
-import { useCatalogState } from "../store/useCatalogState";
+import { useCategoryState } from "../store/useCategoryState";
 import RecomendedBlock from "../components/RecommendedBlock";
 import { useEffect } from 'react'
 
@@ -12,7 +12,7 @@ function Seller() {
     const { id } = useParams()
     const seller = products.map(product => product.seller).find(seller => seller.id === id)
 
-    const openFilterModal = useCatalogState(state => state.openFilterModal)
+    const openFilterModal = useCategoryState(state => state.openFilterModal)
 
     useEffect(() => {
         document.title = seller?.name || 'Seller'

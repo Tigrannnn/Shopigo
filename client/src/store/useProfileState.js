@@ -8,7 +8,10 @@ export const useProfileState = create((set) => ({
     setUser: (data) => set((state) => {
         return {...state, ...data}
     }),
-    setLogOut: () => set(() => ({
+    logOut: () => set(() => ({
         role: null,
+        name: '',
+        phoneNumber: '',
+        email: ''
     }))
 }));
