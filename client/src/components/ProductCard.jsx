@@ -62,7 +62,7 @@ function ProductCard({product}) {
         >
             <div className={cls.imgWrapper}>
                 <img 
-                    src={product.images[0]} 
+                    src={process.env.REACT_APP_API_URL + product.image}
                     alt="" 
                     className={cls.productImg}
                 />
@@ -82,7 +82,7 @@ function ProductCard({product}) {
                     <p className={cls.name}>{product.name}</p>
                 </div>
                 <div className={cls.sellerWrapper}>
-                    <p className={cls.seller}>{product.seller.name}</p>
+                    {/* <p className={cls.seller}>{product.seller.name}</p> */}
                 </div>
             </div>
             <div className={cls.bottomWrapper}>
@@ -97,7 +97,7 @@ function ProductCard({product}) {
                     >
                         <BasketIcon className={cls.basketIcon} fill="none" stroke="currentColor" />
                         <p className={cls.deliveryText}>
-                            {isInBasket ? "Go to basket" : isInOrder ? "Go to orders" : `From ${product.deliveryDays} days`}
+                            {isInBasket ? "Go to basket" : isInOrder ? "Go to orders" : product.deliveryDays ? `From ${product.deliveryDays} days` : "Add to basket"}
                         </p>
                     </button>
                 </div>

@@ -9,7 +9,7 @@ import { ReactComponent as ShareIcon } from '../assets/icons/share.svg'
 import { useCenterModalState } from '../store/useCenterModalState'
 
 function BasketProduct ({checkedAll, product}) {
-    const { id, name, color, deliveryDays, images, price, quantity } = product
+    const { id, name, color, deliveryDays, image, price, quantity } = product
 
     const removeFromBasket = useBasketState(state => state.removeFromBasket)
 
@@ -47,7 +47,7 @@ function BasketProduct ({checkedAll, product}) {
             
             <div className={cls.imgWrapper} onClick={() => navigate(`/product/${id}`)}>
                 <img 
-                    src={images[0]} 
+                    src={process.env.REACT_APP_API_URL + image} 
                     alt="" 
                     className={cls.productImage} 
                 />

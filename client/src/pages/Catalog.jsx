@@ -4,13 +4,18 @@ import { useCategoryState } from '../store/useCategoryState'
 import { SHOP_ROUTE } from '../utils/consts';
 import ProductCard from '../components/ProductCard.jsx'
 import { useProductsState } from '../store/useProductsState'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { getOneCategory } from '../http/categoryApi';
 
 function Catalog() {
   const { id } = useParams()
+  const [category, setCategory] = useState({})
 
-  const catalog = useCategoryState(state => state.catalog)
-  const category = catalog.find(item => item.id === +id)
+  useEffect(() => {
+    getOneCategory(id).then(data => {
+      setCategory(data)
+    })
+  })
 
   const openFilterModal = useCategoryState(state => state.openFilterModal)
 

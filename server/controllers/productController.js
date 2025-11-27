@@ -76,7 +76,7 @@ class ProductController {
         try {
             let { categoryId, sellerId, limit, page } = req.query
             page = page || 1
-            limit = limit || 2
+            limit = limit || null
             let offset = page * limit - limit
 
             let products

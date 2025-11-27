@@ -17,18 +17,17 @@ import { useProductsState } from '../store/useProductsState';
 import { useParams } from 'react-router-dom';
 import { useBasketState } from '../store/useBasketState';
 import { useFavoritesState } from '../store/useFavoritesState';
-import { BASKET_ROUTE, CATALOG_ROUTE, PRODUCT_ROUTE, QUESTION_ROUTE, REVIEW_ROUTE, SELLER_ROUTE } from '../utils/consts';
+import { BASKET_ROUTE, PRODUCT_ROUTE, QUESTION_ROUTE, REVIEW_ROUTE } from '../utils/consts';
 import { useToastState } from '../store/useToastState';
 import Comment from '../components/Comment';
 import { useFeedbackState } from '../store/useFeedbackState';
 import { useEffect } from 'react';
-import { useCategoryState } from '../store/useCategoryState';
 import RecomendedBlock from '../components/RecommendedBlock.jsx'
+import { getOneProduct } from '../http/productApi';
 
 function ProductPage() {
-    const products = useProductsState(state => state.products)
     const { id } = useParams()
-    const product = products.find(product => product.id === id)
+    const [product, setProduct] = useState({})
 
     const navigate = useNavigate()
 
@@ -41,8 +40,6 @@ function ProductPage() {
     const isSellerInfoModalOpen = useSellerInfoState(state => state.isSellerInfoModalOpen)
     const openSellerInfoModal = useSellerInfoState(state => state.openSellerInfoModal)
     const closeSellerInfoModal = useSellerInfoState(state => state.closeSellerInfoModal)
-
-    const catalog = useCategoryState(state => state.catalog)
 
     const addToBasket = useBasketState(state => state.addToBasket)
     const basketProducts = useBasketState(state => state.basketProducts)
@@ -59,19 +56,29 @@ function ProductPage() {
     const feedback = useFeedbackState(state => state.feedback)
     const setFeedback = useFeedbackState(state => state.setFeedback)
 
-    function handleColorVariantHover(e, index) {
-        const button = e.currentTarget;
-        const rect = button.getBoundingClientRect();
-        const containerRect = button.closest(`.${cls.colorVariantsWrapper}`).getBoundingClientRect();
+    useEffect(() => {
+        document.title = product?.name || 'Product'
+        setFeedback('reviews')
+        closeSellerInfoModal();
+        getOneProduct(id).then(data => {
+            setProduct(data)
+        });
+    }, [setFeedback, closeSellerInfoModal]);
 
-        setSelectColor(product.variants.colors[index])
 
-        const position = {
-            left: rect.left - containerRect.left,
-        };
+    // function handleColorVariantHover(e, index) {
+    //     const button = e.currentTarget;
+    //     const rect = button.getBoundingClientRect();
+    //     const containerRect = button.closest(`.${cls.colorVariantsWrapper}`).getBoundingClientRect();
 
-        openColorVariantModal(position);
-    }
+    //     setSelectColor(product.variants.colors[index])
+
+    //     const position = {
+    //         left: rect.left - containerRect.left,
+    //     };
+
+    //     openColorVariantModal(position);
+    // }
 
     function handleBasketAction(e) {
         e.stopPropagation();
@@ -94,15 +101,6 @@ function ProductPage() {
         
     }
 
-    useEffect(() => {
-        setFeedback('reviews')
-        closeSellerInfoModal();
-    }, [setFeedback, closeSellerInfoModal]);
-
-    useEffect(() => {
-        document.title = product?.name || 'Product'
-    }, [product])
-
     return(
         <div className={cls.ProductPage}>
             <section className={cls.topSection}>
@@ -115,9 +113,9 @@ function ProductPage() {
                         <BackIcon />
                     </button>
                     <ul>
-                        <li onClick={() => navigate(CATALOG_ROUTE + `/${product.categoryId}`)}>{catalog.find(item => item.id === product.categoryId).name}</li>
+                        {/* <li onClick={() => navigate(CATALOG_ROUTE + `/${product.categoryId}`)}>{categories.find(item => item.id === product.categoryId).name}</li> */}
                         <span aria-hidden="true">›</span>
-                        <li onClick={() => navigate(SELLER_ROUTE + `/${product.seller.id}`)}>{product.seller.name}</li>
+                        {/* <li onClick={() => navigate(SELLER_ROUTE + `/${product.seller.id}`)}>{product.seller.name}</li> */}
                     </ul>
                 </nav>
                 
@@ -148,12 +146,13 @@ function ProductPage() {
             <section className={cls.mainSection}>
                 <div className={cls.sliders}>
                     <div className={cls.leftSide}>
-                        {product.images.map((image, index) => (
+                        {/* {product.images.map((image, index) => (
                             <img key={index} src={image} alt="" />
-                        ))}
+                        ))} */}
+                        <img src={process.env.REACT_APP_API_URL + product.image} alt="" />
                     </div>
                     <div className={cls.rightSide}>
-                        <img src={product.images[0]} alt="" />
+                        <img src={process.env.REACT_APP_API_URL + product.image} alt="" />
                     </div>
                 </div>
                 
@@ -181,7 +180,7 @@ function ProductPage() {
                     <div className={cls.variantsBlockWrapper}>
                         <ColorVariantModal product={product} color={selectColor} />
                         <div className={cls.colorVariantsWrapper}>
-                            {product.variants.colors.map((color, index) => (
+                            {/* {product.variants.colors.map((color, index) => (
                                 <div key={color.color}>
                                     <img 
                                         src={color.image} alt="" 
@@ -189,11 +188,11 @@ function ProductPage() {
                                         onMouseLeave={closeColorVariantModal}
                                     />
                                 </div>
-                            ))}
+                            ))} */}
                         </div>
                         
                         <div className={cls.sizeVariantsWrapper}>
-                            {product.variants.sizes.map((size) => (
+                            {/* {product.variants.sizes.map((size) => (
                                 <button
                                     key={size}
                                     className={`${cls.sizeVariant} ${selectSize === size ? cls.selected : ''}`}
@@ -202,7 +201,7 @@ function ProductPage() {
                                 >
                                     <span>{size}</span>
                                 </button>
-                            ))}
+                            ))} */}
                         </div>
                     </div>
                     
@@ -239,7 +238,7 @@ function ProductPage() {
                 </div>
                 
                 <div className={cls.priceBoxWrapper}>
-                    <SellerInfoModal product={product} />
+                    {/* <SellerInfoModal product={product} /> */}
                     <article className={cls.priceBox}>
                         <div className={cls.priceWrapper}>
                             <h2>{product.price} dram</h2>
@@ -269,10 +268,10 @@ function ProductPage() {
                                 aria-label="Seller info"
                             >
                                 <ShopIcon className={cls.shopIcon} />
-                                <span>Seller: {product.seller.name}</span>
+                                {/* <span>Seller: {product.seller.name}</span> */}
                                 <div className={cls.sellerRating}>
                                     <StarIcon className={cls.starIcon} fill="currentColor" />
-                                    <span className={cls.sellerRatingValue}>{product.seller.rating}</span>
+                                    {/* <span className={cls.sellerRatingValue}>{product.seller.rating}</span> */}
                                 </div>
                             </div>
                         </div>

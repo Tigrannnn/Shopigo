@@ -17,3 +17,12 @@ export const getCategories = async () => {
         return e.message
     }
 }
+
+export const getOneCategory = async (id) => {
+    try {
+        const {data} = await $host.get('/api/category/' + id)
+        return data
+    } catch (e) {
+        return e.message
+    }
+}

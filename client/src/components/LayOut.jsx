@@ -70,7 +70,8 @@ function LayOut() {
         }
     }
 
-    const randomDelay = Math.floor(Math.random() * (5000 - 1000 + 1)) + 1000;
+    const randomDelay = 1
+    // const randomDelay = Math.floor(Math.random() * (5000 - 1000 + 1)) + 1000
     
     useEffect(() => {
         setTimeout(() => {
