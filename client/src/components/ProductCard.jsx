@@ -82,7 +82,7 @@ function ProductCard({product}) {
                     <p className={cls.name}>{product.name}</p>
                 </div>
                 <div className={cls.sellerWrapper}>
-                    {/* <p className={cls.seller}>{product.seller.name}</p> */}
+                    <p className={cls.seller}>{product.seller.name}</p>
                 </div>
             </div>
             <div className={cls.bottomWrapper}>

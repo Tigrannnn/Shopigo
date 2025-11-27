@@ -1,7 +1,8 @@
-const { Product, ProductInfo } = require('../models/models')
+const { Product, ProductInfo, Seller } = require('../models/models')
 const uuid = require('uuid')
 const path = require('path')
 const fs = require('fs')
+const { model, _attributes } = require('../db')
 
 class ProductController {
     async create(req, res, next) {
@@ -87,7 +88,7 @@ class ProductController {
             } else if (sellerId && !categoryId) {
                 products = await Product.findAll({ where: { sellerId }, limit, offset })
             } else if (!categoryId && !sellerId) {
-                products = await Product.findAll({limit, offset})
+                products = await Product.findAll({limit, offset, include: [{model: Seller, attributes: ['id', 'name']}]})
             }
             return res.json(products)
         } catch (error) {
@@ -104,7 +105,7 @@ class ProductController {
             }
 
             const product = await Product.findOne({ where: { id }, include: [
-                    { model: ProductInfo, as: 'productInfo' }
+                    {model: Seller},
                 ]
             })
 

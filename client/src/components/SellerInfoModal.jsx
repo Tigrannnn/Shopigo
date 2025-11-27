@@ -41,7 +41,7 @@ function SellerInfoModal({product}) {
                 
                 <div className={cls.statItem}>
                     <span className={cls.statLabel}>On Shopigo</span>
-                    <span className={cls.statValue}>{product.seller.yearsOnShopigo}</span>
+                    {/* <span className={cls.statValue}>{product.seller.yearsOnShopigo}</span> */}
                 </div>
             </div>
             

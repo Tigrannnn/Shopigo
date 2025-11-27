@@ -26,6 +26,12 @@ class SellerController {
     async create(req, res) {
         try {
             const seller = await Seller.create(req.body)
+            if (!seller) {
+                return res.status(400).json({ message: 'Seller creation failed' })
+            }
+            if (!seller.name) {
+                return res.status(400).json({ message: 'Seller name is required' })
+            }
             res.status(201).json(seller)
         } catch (error) {
             res.status(500).json({ message: error.message })

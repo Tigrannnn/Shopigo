@@ -274,57 +274,6 @@ $inputOutlineColor: rgba(76, 201, 201, 0.3);
 }
 
 
-// Loader
-.loaderWrapper {
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    background-color: rgba(255, 255, 255, 0.8);
-    z-index: 9999;
-
-    svg{
-      width: 150px;
-      height: 150px;
-      animation: rotate 3s infinite;
-
-      circle{
-        fill: none;
-        stroke-width: 10;
-        stroke: rgb(6, 117, 117);
-        stroke-linecap: round;
-        transform: translate(5px,5px);
-        stroke-dasharray: 440;
-        stroke-dashoffset: 440;
-        animation: load 2s ease-in infinite;
-
-        @keyframes load {
-          0%,100% {
-            stroke-dashoffset: 440;
-          }
-          50% {
-            stroke-dashoffset: 1;
-          }
-          50.01% {
-            stroke-dashoffset: 880;
-          }
-        }
-
-        @keyframes rotate {
-          0% {
-            transform: rotate(0deg);
-          }
-          100% {
-            transform: rotate(360deg);
-          }
-        }
-      }
-    }
-}
-
-
 p, h1, h2, h3, h4, h5, h6, span{
   font-weight: 600;
     margin: 0;

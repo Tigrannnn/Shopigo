@@ -24,10 +24,13 @@ import { useFeedbackState } from '../store/useFeedbackState';
 import { useEffect } from 'react';
 import RecomendedBlock from '../components/RecommendedBlock.jsx'
 import { getOneProduct } from '../http/productApi';
+import Loader from '../components/Loader';
 
 function ProductPage() {
     const { id } = useParams()
     const [product, setProduct] = useState({})
+
+    const [loading, setLoading] = useState(true)
 
     const navigate = useNavigate()
 
@@ -60,10 +63,13 @@ function ProductPage() {
         document.title = product?.name || 'Product'
         setFeedback('reviews')
         closeSellerInfoModal();
-        getOneProduct(id).then(data => {
-            setProduct(data)
-        });
-    }, [setFeedback, closeSellerInfoModal]);
+        setTimeout(() => {
+            getOneProduct(id).then(data => {
+                setProduct(data)
+                setLoading(false)
+            });
+        }, 2000);
+    }, []);
 
 
     // function handleColorVariantHover(e, index) {
@@ -100,6 +106,8 @@ function ProductPage() {
     function handleShare() {
         
     }
+
+    if (loading) return <Loader />
 
     return(
         <div className={cls.ProductPage}>

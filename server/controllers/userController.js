@@ -1,4 +1,4 @@
-const { User } = require('../models/models')
+const { User, Basket } = require('../models/models')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
@@ -26,7 +26,7 @@ class UserController {
             try {
                 const hashPassword = await bcrypt.hash(password, 10)
                 const newUser = await User.create({ email, password: hashPassword, role })
-                // const basket = await Basket.create({ userId: newUser.id })
+                const basket = await Basket.create({ userId: newUser.id })
                 const token = generateJwt(newUser.id, newUser.email, newUser.role, newUser.name)
                 return res.status(200).json({ token })
             } catch (e) {

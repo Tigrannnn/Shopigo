@@ -15,7 +15,7 @@ import { useCenterModalState } from "../store/useCenterModalState"
 import { useEffect, useState } from "react"
 import { auth } from "../http/userApi"
 import { useProfileState } from "../store/useProfileState"
-import { ReactComponent as Loader } from '../assets/icons/loader.svg';
+import { ReactComponent as LoaderIcon } from '../assets/icons/loader.svg';
 import { getCategories } from "../http/categoryApi"
 
 function LayOut() {
@@ -94,7 +94,7 @@ function LayOut() {
                 isAppLoading &&
                 <div className="loaderWrapper">
                     <div className="loader">
-                        <Loader />
+                        <LoaderIcon />
                     </div>
                 </div>
             }
