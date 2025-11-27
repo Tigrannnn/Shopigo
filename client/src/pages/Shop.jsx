@@ -13,12 +13,10 @@ function Shop() {
 
     useEffect(() => {
         document.title = 'Shopigo'
-        setTimeout(() => {
-            getProducts().then(data => {
-                setProducts(data)
-                setLoading(false)
-            })
-        }, 2000)
+        getProducts().then(data => {
+            setProducts(data)
+            setLoading(false)
+        })
     }, [])
 
     if (loading) return <Loader />

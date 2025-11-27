@@ -17,9 +17,10 @@ import { auth } from "../http/userApi"
 import { useProfileState } from "../store/useProfileState"
 import { ReactComponent as LoaderIcon } from '../assets/icons/loader.svg';
 import { getCategories } from "../http/categoryApi"
+import Loader from "./Loader"
 
 function LayOut() {
-    const [isAppLoading, setIsAppLoading] = useState(true)
+    const [loading, setLoading] = useState(true)
 
     const isMenuModalOpen = useMenuState(state => state.isMenuModalOpen)
     const setMenuModalClose = useMenuState(state => state.setMenuModalClose)
@@ -69,58 +70,42 @@ function LayOut() {
             closeFilterModal()
         }
     }
-
-    const randomDelay = 1
-    // const randomDelay = Math.floor(Math.random() * (5000 - 1000 + 1)) + 1000
     
     useEffect(() => {
-        setTimeout(() => {
-            auth().then(data => {
-                setUser(data)
-            }).catch(e => 
-                e.message
-            ).finally(() => {
-                setIsAppLoading(false)
-            })
-            getCategories().then(data => {
-                setCategories(data)
-            })
-        }, randomDelay);
+        auth().then(data => {
+            setUser(data)
+        }).catch(e => 
+            e.message
+        ).finally(() => {
+            setLoading(false)
+        })
+        getCategories().then(data => {
+            setCategories(data)
+        })
     }, [])
+
+    if (loading) return <Loader load="app"/>
 
     return(
          <div onClick={handleOverlay}>
+            <Header />
             {
-                isAppLoading &&
-                <div className="loaderWrapper">
-                    <div className="loader">
-                        <LoaderIcon />
-                    </div>
+                (isMenuModalOpen || isSearchModalOpen || centerModal !== '' || isFilterModalOpen) && 
+                <div className="overlay"></div>
+            }
+            <MenuModal onClick={(e) => {e.stopPropagation(); e.preventDefault()}}/>
+            <SearchModal onClick={(e) => {e.stopPropagation(); e.preventDefault()}}/>
+            <CenterModal />
+            <FilterModal />
+            <main className="globalWrapper">
+                <Outlet />
+                <div className={`toast ${isToastShow ? 'toastShow' : ''}`}>
+                    <p>
+                        {message}
+                        {toastDelete && <span onClick={() => cancelAction()}>cancel</span>}
+                    </p>
                 </div>
-            }
-            {
-                !isAppLoading && 
-                <>
-                    <Header />
-                    {
-                        (isMenuModalOpen || isSearchModalOpen || centerModal !== '' || isFilterModalOpen) && 
-                        <div className="overlay"></div>
-                    }
-                    <MenuModal onClick={(e) => {e.stopPropagation(); e.preventDefault()}}/>
-                    <SearchModal onClick={(e) => {e.stopPropagation(); e.preventDefault()}}/>
-                    <CenterModal />
-                    <FilterModal />
-                    <main className="globalWrapper">
-                        <Outlet />
-                        <div className={`toast ${isToastShow ? 'toastShow' : ''}`}>
-                            <p>
-                                {message}
-                                {toastDelete && <span onClick={() => cancelAction()}>cancel</span>}
-                            </p>
-                        </div>
-                    </main>
-                </>
-            }
+            </main>
         </div>
     )
 }

@@ -63,12 +63,10 @@ function ProductPage() {
         document.title = product?.name || 'Product'
         setFeedback('reviews')
         closeSellerInfoModal();
-        setTimeout(() => {
-            getOneProduct(id).then(data => {
-                setProduct(data)
-                setLoading(false)
-            });
-        }, 2000);
+        getOneProduct(id).then(data => {
+            setProduct(data)
+            setLoading(false)
+        });
     }, []);
 
 
