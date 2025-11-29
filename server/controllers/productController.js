@@ -82,13 +82,31 @@ class ProductController {
 
             let products
             if (categoryId && sellerId) {
-                products = await Product.findAll({ where: { categoryId, sellerId }, limit, offset })
+                products = await Product.findAll({ 
+                    where: { categoryId, sellerId },
+                    limit, 
+                    offset, 
+                    include: [{model: Seller, attributes: ['id', 'name']}] 
+                })
             } else if (categoryId && !sellerId) {
-                products = await Product.findAll({ where: { categoryId }, limit, offset })
+                products = await Product.findAll({ 
+                    where: { categoryId }, 
+                    limit, 
+                    offset,
+                    include: [{model: Seller, attributes: ['id', 'name']}]
+                })
             } else if (sellerId && !categoryId) {
-                products = await Product.findAll({ where: { sellerId }, limit, offset })
+                products = await Product.findAll({ 
+                    where: { sellerId }, 
+                    limit, 
+                    offset, 
+                    include: [{model: Seller, attributes: ['id', 'name']}] })
             } else if (!categoryId && !sellerId) {
-                products = await Product.findAll({limit, offset, include: [{model: Seller, attributes: ['id', 'name']}]})
+                products = await Product.findAll({ 
+                    limit, 
+                    offset, 
+                    include: [{model: Seller, attributes: ['id', 'name']}]
+                })
             }
             return res.json(products)
         } catch (error) {

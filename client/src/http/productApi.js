@@ -9,9 +9,9 @@ export const createProduct = async () => {
     }
 }
  
-export const getProducts = async () => {
+export const getProducts = async (categoryId, sellerId) => {
     try {
-        const {data} = await $host.get('/api/product')
+        const {data} = await $host.get('/api/product', {params: {sellerId, categoryId}})
         return data
     } catch (e) {
         return e.message

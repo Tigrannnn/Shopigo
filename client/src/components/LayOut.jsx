@@ -15,12 +15,21 @@ import { useCenterModalState } from "../store/useCenterModalState"
 import { useEffect, useState } from "react"
 import { auth } from "../http/userApi"
 import { useProfileState } from "../store/useProfileState"
-import { ReactComponent as LoaderIcon } from '../assets/icons/loader.svg';
 import { getCategories } from "../http/categoryApi"
 import Loader from "./Loader"
+import { useBasketState } from "../store/useBasketState"
+import { getBasket } from "../http/basketApi"
+import { getFavorites } from "../http/favoritesApi"
+import { useFavoritesState } from "../store/useFavoritesState"
 
 function LayOut() {
     const [loading, setLoading] = useState(true)
+
+    const setBasketProducts = useBasketState(state => state.setBasketProducts)
+
+    const setFavoriteProducts = useFavoritesState(state => state.setFavoriteProducts)
+
+    const role = useProfileState(state => state.role)
 
     const isMenuModalOpen = useMenuState(state => state.isMenuModalOpen)
     const setMenuModalClose = useMenuState(state => state.setMenuModalClose)
@@ -70,6 +79,9 @@ function LayOut() {
             closeFilterModal()
         }
     }
+
+    const favoriteProducts = useFavoritesState(state => state.favoriteProducts)
+    const basketProducts = useBasketState(state => state.basketProducts)
     
     useEffect(() => {
         auth().then(data => {
@@ -83,6 +95,21 @@ function LayOut() {
             setCategories(data)
         })
     }, [])
+
+    useEffect(() => {
+        if (role) {
+            getBasket().then(data => {
+                setBasketProducts(data)                
+            })
+            getFavorites().then(data => {
+                setFavoriteProducts(data)
+            })
+        } else {
+            setBasketProducts([])
+            setFavoriteProducts([])
+        }
+    }, [role])
+    
 
     if (loading) return <Loader load="app"/>
 

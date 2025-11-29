@@ -38,19 +38,19 @@ const Product = sequelize.define('product', {
     image: {type: DataTypes.STRING, allowNull: false},
     article: {type: DataTypes.STRING, allowNull: false},
 })
-const ProductInfo = sequelize.define('product_info', {
+const ProductInfo = sequelize.define('productInfo', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     title: {type: DataTypes.STRING, allowNull: false},
     description: {type: DataTypes.TEXT, allowNull: false},
 })
 
 // ColorVariant & SizeVariant
-const ColorVariant = sequelize.define('color_variant', {
+const ColorVariant = sequelize.define('colorVariant', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     color: {type: DataTypes.STRING, allowNull: false},
     image: {type: DataTypes.STRING, allowNull: false},
 })
-const SizeVariant = sequelize.define('size_variant', {
+const SizeVariant = sequelize.define('sizeVariant', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     size: {type: DataTypes.STRING, allowNull: false},
 })
@@ -59,15 +59,9 @@ const SizeVariant = sequelize.define('size_variant', {
 const Basket = sequelize.define('basket', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true}, 
 })
-const BasketProduct = sequelize.define('basket_product', {
+const BasketProduct = sequelize.define('basketProduct', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    name: {type: DataTypes.STRING},
-    price: {type: DataTypes.INTEGER},
     quantity: {type: DataTypes.INTEGER, defaultValue: 1},
-    color: {type: DataTypes.STRING},
-    size: {type: DataTypes.STRING},
-    images: {type: DataTypes.ARRAY(DataTypes.STRING)},
-    deliveryDays: {type: DataTypes.INTEGER},
 })
 
 // Order & OrderProduct
@@ -77,7 +71,7 @@ const Order = sequelize.define('order', {
     createdAt: {type: DataTypes.DATE, defaultValue: DataTypes.NOW},
     updatedAt: {type: DataTypes.DATE, defaultValue: DataTypes.NOW},
 })
-const OrderProduct = sequelize.define('order_product', {
+const OrderProduct = sequelize.define('orderProduct', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     name: {type: DataTypes.STRING},
     price: {type: DataTypes.INTEGER},
@@ -96,7 +90,11 @@ const Review = sequelize.define('review', {
 })
 
 // UserFavoriteProduct
-const UserFavoriteProduct = sequelize.define('user_favorite_product', {
+const Favorites = sequelize.define('favorites', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+})
+
+const FavoriteProduct = sequelize.define('favoriteProduct', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
 })
 
@@ -106,6 +104,12 @@ Basket.belongsTo(User)
 
 Basket.hasMany(BasketProduct)
 BasketProduct.belongsTo(Basket)
+
+Favorites.hasMany(FavoriteProduct, { foreignKey: 'favoritesId' })
+FavoriteProduct.belongsTo(Favorites, { foreignKey: 'favoritesId' })
+
+Product.hasMany(FavoriteProduct)
+FavoriteProduct.belongsTo(Product)
 
 User.hasMany(Order)
 Order.belongsTo(User)
@@ -120,6 +124,9 @@ SizeVariant.belongsTo(Product)
 Product.belongsTo(Seller)
 Seller.hasMany(Product)
 
+BasketProduct.belongsTo(Product)
+Product.hasMany(BasketProduct)
+
 Product.belongsTo(Category)
 Category.hasMany(Product)
 
@@ -131,10 +138,10 @@ Review.belongsTo(Product)
 User.hasMany(Review)
 Review.belongsTo(User)
 
-User.hasMany(UserFavoriteProduct)
-UserFavoriteProduct.belongsTo(User)
-Product.hasMany(UserFavoriteProduct)
-UserFavoriteProduct.belongsTo(Product)
+User.hasMany(Favorites)
+Favorites.belongsTo(User)
+Product.hasMany(Favorites)
+Favorites.belongsTo(Product)
 
 Product.hasMany(OrderProduct)
 OrderProduct.belongsTo(Product)
@@ -152,5 +159,6 @@ module.exports = {
     Order,
     OrderProduct,
     Review,
-    UserFavoriteProduct,
+    Favorites,
+    FavoriteProduct
 }

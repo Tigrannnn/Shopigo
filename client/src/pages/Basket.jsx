@@ -8,8 +8,10 @@ import { useOrderState } from '../store/useOrderState.js'
 import { useNavigate } from 'react-router-dom'
 import { ORDERS_ROUTE } from '../utils/consts'
 import RecomendedBlock from '../components/RecommendedBlock.jsx';
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useProfileState } from '../store/useProfileState'
+import Loader from '../components/Loader'
+import { getBasket } from '../http/basketApi'
 
 function Basket() {
     useEffect(() => {
@@ -17,23 +19,23 @@ function Basket() {
     }, [])
     const role = useProfileState(state => state.role)
     const basketProducts = useBasketState(state => state.basketProducts)
-    const selectedIds = useBasketState(state => state.selectedIds)
-    const selectAll = useBasketState(state => state.selectAll)
-    const deleteSelected = useBasketState(state => state.deleteSelected)
-    const clearSelected = useBasketState(state => state.clearSelected)
-    const addOrder = useOrderState(state => state.addOrder)
+    // const selectedIds = useBasketState(state => state.selectedIds)
+    // const selectAll = useBasketState(state => state.selectAll)
+    // const deleteSelected = useBasketState(state => state.deleteSelected)
+    // const clearSelected = useBasketState(state => state.clearSelected)
+    // const addOrder = useOrderState(state => state.addOrder)
 
     const navigate = useNavigate()
 
-    const handleOrder = () => {
-        if (selectedIds.length > 0 && role !== 'GUEST') {
-            addOrder(basketProducts.filter(product => selectedIds.includes(product.id)))
-            deleteSelected()
-            navigate(ORDERS_ROUTE)
-        } else if (role === 'guest') {
-            navigate(LOGIN_ROUTE)
-        }
-    }
+    // const handleOrder = () => {
+    //     if (selectedIds.length > 0 && role !== 'GUEST') {
+    //         addOrder(basketProducts.filter(product => selectedIds.includes(product.id)))
+    //         deleteSelected()
+    //         navigate(ORDERS_ROUTE)
+    //     } else if (role === 'guest') {
+    //         navigate(LOGIN_ROUTE)
+    //     }
+    // }
 
     const handleChooseDeliveryAddress = () => {
         
@@ -57,7 +59,7 @@ function Basket() {
                         <div className={cls.mainBlock}>
                             <section className={cls.leftSide}>
                                 <div className={cls.selectAllBlock}>
-                                    <label htmlFor="selectAll" className="neon-checkbox">
+                                    {/* <label htmlFor="selectAll" className="neon-checkbox">
                                         <input 
                                             type="checkbox" 
                                             id='selectAll' 
@@ -71,7 +73,7 @@ function Basket() {
                                             <div className="neon-checkbox__glow"></div>
                                         </div>
                                         <span className={cls.selectAllText}>Select All</span>
-                                    </label>
+                                    </label> */}
                                 </div>
                                 
                                 <div className={cls.productListBlock}>
@@ -86,7 +88,7 @@ function Basket() {
                                     <div className={cls.chooseAddressWrapper}>
                                         <h2
                                             onClick={() => 
-                                                role === 'guest' ? navigate(LOGIN_ROUTE) : handleChooseDeliveryAddress()
+                                                role ? navigate(LOGIN_ROUTE) : handleChooseDeliveryAddress()
                                             }
                                         >
                                             Choose delivery address
@@ -95,14 +97,14 @@ function Basket() {
                                     
                                     <div className={cls.priceInfoBlockWrapper}>
                                         <div className={cls.priceInfoWrapper}>
-                                            <span>Products ({selectedIds.length})</span>
-                                            <span>
+                                            {/* <span>Products ({selectedIds.length})</span> */}
+                                            {/* <span>
                                                 {
                                                     basketProducts
                                                         .filter(product => selectedIds.includes(product.id))
                                                         .reduce((sum, product) => sum + product.price * product.quantity, 0)
                                                 } dram
-                                            </span>
+                                            </span> */}
                                         </div>
                                         <div className={cls.priceInfoWrapper}>
                                             <span>Delivery</span>
@@ -113,14 +115,14 @@ function Basket() {
                                             <span>Included</span>
                                         </div>
                                         <div className={`${cls.priceInfoWrapper} ${cls.totalPrice}`}>
-                                            <span>Total</span>
+                                            {/* <span>Total</span>
                                             <span>
                                                 {
                                                     basketProducts
                                                         .filter(product => selectedIds.includes(product.id))
                                                         .reduce((sum, product) => sum + product.price * product.quantity, 0)
                                                 } dram
-                                            </span>
+                                            </span> */}
                                         </div>
                                     </div>
                                     
@@ -128,7 +130,7 @@ function Basket() {
                                         <button 
                                             className={cls.orderButton}
                                             aria-label="Place order"
-                                            onClick={handleOrder}
+                                            // onClick={handleOrder}
                                         >
                                             Order
                                         </button>

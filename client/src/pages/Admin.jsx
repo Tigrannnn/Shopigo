@@ -13,6 +13,9 @@ import { useState, useEffect } from 'react'
 import { useCenterModalState } from "../store/useCenterModalState"
 
 function Admin() {
+    const [products, setProducts] = useState([])
+    const [sellers, setSellers] = useState([])
+
     useEffect(() => {
         document.title = 'Admin'
     }, [])

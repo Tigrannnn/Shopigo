@@ -16,6 +16,6 @@ router.use('/seller', sellerRouter)
 router.use('/order', orderRouter)
 router.use('/review', reviewRouter)
 router.use('/basket', basketRouter)
-router.use('/favorite', favoriteRouter)
+router.use('/favorites', favoriteRouter)
 
 module.exports = router

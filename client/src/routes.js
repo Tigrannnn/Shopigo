@@ -11,7 +11,7 @@ import Orders from "./pages/Orders"
 import Profile from "./pages/Profile"
 import Seller from "./pages/Seller"
 import Feedback from "./pages/Feedback"
-import { ADMIN_ROUTE, BASKET_ROUTE, FAVORITES_ROUTE, LOGIN_ROUTE, SHOP_ROUTE, PRODUCT_ROUTE, TERMS_OF_USE_ROUTE, PRIVACY_POLICY_ROUTE, ORDERS_ROUTE, PROFILE_ROUTE, SELLER_ROUTE, CATALOG_ROUTE, QUESTION_ROUTE, REVIEW_ROUTE } from "./utils/consts"
+import { ADMIN_ROUTE, BASKET_ROUTE, FAVORITES_ROUTE, LOGIN_ROUTE, SHOP_ROUTE, PRODUCT_ROUTE, TERMS_OF_USE_ROUTE, PRIVACY_POLICY_ROUTE, ORDERS_ROUTE, PROFILE_ROUTE, SELLER_ROUTE, CATEGORY_ROUTE, QUESTION_ROUTE, REVIEW_ROUTE } from "./utils/consts"
 
 export const routes = [
     {
@@ -59,7 +59,7 @@ export const routes = [
         element: <Seller />,
     },
     {
-        path: CATALOG_ROUTE + `/:id`,
+        path: CATEGORY_ROUTE + `/:id`,
         element: <Catalog />,
     },
     {

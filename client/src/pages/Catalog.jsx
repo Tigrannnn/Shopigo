@@ -6,16 +6,30 @@ import ProductCard from '../components/ProductCard.jsx'
 import { useProductsState } from '../store/useProductsState'
 import { useEffect, useState } from 'react'
 import { getOneCategory } from '../http/categoryApi';
+import { getProducts } from '../http/productApi';
+import Loader from '../components/Loader';
 
 function Catalog() {
+  const [loading, setLoading] = useState(true)
+
   const { id } = useParams()
   const [category, setCategory] = useState({})
+  
+  useEffect(() => {
+    document.title = category?.name || 'Catalog'
+  }, [category])
+
+  const setProducts = useProductsState(state => state.setProducts)
 
   useEffect(() => {
     getOneCategory(id).then(data => {
       setCategory(data)
     })
-  })
+    getProducts(id).then(data => {
+      setProducts(data)
+    })
+    setLoading(false)
+  }, [category])
 
   const openFilterModal = useCategoryState(state => state.openFilterModal)
 
@@ -23,9 +37,8 @@ function Catalog() {
 
   const navigate = useNavigate()
 
-  useEffect(() => {
-    document.title = category?.name || 'Catalog'
-  }, [category])
+
+  if (loading) return <Loader />
 
   return (
     <div className={cls.Catalog}>

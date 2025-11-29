@@ -244,7 +244,7 @@ function ProductPage() {
                 </div>
                 
                 <div className={cls.priceBoxWrapper}>
-                    {/* <SellerInfoModal product={product} /> */}
+                    <SellerInfoModal product={product} />
                     <article className={cls.priceBox}>
                         <div className={cls.priceWrapper}>
                             <h2>{product.price} dram</h2>
@@ -274,10 +274,10 @@ function ProductPage() {
                                 aria-label="Seller info"
                             >
                                 <ShopIcon className={cls.shopIcon} />
-                                {/* <span>Seller: {product.seller.name}</span> */}
+                                <span>Seller: {product.seller.name}</span>
                                 <div className={cls.sellerRating}>
                                     <StarIcon className={cls.starIcon} fill="currentColor" />
-                                    {/* <span className={cls.sellerRatingValue}>{product.seller.rating}</span> */}
+                                    <span className={cls.sellerRatingValue}>{product.seller.rating}</span>
                                 </div>
                             </div>
                         </div>

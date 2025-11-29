@@ -5,18 +5,38 @@ import { ReactComponent as StarIcon } from '../assets/icons/star.svg';
 import ProductCard from "../components/ProductCard";
 import { useCategoryState } from "../store/useCategoryState";
 import RecomendedBlock from "../components/RecommendedBlock";
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { getProducts } from "../http/productApi";
+import Loader from "../components/Loader";
+import { getOneSeller } from "../http/sellerApi";
 
 function Seller() {
-    const products = useProductsState(state => state.products)
-    const { id } = useParams()
-    const seller = products.map(product => product.seller).find(seller => seller.id === id)
+    const [loading, setLoading] = useState(true)
 
-    const openFilterModal = useCategoryState(state => state.openFilterModal)
+    const products = useProductsState(state => state.products)
+    const setProducts = useProductsState(state => state.setProducts)
+
+    const { id } = useParams()
+
+    const [seller, setSeller] = useState({})
 
     useEffect(() => {
         document.title = seller?.name || 'Seller'
     }, [seller])
+
+    useEffect(() => {
+        getOneSeller(id).then(data => {
+            setSeller(data)
+        })
+        getProducts(null, id).then(data => {
+            setProducts(data)
+        })
+        setLoading(false)
+    }, [seller])
+
+    const openFilterModal = useCategoryState(state => state.openFilterModal)
+
+    if (loading) return <Loader />
 
     return (
         <div className={cls.Seller}>
@@ -26,27 +46,33 @@ function Seller() {
                     <span className={cls.sellerRating}><StarIcon fill="currentColor"/> {seller.rating} ∙ <p>83,964 product ratings</p></span>
                 </div>
                 <div className={cls.sellerDetailsParametersWrapper}>
-                    <div className={cls.sellerDetailsParameter}>
-                        <span>Seller Level</span>
-                        <span 
-                            style={{
-                                color: seller.level === "Gold" ? '#f39c12' :
-                                seller.level === "Silver" ? '#8d8d8dff' :
-                                seller.level === "Bronze" ? '#7c2e00' :
-                                'black'
-                            }}
-                        >
-                            {seller.level}
-                        </span>
-                    </div>
+                    {
+                        seller.level &&
+                        <div className={cls.sellerDetailsParameter}>
+                            <span>Seller Level</span>
+                            <span 
+                                style={{
+                                    color: seller.level === "Gold" ? '#f39c12' :
+                                    seller.level === "Silver" ? '#8d8d8dff' :
+                                    seller.level === "Bronze" ? '#7c2e00' :
+                                    'black'
+                                }}
+                            >
+                                {seller.level}
+                            </span>
+                        </div>
+                    }
                     <div className={cls.sellerDetailsParameter}>
                         <span>Products sold</span>
                         <span >18432</span>
                     </div>
-                    <div className={cls.sellerDetailsParameter}>
-                        <span>On Shopigo</span>
-                        <span>{seller.yearsOnShopigo}</span>
-                    </div>
+                    {
+                        seller.yearsOnShopigo &&
+                        <div className={cls.sellerDetailsParameter}>
+                            <span>On Shopigo</span>
+                            <span>{seller.yearsOnShopigo}</span>
+                        </div>
+                    }
                 </div>
                 
             </div>

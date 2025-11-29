@@ -16,8 +16,8 @@ function BasketProduct ({checkedAll, product}) {
     const increaseQuantity = useBasketState(state => state.increaseQuantity)
     const decreaseQuantity = useBasketState(state => state.decreaseQuantity)
 
-    const toggleSelected = useBasketState(state => state.toggleSelected)
-    const selectedIds = useBasketState(state => state.selectedIds)
+    // const toggleSelected = useBasketState(state => state.toggleSelected)
+    // const selectedIds = useBasketState(state => state.selectedIds)
 
     const addToFavorites = useFavoritesState(state => state.addToFavorites)
     const removeFromFavorites = useFavoritesState(state => state.removeFromFavorites)
@@ -34,8 +34,8 @@ function BasketProduct ({checkedAll, product}) {
                 <input 
                     type="checkbox" 
                     id={id} 
-                    checked={checkedAll ? checkedAll : selectedIds.includes(id)} 
-                    onChange={() => toggleSelected(id)}
+                    // checked={checkedAll ? checkedAll : selectedIds.includes(id)} 
+                    // onChange={() => toggleSelected(id)}
                     aria-label="Select product"
                 />
                 <div className="neon-checkbox__frame">

@@ -1,10 +1,10 @@
-$siteBcColor: rgb(6, 117, 117);
+$siteBcColor: rgb(0, 112, 130);
 $borderSize: 2.5px;
 $transition: .45s;
 $likeColor: #e74c3c;
 $textColor: rgb(0, 0, 0);
 $starColor: #f39c12;
-$inputOutlineColor: rgba(76, 201, 201, 0.3);
+$inputOutlineColor: rgba(76, 155, 201, 0.3);
 
 @mixin mainBorder($color: $siteBorderColor, $size: $borderSize) {
     border: $size solid $color;

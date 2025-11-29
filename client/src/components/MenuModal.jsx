@@ -1,6 +1,6 @@
 import { useMenuState } from '../store/useMenuState'
 import cls from '../styles/MenuModal.module.scss'
-import { CATALOG_ROUTE } from '../utils/consts'
+import { CATEGORY_ROUTE } from '../utils/consts'
 import { useNavigate } from 'react-router-dom'
 import { useCategoryState } from '../store/useCategoryState'
 
@@ -19,7 +19,7 @@ function MenuModal({onClick}) {
                         className={cls.categoryWrapper} 
                         key={category.id} 
                         onClick={() => {
-                            navigate(CATALOG_ROUTE + `/${category.id}`)
+                            navigate(CATEGORY_ROUTE + `/${category.id}`)
                             setMenuModalClose()
                         }}
                     >
