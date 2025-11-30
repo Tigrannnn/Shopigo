@@ -3,6 +3,7 @@ import cls from '../styles/MenuModal.module.scss'
 import { CATEGORY_ROUTE } from '../utils/consts'
 import { useNavigate } from 'react-router-dom'
 import { useCategoryState } from '../store/useCategoryState'
+import capitalizeFirstLetter from '../utils/useCapitalizeFirsLetter'
 
 function MenuModal({onClick}) {
     const isMenuModalOpen = useMenuState(state => state.isMenuModalOpen)
@@ -26,7 +27,7 @@ function MenuModal({onClick}) {
                         <div className={cls.categoryIcon}>
                             <img src={category.icon} alt="" />
                         </div>
-                        <h4>{category.name}</h4>
+                        <h4>{capitalizeFirstLetter(category.name)}</h4>
                     </div>
                 ))
             }

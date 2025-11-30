@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import cls from '../styles/ProductPage.module.scss'
-import { useState } from 'react'
+import { use, useState } from 'react'
 import { ReactComponent as LikeIcon } from '../assets/icons/like.svg';
 import { ReactComponent as ShareIcon } from '../assets/icons/share.svg';
 import { ReactComponent as CommentIcon } from '../assets/icons/comment.svg';
@@ -17,7 +17,7 @@ import { useProductsState } from '../store/useProductsState';
 import { useParams } from 'react-router-dom';
 import { useBasketState } from '../store/useBasketState';
 import { useFavoritesState } from '../store/useFavoritesState';
-import { BASKET_ROUTE, PRODUCT_ROUTE, QUESTION_ROUTE, REVIEW_ROUTE } from '../utils/consts';
+import { BASKET_ROUTE, CATEGORY_ROUTE, PRODUCT_ROUTE, QUESTION_ROUTE, REVIEW_ROUTE, SELLER_ROUTE } from '../utils/consts';
 import { useToastState } from '../store/useToastState';
 import Comment from '../components/Comment';
 import { useFeedbackState } from '../store/useFeedbackState';
@@ -25,6 +25,8 @@ import { useEffect } from 'react';
 import RecomendedBlock from '../components/RecommendedBlock.jsx'
 import { getOneProduct } from '../http/productApi';
 import Loader from '../components/Loader';
+import useHandleShare from '../utils/useHandleShare';
+import capitalizeFirstLetter from '../utils/useCapitalizeFirsLetter';
 
 function ProductPage() {
     const { id } = useParams()
@@ -60,7 +62,6 @@ function ProductPage() {
     const setFeedback = useFeedbackState(state => state.setFeedback)
 
     useEffect(() => {
-        document.title = product?.name || 'Product'
         setFeedback('reviews')
         closeSellerInfoModal();
         getOneProduct(id).then(data => {
@@ -68,6 +69,10 @@ function ProductPage() {
             setLoading(false)
         });
     }, []);
+
+    useEffect(() => {
+        document.title = `${product?.name} ${product?.description} ${product.seller?.name}` || 'Product'
+    }, [product]);
 
 
     // function handleColorVariantHover(e, index) {
@@ -101,9 +106,7 @@ function ProductPage() {
         toast('Article number copied', false)
     }
 
-    function handleShare() {
-        
-    }
+    const handleShare = useHandleShare()
 
     if (loading) return <Loader />
 
@@ -119,9 +122,21 @@ function ProductPage() {
                         <BackIcon />
                     </button>
                     <ul>
-                        {/* <li onClick={() => navigate(CATALOG_ROUTE + `/${product.categoryId}`)}>{categories.find(item => item.id === product.categoryId).name}</li> */}
+                        <li 
+                            onClick={() => 
+                                navigate(CATEGORY_ROUTE + `/${product.categoryId}`)
+                                }
+                        >
+                            {capitalizeFirstLetter(product.category.name)}
+                        </li>
                         <span aria-hidden="true">›</span>
-                        {/* <li onClick={() => navigate(SELLER_ROUTE + `/${product.seller.id}`)}>{product.seller.name}</li> */}
+                        <li 
+                            onClick={() => 
+                                navigate(SELLER_ROUTE + `/${product.seller.id}`)
+                            }
+                        >
+                            {product.seller.name}
+                        </li>
                     </ul>
                 </nav>
                 
@@ -135,8 +150,8 @@ function ProductPage() {
                     </button>
                     <button 
                         className={cls.actionButton}
-                        onClick={() => handleShare()}
                         aria-label="Share product"
+                        onClick={() => handleShare(id)}
                     >
                         <ShareIcon className={cls.shareIcon} />
                     </button>
@@ -165,6 +180,7 @@ function ProductPage() {
                 <div className={cls.infoWrapper}>
                     <div className={cls.nameWrapper}>
                         <h1>{product.name}</h1>
+                        <p>{product.description}</p>
                         <ul>
                             <li
                                 onClick={() => navigate(`${PRODUCT_ROUTE}/${id}${REVIEW_ROUTE}`)}

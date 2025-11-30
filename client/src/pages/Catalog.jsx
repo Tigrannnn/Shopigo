@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react'
 import { getOneCategory } from '../http/categoryApi';
 import { getProducts } from '../http/productApi';
 import Loader from '../components/Loader';
+import capitalizeFirstLetter from '../utils/useCapitalizeFirsLetter';
 
 function Catalog() {
   const [loading, setLoading] = useState(true)
@@ -37,18 +38,17 @@ function Catalog() {
 
   const navigate = useNavigate()
 
-
   if (loading) return <Loader />
 
   return (
     <div className={cls.Catalog}>
       <div className={cls.catalogHeader}>
-        <h1>{category.name}</h1>
+        <h1>{capitalizeFirstLetter(category.name)}</h1>
         <div className={cls.breadcrumbs}>
           <ul>
               <li onClick={() => navigate(SHOP_ROUTE)}>Main</li>
               <span aria-hidden="true">›</span>
-              <li>{category.name}</li>
+              <li>{capitalizeFirstLetter(category.name)}</li>
           </ul>
         </div>
         <div className={cls.filter}>

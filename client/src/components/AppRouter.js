@@ -1,5 +1,5 @@
 import { Navigate, Route, Routes } from "react-router-dom"
-import { routes } from "../routes"
+import { adminRoutes, routes } from "../routes"
 import LayOut from "./LayOut"
 import { useProfileState } from "../store/useProfileState"
 

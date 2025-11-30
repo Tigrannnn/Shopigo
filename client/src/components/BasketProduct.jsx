@@ -6,7 +6,7 @@ import { ReactComponent as TrashIcon } from '../assets/icons/trash.svg'
 import { useBasketState } from '../store/useBasketState'
 import { useFavoritesState } from '../store/useFavoritesState'
 import { ReactComponent as ShareIcon } from '../assets/icons/share.svg'
-import { useCenterModalState } from '../store/useCenterModalState'
+import useHandleShare from '../utils/useHandleShare'
 
 function BasketProduct ({checkedAll, product}) {
     const { id, name, color, deliveryDays, image, price, quantity } = product
@@ -25,8 +25,8 @@ function BasketProduct ({checkedAll, product}) {
     const isFavorite = favoriteProducts.some(item => item.id === id)
 
     const navigate = useNavigate()
-    const openCenterModal = useCenterModalState(state => state.openCenterModal)
-    const setShareUrl = useCenterModalState(state => state.setShareUrl)
+
+    const handleShare = useHandleShare()
 
     return(
         <article className={cls.BasketProduct}>
@@ -68,11 +68,7 @@ function BasketProduct ({checkedAll, product}) {
                     <button 
                         className={cls.actionButton}
                         aria-label="Share product"
-                        onClick={() => {
-                            const origin = window.location?.origin || ''
-                            setShareUrl(`${origin}/product/${id}`)
-                            openCenterModal('share')
-                        }}
+                        onClick={() => handleShare(id)}
                     >
                         <ShareIcon className={cls.shareIcon} fill="none" stroke="currentColor" />
                     </button>

@@ -1,38 +1,37 @@
-const { Product, ProductInfo, Seller } = require('../models/models')
+const { Product, Seller, Category } = require('../models/models')
 const uuid = require('uuid')
 const path = require('path')
 const fs = require('fs')
-const { model, _attributes } = require('../db')
 
 class ProductController {
-    async create(req, res, next) {
+    async create(req, res) {
         try {
-            const { name, price, description, rating, article, categoryId, sellerId, productInfo } = req.body
+            const { name, price, description, rating, article, categoryId, sellerId } = req.body
 
-            // Валидация обязательных полей
             if (!name || !price || !article || !categoryId || !sellerId) {
                 return res.status(400).json({ message: 'All fields are required' })
             }
 
-            // Проверяем наличие файла изображения
             if (!req.files || !req.files.image) {
                 return res.status(400).json({ message: 'Image file is required' })
             }
 
             const { image } = req.files
             
-            // Создаем директорию static, если её нет
             const staticDir = path.resolve(__dirname, '..', 'static')
             if (!fs.existsSync(staticDir)) {
                 fs.mkdirSync(staticDir, { recursive: true })
             }
             
-            // Генерируем уникальное имя файла с сохранением расширения
-            const fileExtension = image.name.split('.').pop() || 'jpg'
+            const fileExtension = image.name.split('.').pop()
+
+            if (!fileExtension) {
+                return res.status(400).json({ message: 'Invalid image file' })
+            }
+
             let fileName = uuid.v4() + '.' + fileExtension
             await image.mv(path.resolve(staticDir, fileName))
 
-            // Проверяем существование категории и продавца
             const category = await Category.findByPk(categoryId)
             if (!category) {
                 return res.status(400).json({ message: 'Category not found' })
@@ -43,24 +42,12 @@ class ProductController {
                 return res.status(400).json({ message: 'Seller not found' })
             }
 
-            if (productInfo) {
-                productInfo = JSON.parse(productInfo)
-                productInfo.forEach(async (info) => {
-                    await ProductInfo.create({
-                        title: info.title,
-                        description: info.description,
-                        productId: info.idl
-                    })
-                })
-            }
-
             const product = await Product.create({
                 name,
                 price,
                 description,
                 rating,
                 image: fileName,
-                deliveryDays,
                 article,
                 categoryId,
                 sellerId
@@ -79,35 +66,20 @@ class ProductController {
             page = page || 1
             limit = limit || null
             let offset = page * limit - limit
+            let where = {}
 
-            let products
-            if (categoryId && sellerId) {
-                products = await Product.findAll({ 
-                    where: { categoryId, sellerId },
-                    limit, 
-                    offset, 
-                    include: [{model: Seller, attributes: ['id', 'name']}] 
-                })
-            } else if (categoryId && !sellerId) {
-                products = await Product.findAll({ 
-                    where: { categoryId }, 
-                    limit, 
-                    offset,
-                    include: [{model: Seller, attributes: ['id', 'name']}]
-                })
-            } else if (sellerId && !categoryId) {
-                products = await Product.findAll({ 
-                    where: { sellerId }, 
-                    limit, 
-                    offset, 
-                    include: [{model: Seller, attributes: ['id', 'name']}] })
-            } else if (!categoryId && !sellerId) {
-                products = await Product.findAll({ 
-                    limit, 
-                    offset, 
-                    include: [{model: Seller, attributes: ['id', 'name']}]
-                })
+            if (sellerId) {
+                where.sellerId = sellerId
             }
+            if (categoryId) {
+                where.categoryId = categoryId
+            }
+
+            const products = await Product.findAll({ where, limit, offset, include: [
+                    {model: Seller, attributes: ['id', 'name']},
+                ]
+            })
+
             return res.json(products)
         } catch (error) {
             console.error('Error getting products:', error)
@@ -124,6 +96,7 @@ class ProductController {
 
             const product = await Product.findOne({ where: { id }, include: [
                     {model: Seller},
+                    {model: Category}
                 ]
             })
 
@@ -147,16 +120,13 @@ class ProductController {
                 return res.status(400).json({ message: 'Product ID is required' })
             }
 
-            // Проверяем существование продукта
             const product = await Product.findByPk(id)
             if (!product) {
                 return res.status(404).json({ message: 'Product not found' })
             }
 
-            // Обновляем продукт
             await Product.update(updateData, { where: { id } })
             
-            // Возвращаем обновленный продукт
             const updatedProduct = await Product.findByPk(id)
             return res.json(updatedProduct)
         } catch (error) {
@@ -172,18 +142,11 @@ class ProductController {
                 return res.status(400).json({ message: 'Product ID is required' })
             }
 
-            // Проверяем существование продукта
             const product = await Product.findByPk(id)
             if (!product) {
                 return res.status(404).json({ message: 'Product not found' })
             }
 
-            // Удаляем связанные данные (каскадное удаление)
-            await ColorVariant.destroy({ where: { productId: id } })
-            await SizeVariant.destroy({ where: { productId: id } })
-            await Review.destroy({ where: { productId: id } })
-
-            // Удаляем сам продукт
             await Product.destroy({ where: { id } })
             
             return res.json({ message: 'Product deleted successfully' })

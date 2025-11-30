@@ -3,7 +3,11 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
 const generateJwt = (id, email, role, name) => {
-    return jwt.sign({ id, email, role, name }, process.env.JWT_SECRET_KEY, { expiresIn: '1h' })
+    return jwt.sign(
+        { id, email, role, name }, 
+        process.env.JWT_SECRET_KEY, 
+        { expiresIn: '24h' }
+    )
 }
 
 class UserController {

@@ -15,10 +15,6 @@ import { ADMIN_ROUTE, BASKET_ROUTE, FAVORITES_ROUTE, LOGIN_ROUTE, SHOP_ROUTE, PR
 
 export const routes = [
     {
-        path: ADMIN_ROUTE,
-        element: <Admin />
-    },
-    {
         path: SHOP_ROUTE,
         element: <Shop />
     },
@@ -69,5 +65,9 @@ export const routes = [
     {
         path: `${PRODUCT_ROUTE}/:id${QUESTION_ROUTE}`,
         element: <Feedback />,
+    },
+    {
+        path: ADMIN_ROUTE,
+        element: <Admin />,
     }
 ]

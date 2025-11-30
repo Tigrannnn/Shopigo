@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { ReactComponent as CommentIcon } from '../assets/icons/comment.svg';
 import { ReactComponent as CreditCardIcon } from '../assets/icons/creditCard.svg';
 import { ReactComponent as LogOut } from '../assets/icons/logout.svg';
-import { useCenterModalState } from "../store/useCenterModalState";
+import { useModalState } from "../store/useModalState";
 import ProductCard from "../components/ProductCard";
 import { useRecentlyWatchedState } from "../store/useRecentlyWatchedState";
 import { useEffect } from 'react'
@@ -31,7 +31,7 @@ function Profile() {
 
     const navigate = useNavigate()
 
-    const openCenterModal = useCenterModalState(state => state.openCenterModal)
+    const openCenterModal = useModalState(state => state.openCenterModal)
 
     return (
         <div className={cls.Profile}>

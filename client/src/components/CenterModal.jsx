@@ -4,13 +4,14 @@ import { ReactComponent as CreditCardIcon } from '../assets/icons/creditCard.svg
 import { ReactComponent as XIcon } from '../assets/icons/x.svg';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState, useCallback } from 'react';
-import { useCenterModalState } from '../store/useCenterModalState';
+import { useModalState } from '../store/useModalState';
+import { useToastState } from '../store/useToastState';
 
 function CenterModal() {
-    const centerModal = useCenterModalState(state => state.centerModal)
-    const closeCenterModal = useCenterModalState(state => state.closeCenterModal)
-    const shareUrl = useCenterModalState(state => state.shareUrl)
-    const openCenterModal = useCenterModalState(state => state.openCenterModal)
+    const centerModal = useModalState(state => state.centerModal)
+    const closeCenterModal = useModalState(state => state.closeCenterModal)
+    const shareUrl = useModalState(state => state.shareUrl)
+    const openCenterModal = useModalState(state => state.openCenterModal)
     const logOut = useProfileState(state => state.logOut)
     const userName = useProfileState(state => state.name)
     const setUserName = useProfileState(state => state.setName)
@@ -50,13 +51,19 @@ function CenterModal() {
         }
     }, [centerModal, closeCenterModal, saveProfileChanges])
 
+    const toast = useToastState(state => state.toast)
+
+    const handleCopyProductLink = () => {
+        navigator.clipboard?.writeText(shareUrl); 
+        toast('Product link copied');
+    }
+
     return(
         <div 
-            className={`${cls.CenterModal} ${centerModal === '' ? '' : cls.open}`} 
+            className={`${cls.CenterModal} ${cls[centerModal]} ${centerModal === '' ? '' : cls.open} `} 
             onClick={(e) => e.stopPropagation()}
         >
 
-            {/* profile */}
             {
                 centerModal === 'changeProfile' && (
                     <>
@@ -64,11 +71,13 @@ function CenterModal() {
                             <h2>Change profile</h2>
                             <XIcon onClick={() => closeCenterModal()}/>
                         </div>
-                        <div className={cls.changeProfileItem}>
-                            <div>
-                                <h3>Name</h3>
-                                <input type="text" value={nameValue} onChange={(e) => setNameValue(e.target.value)}/>
-                            </div>
+                        <div className={cls.changeProfileContent}>
+                            <h3>Name</h3>
+                            <input 
+                                type="text" 
+                                value={nameValue} 
+                                onChange={(e) => setNameValue(e.target.value)}
+                            />
                         </div>
                         <button className={cls.save} onClick={saveProfileChanges}>
                             <p>Save</p>
@@ -76,6 +85,7 @@ function CenterModal() {
                     </>
                 )
             }
+
             {
                 centerModal === 'payment' && (
                     <>
@@ -83,7 +93,7 @@ function CenterModal() {
                             <h2>Payment methods</h2>
                             <XIcon onClick={() => closeCenterModal()}/>
                         </div>
-                        <button className={cls.addCard} onClick={() => openCenterModal('addCard')}>
+                        <button className={cls.addCardBtn} onClick={() => openCenterModal('addCard')}>
                             <CreditCardIcon />
                             <span>Add new card</span>
                             <span>›</span>
@@ -91,6 +101,7 @@ function CenterModal() {
                     </>
                 )
             }
+
             {
                 centerModal === 'addCard' && (
                     <>
@@ -101,6 +112,7 @@ function CenterModal() {
                     </>
                 )
             }
+
             {
                 centerModal === 'logout' && (
                     <>
@@ -127,7 +139,6 @@ function CenterModal() {
                 )
             }
 
-            {/* share */}
             {
                 centerModal === 'share' && (
                     <>
@@ -135,12 +146,11 @@ function CenterModal() {
                             <h2>Share product</h2>
                             <XIcon onClick={() => closeCenterModal()}/>
                         </div>
-                        <div className={cls.logoutContent}>
+                        <div className={cls.shareContent}>
                             <p>Copy link and share with friends</p>
                             <input type="text" value={shareUrl} readOnly />
                             <button 
-                                className={cls.logoutButton}
-                                onClick={() => { navigator.clipboard?.writeText(shareUrl); closeCenterModal(); }}
+                                onClick={() => handleCopyProductLink()}
                             >
                                 Copy link
                             </button>
@@ -149,7 +159,6 @@ function CenterModal() {
                 )
             }
 
-            {/* admin */}
             {
                 centerModal === 'addProduct' && (
                     <>
@@ -161,6 +170,19 @@ function CenterModal() {
                             <div className={cls.addProductItem}>
                                 <h3>Product name</h3>
                                 <input type="text" />
+                            </div>
+                            <div className={cls.addProductItem}>
+                                <h3>Product description</h3>
+                                <input type="text" />
+                            </div>
+                            <div className={cls.addProductItem}>
+                                <h3>Product price</h3>
+                                <input type="number" />
+                            </div>
+                            <div className={cls.addProductItem}>
+                                <div>
+                                    
+                                </div>
                             </div>
                         </div>
                     </>

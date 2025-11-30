@@ -1,4 +1,4 @@
-$siteBcColor: rgb(0, 112, 130);
+$siteBcColor: rgb(0, 100, 122);
 $borderSize: 2.5px;
 $transition: .45s;
 $likeColor: #e74c3c;
@@ -183,6 +183,10 @@ $inputOutlineColor: rgba(76, 155, 201, 0.3);
   transition: $transition;
   background: #fdfdfd;
   outline: 5px solid transparent;
+  width: 100%;
+  height: 45px;
+  border-radius: 5px;
+  padding: 10px;
 
   &:hover {
       border-color: $siteBcColor;
@@ -251,7 +255,6 @@ $inputOutlineColor: rgba(76, 155, 201, 0.3);
       padding: 16px 4px 0 4px;
   }
 }
-
 
 
 *{

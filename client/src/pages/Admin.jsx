@@ -10,7 +10,7 @@ import { ReactComponent as TrashIcon } from '../assets/icons/trash.svg'
 import { ReactComponent as CameraIcon } from '../assets/icons/camera.svg'
 import { ReactComponent as SearchIcon } from '../assets/icons/search.svg'
 import { useState, useEffect } from 'react'
-import { useCenterModalState } from "../store/useCenterModalState"
+import { useModalState } from "../store/useModalState"
 
 function Admin() {
     const [products, setProducts] = useState([])
@@ -20,7 +20,7 @@ function Admin() {
         document.title = 'Admin'
     }, [])
     const [activeTab, setActiveTab] = useState('dashboard')
-    const openCenterModal = useCenterModalState(state => state.openCenterModal)
+    const openCenterModal = useModalState(state => state.openCenterModal)
 
     // Mock data for demonstration
     const stats = {

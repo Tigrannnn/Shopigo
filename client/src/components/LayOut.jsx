@@ -11,7 +11,7 @@ import { useToastState } from "../store/useToastState"
 import { useCategoryState } from "../store/useCategoryState"
 import FilterModal from "./FilterModal"
 import CenterModal from "./CenterModal"
-import { useCenterModalState } from "../store/useCenterModalState"
+import { useModalState } from "../store/useModalState"
 import { useEffect, useState } from "react"
 import { auth } from "../http/userApi"
 import { useProfileState } from "../store/useProfileState"
@@ -47,8 +47,8 @@ function LayOut() {
     const message = useToastState(state => state.message)
     const toastDelete = useToastState(state => state.toastDelete)
 
-    const centerModal = useCenterModalState(state => state.centerModal)
-    const closeCenterModal = useCenterModalState(state => state.closeCenterModal)
+    const centerModal = useModalState(state => state.centerModal)
+    const closeCenterModal = useModalState(state => state.closeCenterModal)
 
     const isFilterModalOpen = useCategoryState(state => state.isFilterModalOpen)
     const closeFilterModal = useCategoryState(state => state.closeFilterModal)
@@ -79,21 +79,16 @@ function LayOut() {
             closeFilterModal()
         }
     }
-
-    const favoriteProducts = useFavoritesState(state => state.favoriteProducts)
-    const basketProducts = useBasketState(state => state.basketProducts)
     
     useEffect(() => {
         auth().then(data => {
             setUser(data)
+            getCategories().then(data => {
+                setCategories(data)
+            })
         }).catch(e => 
             e.message
-        ).finally(() => {
-            setLoading(false)
-        })
-        getCategories().then(data => {
-            setCategories(data)
-        })
+        ).finally(() => setLoading(false))
     }, [])
 
     useEffect(() => {

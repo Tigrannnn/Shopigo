@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-export const useCenterModalState = create((set) => ({
+export const useModalState = create((set) => ({
     centerModal: '',
     openCenterModal: (modal) => set({ centerModal: modal }),
     closeCenterModal: () => set({ centerModal: '' }),
