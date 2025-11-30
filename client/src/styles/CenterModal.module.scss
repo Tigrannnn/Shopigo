@@ -142,5 +142,38 @@
         * {
             @include centerModalContent(5px);
         }
+
+        .countrySelectButton {
+            width: 120px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 19px;
+            font-weight: 600;
+            color: $textColor;
+            transition: .65s;
+            gap: 10px;
+            border-radius: 10px;
+            border: 2px solid #d5d5d5;
+            padding: 0 10px;
+            transform: scale(0.87);
+            background-color: #fcfcfc;
+
+            &:hover {
+                border-color: $siteBcColor;
+                transform: scale(1.03);
+            }
+
+            &.active {
+                border-color: $siteBcColor;
+            }
+
+            &:active {
+                transition: .1s;
+                transform: scale(0.9);
+            }
+        }
     }
 }

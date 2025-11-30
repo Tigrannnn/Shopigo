@@ -83,12 +83,13 @@ function LayOut() {
     useEffect(() => {
         auth().then(data => {
             setUser(data)
-            getCategories().then(data => {
-                setCategories(data)
-            })
         }).catch(e => 
             e.message
-        ).finally(() => setLoading(false))
+        ).finally(
+            getCategories().then(data => {
+                setCategories(data)
+            }).finally(() => setLoading(false))
+        )
     }, [])
 
     useEffect(() => {
