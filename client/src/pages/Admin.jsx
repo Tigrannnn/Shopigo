@@ -342,7 +342,12 @@ function Admin() {
                         <div className={cls.categoriesTab}>
                             <div className={cls.tabHeader}>
                                 <h2>Category Management</h2>
-                                <button className={cls.addButton}>Add New Category</button>
+                                <button 
+                                    className={cls.addButton} 
+                                    onClick={() => openCenterModal('addCategory')}
+                                >
+                                    Add New Category
+                                </button>
                             </div>
                             <div className={cls.searchBar}>
                                 <SearchIcon className={cls.searchIcon} />

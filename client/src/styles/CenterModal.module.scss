@@ -6,6 +6,23 @@
     gap: $gap;
 }
 
+@mixin addSmth {
+    gap: 30px;
+    .addContent{
+        @include centerModalContent(30px);
+
+        * {
+            @include centerModalContent(5px);
+        }
+
+        button{
+            @include defaultButton();
+            padding: 12px;
+            width: 50%;
+        }
+    }
+}
+
 .CenterModal{
     @include boxShadow;
     min-width: 35vw;
@@ -135,13 +152,7 @@
 }
 
 .addProduct{
-    gap: 30px;
-    .addProductContent{
-        @include centerModalContent(30px);
-
-        * {
-            @include centerModalContent(5px);
-        }
+    @include addSmth;
 
         .countrySelectButton {
             width: 120px;
@@ -175,5 +186,8 @@
                 transform: scale(0.9);
             }
         }
-    }
+}
+
+.addCategory{
+    @include addSmth;
 }

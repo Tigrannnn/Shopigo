@@ -279,8 +279,12 @@ $inputOutlineColor: rgba(76, 155, 201, 0.3);
 
 p, h1, h2, h3, h4, h5, h6, span{
   font-weight: 600;
-    margin: 0;
-    line-height: 1;
+  margin: 0;
+  line-height: 1;
+}
+
+.errorText{
+  color: red
 }
 
 a{

@@ -13,7 +13,6 @@ import { useColorVariantState } from '../store/useColorVariantState';
 import ColorVariantModal from '../components/ColorVariantModal';
 import { useSellerInfoState } from '../store/useSellerInfoState';
 import SellerInfoModal from '../components/SellerInfoModal';
-import { useProductsState } from '../store/useProductsState';
 import { useParams } from 'react-router-dom';
 import { useBasketState } from '../store/useBasketState';
 import { useFavoritesState } from '../store/useFavoritesState';
@@ -316,7 +315,7 @@ function ProductPage() {
                     </h4>
                 </div>
                 <div className={cls.commentsWrapper}>
-                    <Comment />
+                    <Comment product={product}/>
                     <div className={cls.allComments}>
                         <button 
                             className={cls.allCommentsButton}
