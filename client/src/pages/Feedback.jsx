@@ -21,6 +21,7 @@ function Feedback() {
     const { id } = useParams()
     const product = products.find(product => product.id === id)
 
+
     useEffect(() => {
         if (product) {
             const isReviewPage = location.pathname.includes(REVIEW_ROUTE)

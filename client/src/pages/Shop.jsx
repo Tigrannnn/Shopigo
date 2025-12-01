@@ -19,6 +19,7 @@ function Shop() {
             }).finally(() => setLoading(false))
         // }, 2000);
     }, [])
+    
 
     if (loading) return <Loader />
 
