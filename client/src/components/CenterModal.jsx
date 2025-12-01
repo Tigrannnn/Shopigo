@@ -195,18 +195,21 @@ function CenterModal() {
                                 <h3>Product name</h3>
                                 <input type="text" />
                             </div>
-                            <div className={cls.addProductItem}>
+                            <div className={cls.addItem}>
                                 <h3>Product description</h3>
                                 <input type="text" />
                             </div>
-                            <div className={cls.addProductItem}>
+                            <div className={cls.addItem}>
                                 <h3>Product price</h3>
                                 <input type="number" />
                             </div>
-                            <div className={cls.addProductItem}>
+                            <div className={cls.addItem}>
                                 <div>
                                     
                                 </div>
+                            </div>
+                            <div className={cls.addItem}>
+                                <button onClick={() => addSmth()}>Add Category</button>
                             </div>
                         </div>
                     </>
