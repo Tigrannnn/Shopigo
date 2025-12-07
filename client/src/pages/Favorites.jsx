@@ -1,4 +1,4 @@
-import cls from '../styles/Favorites.module.scss'
+import cls from '../styles/pages/Favorites.module.scss'
 import ProductCard from '../components/ProductCard.jsx'
 import { useFavoritesState } from '../store/useFavoritesState'
 import { Link } from 'react-router-dom'

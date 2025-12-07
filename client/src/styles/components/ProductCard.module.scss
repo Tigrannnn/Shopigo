@@ -1,0 +1,232 @@
+@import '../global.scss';
+
+.ProductCard {
+    width: 100%;
+    max-width: 260px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    border-radius: 12px;
+    overflow: hidden;
+    background: white;
+    @include boxShadow;
+    cursor: pointer;
+    flex-shrink: 0;
+    
+    &:hover {
+        transform: scale(1.01);
+    }
+    
+    // @include active;
+}
+
+.imgWrapper {
+    width: 100%;
+    padding-bottom: 133.33%;
+    position: relative;
+    display: flex;
+    overflow: hidden;
+
+    .productImg {
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        object-fit: cover;
+        border-radius: 12px 12px 0 0;
+        transition: $transition;
+    }
+    
+    .likeButton {
+        width: 40px;
+        height: 40px;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 2;
+        transition: $transition;
+        cursor: pointer;
+        border: none;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.9);
+        padding: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &:hover {
+            transform: scale(1.15);
+            background: rgba(255, 255, 255, 1);
+        }
+        
+        &:focus-visible {
+            outline: 2px solid $siteBcColor;
+            outline-offset: 2px;
+        }
+        
+        @include active;
+    }
+
+    .likeIcon {
+        width: 24px;
+        height: 24px;
+        color: $likeColor;
+        stroke-width: 2;
+        transition: $transition;
+    }
+}
+
+.topWrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 15px 15px 5px 15px;
+    gap: 8px;
+
+    .priceWrapper {
+        display: flex;
+        align-items: center;
+        
+        .price {
+            color: #e74c3c;
+            font-weight: 600;
+            margin: 0;
+        }
+    }
+    
+    .nameWrapper {
+        display: flex;
+        align-items: center;
+        max-width: 180px;
+        width: 100%;
+
+        .name {
+            font-size: 16px;
+            font-weight: 500;
+            color: $textColor;
+            margin: 0;
+            line-height: 1.3;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 100%;
+        }
+    }
+}
+
+.bottomWrapper {
+    padding: 0 15px 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    .ratingWrapper {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        .starIcon {
+            width: 20px;
+            height: 20px;
+            color: $starColor;
+        }
+
+        .rating {
+            font-size: 16px;
+            font-weight: 500;
+            color: $textColor;
+            margin: 0;
+        }
+    }
+
+    .addBasketWrapper {
+        .addBasketButton {
+            width: 100%;
+            height: 45px;
+            @include defaultButton();
+            gap: 8px;
+            font-weight: 500;
+
+            .basketIcon {
+                width: 20px;
+                height: 20px;
+                stroke-width: 2;
+            }
+
+            .deliveryText {
+                font-size: 13px;
+                margin: 0;
+            }
+
+            &.inBasket {
+                @include secondaryButton;
+            }
+
+            &.inOrder {
+                @include defaultButton(lighten($siteBcColor, 55%));
+                color: black;
+
+                &:hover {
+                    background-color: darken(lighten($siteBcColor, 55%), 10%);
+                }
+
+                &:active {
+                    background-color: lighten(lighten($siteBcColor, 55%), 2%);
+                }
+            }
+        }
+    }
+}
+
+// Медиа-запросы для адаптивности
+@media (max-width: 768px) {
+    .ProductCard {
+        min-height: 420px;
+    }
+    
+    .topWrapper {
+        padding: 12px;
+        gap: 6px;
+        
+        .priceWrapper .price {
+            font-size: 16px;
+        }
+        
+        .nameWrapper .name {
+            font-size: 15px;
+        }
+    }
+    
+    .bottomWrapper {
+        padding: 0 12px 12px;
+        gap: 10px;
+        
+        .addBasketWrapper .addBasketButton {
+            height: 40px;
+            
+            .deliveryText {
+                font-size: 13px;
+            }
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .ProductCard {
+        min-height: 400px;
+    }
+    
+    .likeButton {
+        width: 35px !important;
+        height: 35px !important;
+        top: 8px !important;
+        right: 8px !important;
+        padding: 6px !important;
+    }
+
+    .likeIcon {
+        width: 20px !important;
+        height: 20px !important;
+    }
+}

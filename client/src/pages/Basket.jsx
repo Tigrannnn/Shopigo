@@ -1,5 +1,5 @@
 import BasketProduct from '../components/BasketProduct'
-import cls from '../styles/Basket.module.scss'
+import cls from '../styles/pages/Basket.module.scss'
 import { ReactComponent as CheckboxCheckIcon } from '../assets/icons/checkbox-check.svg'
 import { useBasketState } from '../store/useBasketState'
 import { LOGIN_ROUTE, SHOP_ROUTE } from '../utils/consts'

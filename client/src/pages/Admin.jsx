@@ -1,4 +1,4 @@
-import cls from "../styles/Admin.module.scss"
+import cls from "../styles/pages/Admin.module.scss"
 import { ReactComponent as UserIcon } from '../assets/icons/user.svg'
 import { ReactComponent as ShopIcon } from '../assets/icons/shop.svg'
 import { ReactComponent as OrdersIcon } from '../assets/icons/orders.svg'

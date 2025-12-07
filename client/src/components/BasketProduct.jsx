@@ -1,4 +1,4 @@
-import cls from '../styles/BasketProduct.module.scss'
+import cls from '../styles/components/BasketProduct.module.scss'
 import { useNavigate } from 'react-router-dom'
 import { ReactComponent as CheckboxCheckIcon } from '../assets/icons/checkbox-check.svg'
 import { ReactComponent as LikeIcon } from '../assets/icons/like.svg'

@@ -1,4 +1,4 @@
-import cls from "../styles/Profile.module.scss"
+import cls from "../styles/pages/Profile.module.scss"
 import { ReactComponent as UserIcon } from '../assets/icons/user.svg';
 import { useFavoritesState } from '../store/useFavoritesState';
 import { useOrderState } from '../store/useOrderState';
@@ -140,7 +140,7 @@ function Profile() {
 
             </section>
 
-            
+
         </div>
     )
 }

@@ -1,7 +1,7 @@
 import Shop from "../pages/Shop"
 import { useProductsState } from "../store/useProductsState"
 import { useRecentlyWatchedState } from "../store/useRecentlyWatchedState"
-import cls from '../styles/RecomendedBlock.module.scss'
+import cls from '../styles/components/RecomendedBlock.module.scss'
 import ProductCard from "./ProductCard"
 
 function RecomendedBlock() {

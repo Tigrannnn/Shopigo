@@ -1,0 +1,115 @@
+@import '../../global.scss';
+
+.SellerInfoModal {
+    position: absolute;
+    top: 95%;
+    left: 0;
+    width: 100%;
+    min-height: 300px;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.504);
+    border-radius: 10px;
+    padding: 20px;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    transform: scale(0);
+    transition: transform .3s ease-in-out;
+    pointer-events: none;
+
+    &.open {
+        transform: scale(1);
+        pointer-events: auto;
+    }
+
+    .sellerHeader {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        .sellerName {
+            font-size: 24px;
+            font-weight: 700;
+            color: $textColor;
+            margin: 0;
+        }
+
+        .ratingInfo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            .starIcon {
+                width: 20px;
+                height: 20px;
+                color: #f39c12;
+            }
+
+            .rating {
+                font-size: 18px;
+                font-weight: 600;
+                color: $textColor;
+            }
+
+            .reviewsCount {
+                font-size: 14px;
+                color: #7f8c8d;
+            }
+        }
+    }
+
+    .sellerStats {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+
+        .statItem {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+
+            .statLabel {
+                font-size: 14px;
+                color: #7f8c8d;
+            }
+
+            .statValue {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                font-size: 14px;
+                font-weight: 500;
+                color: $textColor;
+
+                .trophyIcon {
+                    width: 16px;
+                    height: 16px;
+                    color: #f39c12;
+                }
+
+                .arrow {
+                    color: #bdc3c7;
+                    font-size: 16px;
+                    cursor: pointer;
+                    transition: $transition;
+
+                    &:hover {
+                        color: $siteBcColor;
+                    }
+                }
+            }
+        }
+    }
+
+    .allProductsButton {
+        @include defaultButton();
+        width: 100%;
+        height: 50px;
+        font-size: 16px;
+        font-weight: 600;
+        border: 2px solid #ecf0f1;
+        margin-top: 10px;
+    }
+}

@@ -1,10 +1,8 @@
-import cls from '../styles/Comment.module.scss';
+import cls from '../styles/components/Comment.module.scss';
 import { ReactComponent as UserIcon } from '../assets/icons/user.svg';
 import { ReactComponent as StarIcon } from '../assets/icons/star.svg';
 
 function Comment({product}) {
-    console.log(product);
-    
     return (
         <div className={cls.comment}>
             <div className={cls.header}>

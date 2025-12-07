@@ -1,4 +1,4 @@
-import cls from "../styles/Header.module.scss"
+import cls from "../styles/components/Header.module.scss"
 import { Link, useLocation } from "react-router-dom"
 import { BASKET_ROUTE, FAVORITES_ROUTE, LOGIN_ROUTE, SHOP_ROUTE, ORDERS_ROUTE, PROFILE_ROUTE } from "../utils/consts"
 import { useMenuState } from "../store/useMenuState"

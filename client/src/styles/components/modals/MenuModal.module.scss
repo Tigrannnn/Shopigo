@@ -1,0 +1,60 @@
+@import '../../global.scss';
+
+.MenuModal{
+    width: 400px;
+    height: 100vh;
+    background-color: #FFF;
+    position: fixed;
+    z-index: 98;
+    padding: 120px 20px 20px 20px;
+    left: 0;
+    top: 0;
+    transform: translateX(-100%);
+    transition: $transition;;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    overflow-y: auto;
+    @include boxShadow();
+
+    &.open {
+        transform: translateX(0);
+    }
+
+    .categoryWrapper {
+        @include boxShadowButton();
+        color: $textColor;
+        justify-content: flex-start;
+        padding: 10px 8px;
+        @include boxShadow();
+
+        &:last-child {
+            border-bottom: none;
+        }
+
+        div{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            flex-shrink: 0;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #f2f4f8 0%, #ffffff 100%);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            margin-right: 10px;
+            
+            img{
+                width: 24px;
+                height: 24px;
+                object-fit: contain;
+            }
+        }
+
+        h4 {
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 1.25;
+        }
+    }
+}

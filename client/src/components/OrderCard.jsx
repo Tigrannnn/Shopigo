@@ -1,4 +1,4 @@
-import cls from '../styles/OrderCard.module.scss'
+import cls from '../styles/components/OrderCard.module.scss'
 import { useNavigate } from 'react-router-dom'
 import { ReactComponent as LikeIcon } from '../assets/icons/like.svg'
 import { ReactComponent as ShareIcon } from '../assets/icons/share.svg'

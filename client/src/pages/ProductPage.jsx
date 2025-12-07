@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import cls from '../styles/ProductPage.module.scss'
+import cls from '../styles/pages/ProductPage.module.scss'
 import { use, useState } from 'react'
 import { ReactComponent as LikeIcon } from '../assets/icons/like.svg';
 import { ReactComponent as ShareIcon } from '../assets/icons/share.svg';
@@ -10,9 +10,9 @@ import { ReactComponent as ShopIcon } from '../assets/icons/shop.svg';
 import { ReactComponent as CopyIcon } from '../assets/icons/copy.svg';
 import { ReactComponent as BackIcon } from '../assets/icons/back.svg';
 import { useColorVariantState } from '../store/useColorVariantState';
-import ColorVariantModal from '../components/ColorVariantModal';
+import ColorVariantModal from '../components/modals/ColorVariantModal';
 import { useSellerInfoState } from '../store/useSellerInfoState';
-import SellerInfoModal from '../components/SellerInfoModal';
+import SellerInfoModal from '../components/modals/SellerInfoModal';
 import { useParams } from 'react-router-dom';
 import { useBasketState } from '../store/useBasketState';
 import { useFavoritesState } from '../store/useFavoritesState';

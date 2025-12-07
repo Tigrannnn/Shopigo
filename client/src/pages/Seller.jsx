@@ -1,4 +1,4 @@
-import cls from "../styles/Seller.module.scss"
+import cls from "../styles/pages/Seller.module.scss"
 import { useParams } from "react-router-dom";
 import { useProductsState } from "../store/useProductsState";
 import { ReactComponent as StarIcon } from '../assets/icons/star.svg';

@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from 'react-router-dom'
-import cls from '../styles/Catalog.module.scss'
+import cls from '../styles/pages/Catalog.module.scss'
 import { useCategoryState } from '../store/useCategoryState'
 import { SHOP_ROUTE } from '../utils/consts';
 import ProductCard from '../components/ProductCard.jsx'

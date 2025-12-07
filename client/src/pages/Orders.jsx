@@ -1,4 +1,4 @@
-import cls from '../styles/Orders.module.scss';
+import cls from '../styles/pages/Orders.module.scss';
 import { useOrderState } from '../store/useOrderState';
 import { Link } from 'react-router-dom';
 import { BASKET_ROUTE, LOGIN_ROUTE } from '../utils/consts';

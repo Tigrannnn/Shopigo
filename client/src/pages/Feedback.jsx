@@ -1,5 +1,5 @@
 import { useFeedbackState } from '../store/useFeedbackState';
-import cls from '../styles/Feedback.module.scss';
+import cls from '../styles/pages/Feedback.module.scss';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useProductsState } from '../store/useProductsState';
 import { ReactComponent as BackIcon } from '../assets/icons/back.svg';

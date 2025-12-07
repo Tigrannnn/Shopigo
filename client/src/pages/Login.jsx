@@ -1,4 +1,4 @@
-import cls from '../styles/Login.module.scss'
+import cls from '../styles/pages/Login.module.scss'
 import { Link } from 'react-router-dom'
 import { PRIVACY_POLICY_ROUTE, TERMS_OF_USE_ROUTE } from '../utils/consts'
 import { ReactComponent as EnvelopeIcon } from '../assets/icons/envelope.svg';

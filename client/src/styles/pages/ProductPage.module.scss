@@ -1,0 +1,618 @@
+@import '../global.scss';
+
+@mixin variantsWrapper {
+    width: 100%;
+    height: 50%;
+    display: flex;
+    padding-top: 10px;
+    gap: 12px;
+}
+
+.ProductPage {
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    padding: 0 20px;
+    
+    @media (max-width: 1200px) {
+        padding: 0 15px;
+    }
+    
+    @media (max-width: 768px) {
+        padding: 0 10px;
+    }
+}
+
+.topSection {
+    width: 100%;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    
+    @media (max-width: 768px) {
+        height: 50px;
+        margin-bottom: 8px;
+    }
+
+    .breadcrumbs {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+
+        .backButton {
+            background: none;
+            border: none;
+            padding: 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: $transition;
+            
+            &:hover {
+                background-color: rgba(0, 0, 0, 0.05);
+                transform: scale(1.1);
+            }
+            
+            @include active;
+
+            svg {
+                width: 32px;
+                height: 32px;
+                color: lighten($textColor, 30%);
+                stroke-width: 2;
+            }
+        }
+
+        ul {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+
+            li {
+                margin: 0;
+                padding: 0;
+                font-size: 20px;
+                color: lighten($textColor, 40%);
+                @include underline;
+            }
+
+            span {
+                color: lighten($textColor, 50%);
+                font-size: 14px;
+            }
+        }
+    }
+
+    .productActions {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+
+        .actionButton {
+            @include actionButton;
+
+            .likeIcon,
+            .shareIcon,
+            .commentIcon {
+                width: 32px;
+                height: 32px;
+                color: $textColor;
+                stroke-width: 2;
+            }
+
+            .likeIcon {
+                color: $likeColor;
+            }
+        }
+    }
+}
+
+
+.mainSection {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 380px;
+    gap: 30px;
+    align-items: start;
+    // @include blackBorder;
+    
+    @media (max-width: 1200px) {
+        grid-template-columns: 1fr 1fr 340px;
+        gap: 25px;
+    }
+    
+    @media (max-width: 992px) {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .sliders {
+        display: flex;
+        gap: 15px;
+        height: 600px;
+        
+        @media (max-width: 992px) {
+            height: 500px;
+        }
+        
+        @media (max-width: 768px) {
+            height: 400px;
+            gap: 10px;
+        }
+
+        .leftSide {
+            width: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            overflow-y: auto;
+            padding-top: 2.5px;
+
+            img {
+                width: 80px;
+                object-fit: cover;
+                border-radius: 8px;
+                cursor: pointer;
+                transition: $transition;
+                outline: 3px solid transparent;
+
+                &:hover {
+                    transform: scale(1.05);
+                }
+
+                // outline: 3px solid $siteBcColor;
+                // outline-offset: 1px;
+
+                @include active;
+            }
+        }
+
+        .rightSide {
+            flex: 1;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+
+            img {
+                width: 400px;
+                object-fit: cover;
+                border-radius: 12px;
+            }
+        }
+    }
+
+    .infoWrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+        padding: 0 20px;
+        
+        @media (max-width: 992px) {
+            padding: 0;
+        }
+
+        .nameWrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            
+            h1 {
+                font-size: 28px;
+                font-weight: 600;
+                line-height: 1.3;
+                margin: 0;
+                color: $textColor;
+                
+                @media (max-width: 768px) {
+                    font-size: 24px;
+                }
+            }
+            
+            ul {
+                display: flex;
+                margin: 0;
+                padding: 0;
+                gap: 15px;
+                list-style: none;
+                align-items: center;
+                flex-wrap: wrap;
+
+                li {
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                    cursor: pointer;
+                    transition: $transition;
+                    padding: 5px;
+                    border-radius: 6px;
+                    color: $textColor;
+                    
+                    &:hover {
+                        transform: scale(1.04);
+                        color: $siteBcColor;
+                    }
+                    
+                    &:focus-visible {
+                        outline: 2px solid $siteBcColor;
+                        outline-offset: 2px;
+                    }
+                    
+                    @include active;
+                    
+                    button {
+                        background: none;
+                        border: none;
+                        padding: 0;
+                        cursor: pointer;
+                        transition: $transition;
+                        color: inherit;
+                        font-size: 14px;
+                    }
+
+                    span {
+                        font-size: 14px;
+                        color: inherit;
+                    }
+
+                    .starIcon,
+                    .commentIcon {
+                        width: 24px;
+                        height: 24px;
+                        transition: $transition;
+                    }
+
+                    .starIcon {
+                        color: $starColor;
+                    }
+                }
+
+                span {
+                    color: lighten($textColor, 10%);
+                    font-size: 18px;
+                }
+            }
+        }
+
+        .variantsBlockWrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            position: relative;
+            // @include blackBorder;
+
+            .colorVariantsWrapper {
+                @include variantsWrapper;
+                overflow-x: auto;
+                // @include blackBorder;
+                flex-wrap: nowrap;
+                padding-bottom: 10px;
+                padding-left: 3px;
+                padding: 10px 3px;
+                align-items: center;
+
+                img {
+                    height: 100%;
+                    object-fit: cover;
+                    border-radius: 10px;
+                    height: 100px;
+                    cursor: pointer;
+                    transition: $transition;
+                    flex-shrink: 0;
+                    position: relative;
+
+                    &:hover {
+                        transform: scale(1.06);
+                    }
+                    
+                    @include active;
+                }
+            }
+
+            .sizeVariantsWrapper {
+                @include variantsWrapper;
+                flex-wrap: wrap;
+                gap: 10px;
+
+                .sizeVariant {
+                    @include defaultButton(white, 1.08);
+                    @include boxShadow(transparent, rgb(225, 225, 225));
+                    min-width: 50px;
+                    height: 50px;
+                    border: 2px solid #e0e0e0;
+                    font-size: 14px;
+                    color: $textColor;
+                    
+                    &.selected {
+                        border-color: $siteBcColor;
+                        background-color: $siteBcColor;
+                        color: white;
+                    }
+                    
+                    &:focus-visible {
+                        outline: 2px solid $siteBcColor;
+                        outline-offset: 2px;
+                    }
+                }
+            }
+        }
+
+        .paramsWrapper {
+            ul {
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+                list-style: none;
+                color: $textColor;
+
+                li {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 10px 0;
+
+                    span {
+                        font-size: 16px;
+                        font-weight: 500;
+
+                        &:first-child {
+                            color: lighten($textColor, 30%);
+                            font-weight: 400;
+                        }
+                    }
+                    
+                    .copyButton {
+                        background: none;
+                        border: none;
+                        padding: 5px 10px;
+                        border-radius: 6px;
+                        cursor: pointer;
+                        transition: $transition;
+                        display: flex;
+                        align-items: center;
+                        gap: 8px;
+                        font-size: 16px;
+                        font-weight: 500;
+                        color: $textColor;
+
+                        &:hover {
+                            transform: scale(1.05);
+                            color: $siteBcColor;
+                        }
+                        
+                        &:focus-visible {
+                            outline: 2px solid $siteBcColor;
+                            outline-offset: 2px;
+                        }
+
+                        &:active {
+                            color: darken($textColor, 10%);
+                        }
+                        
+                        @include active;
+
+                        .copyIcon {
+                            width: 28px;
+                            height: 28px;
+                            stroke-width: 2;
+                        }
+                    }
+                }
+
+                hr {
+                    margin: 0;
+                    border: none;
+                    height: 1px;
+                    background-color: lighten($textColor, 30%);
+                }
+            }
+        }
+    }
+
+    .priceBoxWrapper {
+        position: sticky;
+        
+        @media (max-width: 992px) {
+            position: static;
+        }
+
+        .priceBox {
+            width: 100%;
+            max-width: 100%;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            padding: 30px;
+            @include boxShadow;
+            background: white;
+
+            @media (max-width: 992px) {
+                max-width: none;
+            }
+
+            .priceWrapper {
+                display: flex;
+                align-items: center;
+
+                h2 {
+                    color: #e74c3c;
+                    font-size: 28px;
+                    font-weight: 700;
+                    margin: 0;
+                    
+                    @media (max-width: 768px) {
+                        font-size: 24px;
+                    }
+                }
+            }
+
+            .buttonsWrapper {
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+
+                button {
+                    width: 100%;
+                    height: 55px;
+                    @include defaultButton;
+                }
+                
+                .secondaryButton {
+                    @include secondaryButton;
+                }
+            }
+        }
+
+        .sellerInfoWrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+
+            div {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+
+                &.deliveryInfo {
+                    padding: 8px 12px;
+                    background: rgba(52, 152, 219, 0.1);
+                    border-radius: 8px;
+                    transition: $transition;
+
+                    .boxIcon {
+                        width: 18px;
+                        height: 18px;
+                        color: #3498db;
+                    }
+
+                    span {
+                        font-size: 14px;
+                        color: $textColor;
+                        font-weight: 500;
+                    }
+
+                    &:hover {
+                        background: rgba(52, 152, 219, 0.15);
+                    }
+                }
+
+                &.sellerInfo {
+                    padding: 8px 12px;
+                    background: rgba(61, 255, 142, 0.25);
+                    border-radius: 8px;
+                    transition: $transition;
+                    align-items: center;
+                    gap: 10px;
+                    cursor: pointer;
+
+                    .shopIcon {
+                        width: 18px;
+                        height: 18px;
+                        color: #2ecc71;
+                    }
+
+                    span {
+                        font-size: 14px;
+                        color: $textColor;
+                        font-weight: 500;
+                    }
+
+                    &:hover {
+                        transform: scale(1.04);
+                        background: rgba(35, 255, 126, 0.35);
+                        
+
+                        .sellerRating {
+                            background: rgba(243, 156, 18, 0.25);
+                        }
+                    }
+
+                    @include active;
+
+                    &:active {
+                        background: rgba(30, 240, 117, 0.278);
+                    }
+                }
+
+                .boxIcon,
+                .shopIcon {
+                    width: 20px;
+                    height: 20px;
+                    color: #666;
+                    stroke-width: 2;
+                    vertical-align: middle;
+                }
+
+                span {
+                    font-size: 15px;
+                    color: #666;
+                    font-weight: 600;
+                    margin-right: 2px;
+                }
+                
+                &:last-child {
+                    transition: $transition;
+                    cursor: pointer;
+
+                    .sellerRating {
+                        display: flex;
+                        align-items: center;
+                        gap: 6px;
+                        margin-left: 8px;
+                        padding: 4px 8px;
+                        background: rgba(243, 156, 18, 0.1);
+                        border-radius: 6px;
+                        transition: $transition;
+
+                        .starIcon {
+                            width: 16px;
+                            height: 16px;
+                            color: #f39c12;
+                        }
+
+                        span {
+                            font-size: 13px;
+                            color: #666;
+                            font-weight: 500;
+                            margin: 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+
+.commentsSection {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    // @include blackBorder;
+    margin-top: 20px;
+
+    .commentsTitleWrapper {
+       @include tabButtons;
+    }
+
+    .commentsWrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        .allCommentsButton{
+            @include defaultButton;
+            padding: 14px 20px;
+        }
+    }
+}

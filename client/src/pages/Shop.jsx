@@ -1,5 +1,5 @@
 import ProductCard from '../components/ProductCard.jsx'
-import cls from '../styles/Shop.module.scss'
+import cls from '../styles/pages/Shop.module.scss'
 import { useProductsState } from '../store/useProductsState.js'
 import { useEffect, useState } from 'react'
 import { getProducts } from '../http/productApi.js'

@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import cls from '../styles/Policy.module.scss'
+import cls from '../styles/pages/Policy.module.scss'
 import { ReactComponent as BackIcon } from '../assets/icons/back.svg';
 import { useEffect } from 'react'
 

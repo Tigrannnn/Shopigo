@@ -1,0 +1,528 @@
+@import '../global.scss';
+
+.Admin {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: #f8f9fa;
+}
+
+.adminHeader {
+    background: white;
+    padding: 30px 40px;
+    border-bottom: 1px solid #e9ecef;
+    
+    h1 {
+        font-size: 32px;
+        font-weight: 700;
+        color: $textColor;
+        margin: 0 0 8px 0;
+    }
+    
+    p {
+        font-size: 16px;
+        color: lighten($textColor, 30%);
+        margin: 0;
+    }
+    
+    @media (max-width: 768px) {
+        padding: 20px;
+        
+        h1 {
+            font-size: 28px;
+        }
+        
+        p {
+            font-size: 14px;
+        }
+    }
+}
+
+.adminContent {
+    display: flex;
+    flex: 1;
+    
+    @media (max-width: 768px) {
+        flex-direction: column;
+    }
+}
+
+.sidebar {
+    width: 280px;
+    background: white;
+    border-right: 1px solid #e9ecef;
+    padding: 20px 0;
+    
+    @media (max-width: 768px) {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #e9ecef;
+        padding: 15px 0;
+    }
+}
+
+.sidebarNav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 0 20px;
+    
+    @media (max-width: 768px) {
+        flex-direction: row;
+        overflow-x: auto;
+        padding: 0 15px;
+        gap: 12px;
+    }
+}
+
+.navButton {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background: none;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: $transition;
+    color: lighten($textColor, 40%);
+    font-size: 14px;
+    font-weight: 500;
+    text-align: left;
+    width: 100%;
+    
+    &:hover {
+        background: rgba($siteBcColor, 0.05);
+        color: $siteBcColor;
+        transform: translateX(4px);
+        
+        @media (max-width: 768px) {
+            transform: translateY(-2px);
+        }
+    }
+    
+    // &:focus-visible {
+    //     outline: 2px solid $siteBcColor;
+    //     outline-offset: 2px;
+    // }
+    
+    @include active;
+    
+    @media (max-width: 768px) {
+        flex-direction: column;
+        gap: 6px;
+        padding: 10px 12px;
+        min-width: 80px;
+        text-align: center;
+        font-size: 12px;
+    }
+    
+    .navIcon {
+        width: 20px;
+        height: 20px;
+        stroke-width: 2;
+        
+        @media (max-width: 768px) {
+            width: 18px;
+            height: 18px;
+        }
+    }
+    
+    &.active {
+        background: $siteBcColor;
+        color: white;
+        
+        &:hover {
+            background: lighten($siteBcColor, 8%);
+            transform: translateX(4px);
+            
+            @media (max-width: 768px) {
+                transform: translateY(-2px);
+            }
+        }
+    }
+}
+
+.mainContent {
+    flex: 1;
+    padding: 30px;
+    overflow-y: auto;
+    
+    @media (max-width: 768px) {
+        padding: 20px;
+    }
+}
+
+.dashboard {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.statsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    
+    @media (max-width: 768px) {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+    }
+}
+
+.statCard {
+    background: white;
+    padding: 24px;
+    border-radius: 12px;
+    @include boxShadow;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    transition: $transition;
+    
+    &:hover {
+        transform: translateY(-2px);
+    }
+    
+    @media (max-width: 768px) {
+        padding: 20px;
+        gap: 12px;
+    }
+    
+    .statIcon {
+        width: 60px;
+        height: 60px;
+        background: rgba($siteBcColor, 0.1);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+        svg {
+            width: 28px;
+            height: 28px;
+            color: $siteBcColor;
+            stroke-width: 2;
+        }
+        
+        @media (max-width: 768px) {
+            width: 50px;
+            height: 50px;
+            
+            svg {
+                width: 24px;
+                height: 24px;
+            }
+        }
+    }
+    
+    .statInfo {
+        flex: 1;
+        
+        h3 {
+            font-size: 24px;
+            font-weight: 700;
+            color: $textColor;
+            margin: 0 0 4px 0;
+            
+            @media (max-width: 768px) {
+                font-size: 20px;
+            }
+        }
+        
+        p {
+            font-size: 14px;
+            color: lighten($textColor, 30%);
+            margin: 0;
+            
+            @media (max-width: 768px) {
+                font-size: 12px;
+            }
+        }
+    }
+}
+
+.section {
+    background: white;
+    border-radius: 12px;
+    @include boxShadow;
+    overflow: hidden;
+}
+
+.sectionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 30px;
+    border-bottom: 1px solid #e9ecef;
+    
+    h2 {
+        font-size: 20px;
+        font-weight: 600;
+        color: $textColor;
+        margin: 0;
+    }
+    
+    @media (max-width: 768px) {
+        padding: 20px;
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-start;
+        
+        h2 {
+            font-size: 18px;
+        }
+    }
+}
+
+.viewAllButton {
+    @include defaultButton;
+    padding: 8px 16px;
+    font-size: 14px;
+    
+    @media (max-width: 768px) {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+}
+
+.tableContainer {
+    overflow-x: auto;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    
+    th, td {
+        padding: 16px 20px;
+        text-align: left;
+        border-bottom: 1px solid #e9ecef;
+        
+        @media (max-width: 768px) {
+            padding: 12px 15px;
+            font-size: 14px;
+        }
+    }
+    
+    th {
+        background: #f8f9fa;
+        font-weight: 600;
+        color: $textColor;
+        font-size: 14px;
+        
+        @media (max-width: 768px) {
+            font-size: 12px;
+        }
+    }
+    
+    td {
+        color: $textColor;
+        font-size: 14px;
+        
+        @media (max-width: 768px) {
+            font-size: 12px;
+        }
+    }
+    
+    tr:hover {
+        background: #f8f9fa;
+    }
+}
+
+.statusBadge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    
+    @media (max-width: 768px) {
+        padding: 3px 8px;
+        font-size: 10px;
+    }
+}
+
+.actionButtons {
+    display: flex;
+    gap: 8px;
+    
+    @media (max-width: 768px) {
+        gap: 6px;
+    }
+}
+
+.actionButton {
+    @include actionButton;
+    width: 32px;
+    height: 32px;
+    
+    svg {
+        width: 16px;
+        height: 16px;
+        color: #666;
+        stroke-width: 2;
+    }
+    
+    &:hover {
+        background: rgba($siteBcColor, 0.1);
+        
+        svg {
+            color: $siteBcColor;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        width: 28px;
+        height: 28px;
+        
+        svg {
+            width: 14px;
+            height: 14px;
+        }
+    }
+}
+
+// Tab styles
+.usersTab,
+.productsTab,
+.ordersTab,
+.categoriesTab,
+.reviewsTab {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.tabHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    h2 {
+        font-size: 24px;
+        font-weight: 600;
+        color: $textColor;
+        margin: 0;
+    }
+    
+    @media (max-width: 768px) {
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-start;
+        
+        h2 {
+            font-size: 20px;
+        }
+    }
+}
+
+.addButton {
+    @include defaultButton;
+    padding: 12px 20px;
+    font-size: 14px;
+    
+    @media (max-width: 768px) {
+        padding: 10px 16px;
+        font-size: 12px;
+    }
+}
+
+.searchBar {
+    position: relative;
+    max-width: 400px;
+    
+    @media (max-width: 768px) {
+        max-width: 100%;
+    }
+    
+    .searchIcon {
+        position: absolute;
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 18px;
+        height: 18px;
+        color: lighten($textColor, 40%);
+        stroke-width: 2;
+    }
+    
+    .searchInput {
+        width: 100%;
+        padding: 12px 16px 12px 44px;
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        font-size: 14px;
+        transition: $transition;
+        background: white;
+        
+        &:focus {
+            outline: none;
+            border-color: $siteBcColor;
+            box-shadow: 0 0 0 3px rgba($siteBcColor, 0.1);
+        }
+        
+        &::placeholder {
+            color: lighten($textColor, 40%);
+        }
+        
+        @media (max-width: 768px) {
+            padding: 10px 12px 10px 40px;
+            font-size: 13px;
+        }
+    }
+}
+
+.placeholderContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 20px;
+    text-align: center;
+    background: white;
+    border-radius: 12px;
+    @include boxShadow;
+    
+    @media (max-width: 768px) {
+        padding: 60px 20px;
+    }
+    
+    .placeholderIcon {
+        width: 80px;
+        height: 80px;
+        color: lighten($textColor, 60%);
+        stroke-width: 1;
+        margin-bottom: 20px;
+        
+        @media (max-width: 768px) {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 16px;
+        }
+    }
+    
+    h3 {
+        font-size: 20px;
+        font-weight: 600;
+        color: $textColor;
+        margin: 0 0 8px 0;
+        
+        @media (max-width: 768px) {
+            font-size: 18px;
+        }
+    }
+    
+    p {
+        font-size: 14px;
+        color: lighten($textColor, 30%);
+        margin: 0;
+        
+        @media (max-width: 768px) {
+            font-size: 13px;
+        }
+    }
+}

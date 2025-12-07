@@ -1,4 +1,4 @@
-import cls from '../styles/Loader.module.scss';
+import cls from '../styles/components/Loader.module.scss';
 import { ReactComponent as LoaderIcon } from '../assets/icons/loader.svg';
 
 function Loader({load}) {
