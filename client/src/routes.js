@@ -11,6 +11,8 @@ import Orders from "./pages/Orders"
 import Profile from "./pages/Profile"
 import Seller from "./pages/Seller"
 import Feedback from "./pages/Feedback"
+import NotFound from "./pages/NotFound"
+import { Navigate } from "react-router-dom"
 import { ADMIN_ROUTE, BASKET_ROUTE, FAVORITES_ROUTE, LOGIN_ROUTE, SHOP_ROUTE, PRODUCT_ROUTE, TERMS_OF_USE_ROUTE, PRIVACY_POLICY_ROUTE, ORDERS_ROUTE, PROFILE_ROUTE, SELLER_ROUTE, CATEGORY_ROUTE, QUESTION_ROUTE, REVIEW_ROUTE } from "./utils/consts"
 
 export const routes = [
@@ -66,6 +68,17 @@ export const routes = [
         path: `${PRODUCT_ROUTE}/:id${QUESTION_ROUTE}`,
         element: <Feedback />,
     },
+    // {
+    //     path: '*',
+    //     element: <Navigate to={SHOP_ROUTE} replace />,
+    // },
+    {
+        path: '*',
+        element: <NotFound />,
+    }
+]
+
+export const adminRoutes = [
     {
         path: ADMIN_ROUTE,
         element: <Admin />,

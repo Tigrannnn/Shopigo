@@ -76,7 +76,6 @@ function Admin() {
             </div>
 
             <div className={cls.adminContent}>
-                {/* Sidebar Navigation */}
                 <aside className={cls.sidebar}>
                     <nav className={cls.sidebarNav}>
                         <button 
@@ -129,11 +128,9 @@ function Admin() {
                     </nav>
                 </aside>
 
-                {/* Main Content */}
                 <main className={cls.mainContent}>
                     {activeTab === 'dashboard' && (
                         <div className={cls.dashboard}>
-                            {/* Stats Cards */}
                             <div className={cls.statsGrid}>
                                 <div className={cls.statCard}>
                                     <div className={cls.statIcon}>
@@ -176,7 +173,6 @@ function Admin() {
                                 </div>
                             </div>
 
-                            {/* Recent Orders */}
                             <div className={cls.section}>
                                 <div className={cls.sectionHeader}>
                                     <h2>Recent Orders</h2>
@@ -231,7 +227,6 @@ function Admin() {
                                 </div>
                             </div>
 
-                            {/* Recent Users */}
                             <div className={cls.section}>
                                 <div className={cls.sectionHeader}>
                                     <h2>Recent Users</h2>

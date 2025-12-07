@@ -6,7 +6,7 @@ import { useBasketState } from '../store/useBasketState';
 import { ReactComponent as BasketIcon } from '../assets/icons/basket.svg';
 import { ReactComponent as OrdersIcon } from '../assets/icons/orders.svg';
 import { ReactComponent as LikeIcon } from '../assets/icons/like.svg';
-import { BASKET_ROUTE, FAVORITES_ROUTE, ORDERS_ROUTE } from '../utils/consts';
+import { ADMIN_ROUTE, BASKET_ROUTE, FAVORITES_ROUTE, ORDERS_ROUTE } from '../utils/consts';
 import { useNavigate } from 'react-router-dom';
 import { ReactComponent as CommentIcon } from '../assets/icons/comment.svg';
 import { ReactComponent as CreditCardIcon } from '../assets/icons/creditCard.svg';
@@ -22,6 +22,7 @@ function Profile() {
         document.title = 'Profile'
     }, [])
     const name = useProfileState(state => state.name)
+    const role = useProfileState(state => state.role)
     const balance = useProfileState(state => state.balance)
     const favoriteProducts = useFavoritesState(state => state.favoriteProducts)
     const orderProducts = useOrderState(state => state.orderProducts)
@@ -35,6 +36,8 @@ function Profile() {
 
     return (
         <div className={cls.Profile}>
+
+
             <aside className={cls.sidebar}>
                 <div className={cls.sidebarHeader}>
                     <div className={cls.userIconWrapper}>
@@ -62,7 +65,15 @@ function Profile() {
                     </div>
                     <span>Log Out</span>
                 </button>
+                {
+                    role === 'ADMIN' &&
+                    <button className={cls.profileButton} onClick={() => navigate(ADMIN_ROUTE)}>
+                        <span>Admin Panel</span>
+                    </button>
+                }
             </aside>
+
+
             <section className={cls.mainSection}>
                 <div className={cls.balanceWrapper}>
                     <h2 className={cls.balanceTitle}>Balance</h2>
@@ -126,8 +137,10 @@ function Profile() {
                         </div>
                     </div>
                 }
-                
+
             </section>
+
+            
         </div>
     )
 }

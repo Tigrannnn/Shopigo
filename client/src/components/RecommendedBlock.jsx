@@ -1,3 +1,4 @@
+import Shop from "../pages/Shop"
 import { useProductsState } from "../store/useProductsState"
 import { useRecentlyWatchedState } from "../store/useRecentlyWatchedState"
 import cls from '../styles/RecomendedBlock.module.scss'
@@ -23,11 +24,12 @@ function RecomendedBlock() {
             }
             <div className={cls.productListWrapper}>
                 <h2>Recomended</h2>
-                <div className={cls.productList}>
+                {/* <div className={cls.productList}>
                     {products.map(product => (
                         <ProductCard key={product.id} product={product}/>
                     ))}
-                </div>
+                </div> */}
+                <Shop />
             </div>
         </div>
     )

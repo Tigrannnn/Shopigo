@@ -38,17 +38,27 @@ function CenterModal() {
         closeCenterModal()
     }
 
-    const addSmth = () => {
-        if (centerModal === 'addCategory') {
-            if (!categoryNameInput) {
-                setError('Unvalid value')  
-                setTimeout(() => {
-                    setError('')
-                }, 4000)
-            } else {
-                createCategory(categoryNameInput)
-                closeCenterModal()
-            }
+    const addCategory = () => {
+        if (!categoryNameInput) {
+            setError('Unvalid value')  
+            setTimeout(() => {
+                setError('')
+            }, 4000)
+        } else {
+            createCategory(categoryNameInput)
+            closeCenterModal()
+        }
+    }
+
+    const addProduct = () => {
+        if (!categoryNameInput) {
+            setError('Unvalid value')  
+            setTimeout(() => {
+                setError('')
+            }, 4000)
+        } else {
+            createCategory(categoryNameInput)
+            closeCenterModal()
         }
     }
 
@@ -62,9 +72,10 @@ function CenterModal() {
                 if (centerModal === 'changeProfile') {
                     saveProfileChanges()
                     closeCenterModal()
-                }
-                if (centerModal === 'addCategory') {
-                    addSmth()
+                } else if (centerModal === 'addCategory') {
+                    addCategory()
+                } else if (centerModal === 'addProduct') {
+                    addProduct()
                 }
             }
         }
@@ -204,12 +215,18 @@ function CenterModal() {
                                 <input type="number" />
                             </div>
                             <div className={cls.addItem}>
-                                <div>
-                                    
+                                <div className={cls.selectWrapper}>
+                                    <button className={cls.selectButton}>
+                                        <span>hi</span>
+                                    </button>
+                                    <button className={cls.selectButton}>
+                                        <span>hi</span>
+                                    </button>
                                 </div>
                             </div>
+                            {error && <span className={cls.errorText}>{error}</span>}
                             <div className={cls.addItem}>
-                                <button onClick={() => addSmth()}>Add Category</button>
+                                <button onClick={() => addProduct()}>Add Product</button>
                             </div>
                         </div>
                     </>
@@ -234,7 +251,7 @@ function CenterModal() {
                             </div>
                             {error && <span className={cls.errorText}>{error}</span>}
                             <div className={cls.addItem}>
-                                <button onClick={() => addSmth()}>Add Category</button>
+                                <button onClick={() => addCategory()}>Add Category</button>
                             </div>
                         </div>
                     </>

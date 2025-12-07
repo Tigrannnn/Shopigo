@@ -17,7 +17,7 @@ function Catalog() {
   const [category, setCategory] = useState({})
   
   useEffect(() => {
-    document.title = category?.name || 'Catalog'
+    document.title = capitalizeFirstLetter(category?.name) || 'Catalog'
   }, [category])
 
   const setProducts = useProductsState(state => state.setProducts)

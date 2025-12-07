@@ -12,40 +12,49 @@ import { useState, useEffect } from 'react';
 import Comment from '../components/Comment';
 import { useLocation } from 'react-router-dom';
 import { REVIEW_ROUTE, QUESTION_ROUTE } from '../utils/consts';
+import { getOneProduct } from '../http/productApi';
+import Loader from '../components/Loader';
 
 function Feedback() {
     const feedback = useFeedbackState((state) => state.feedback)
     const location = useLocation()
 
-    const products = useProductsState(state => state.products)
     const { id } = useParams()
-    const product = products.find(product => product.id === id)
+    const [product, setProduct] = useState({})
 
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        if (product) {
-            const isReviewPage = location.pathname.includes(REVIEW_ROUTE)
-            const isQuestionPage = location.pathname.includes(QUESTION_ROUTE)
-            
-            if (isReviewPage) {
-                document.title = `${product.name} - Reviews`
-            } else if (isQuestionPage) {
-                document.title = `${product.name} - Questions`
-            } else {
-                document.title = product.name || 'Feedback'
-            }
+        getOneProduct(id).then(data => {
+            setProduct(data)
+        }).finally(() => setLoading(false))
+    }, [])
+
+    useEffect(() => {
+        const isReviewPage = location.pathname.includes(REVIEW_ROUTE)
+        const isQuestionPage = location.pathname.includes(QUESTION_ROUTE)
+        
+        if (isReviewPage) {
+            document.title = `${product?.name} - Reviews` || 'Reviews'
+        } else if (isQuestionPage) {
+            document.title = `${product?.name} - Questions` || 'Questions'
+        } else {
+            document.title = `${product?.name} - 'Feedback'` || 'Feedback'
         }
     }, [product, location.pathname])
+
+    console.log(product);
+    
 
     const addToBasket = useBasketState(state => state.addToBasket)
     const basketProducts = useBasketState(state => state.basketProducts)
     const removeFromBasket = useBasketState(state => state.removeFromBasket)
-    const isBasket = basketProducts.some(item => item.id === product.id)
+    const isBasket = basketProducts.some(item => item.id === id)
 
     const addToFavorites = useFavoritesState(state => state.addToFavorites)
     const removeFromFavorites = useFavoritesState(state => state.removeFromFavorites)
     const favoriteProducts = useFavoritesState(state => state.favoriteProducts)
-    const isFavorite = favoriteProducts.some(item => item.id === product.id)
+    const isFavorite = favoriteProducts.some(item => item.id === id)
 
     const [reviewVariant, setReviewVariant] = useState('this')
 
@@ -61,6 +70,8 @@ function Feedback() {
         }
     }
 
+    if (loading) return <Loader />
+
     return (
         <div className={cls.Feedback}>
             {
@@ -74,7 +85,8 @@ function Feedback() {
                                 </button>
                             </div>
                             <div className={cls.headerBottom}>
-                                <img src={product.images[0]} alt="" onClick={() => navigate(`${PRODUCT_ROUTE}/${product.id}`)}/>
+                                {/* <img src={product.images[0]} alt="" onClick={() => navigate(`${PRODUCT_ROUTE}/${product.id}`)}/> */}
+                                <img src={process.env.REACT_APP_API_URL + product.image} alt="" onClick={() => navigate(`${PRODUCT_ROUTE}/${product.id}`)}/>
                                 <div className={cls.headerBottomInfo}>
                                     <Link to={`${PRODUCT_ROUTE}/${product.id}`}><h3>{product.seller.name}</h3> / <p>{product.name}</p></Link>
                                     <span><StarIcon fill="currentColor"/> {product.rating} ∙ <p>83,964 product ratings</p></span>
@@ -140,10 +152,10 @@ function Feedback() {
                             </div>
 
                             <div className={cls.commentList}>
-                                <Comment />
-                                <Comment />
-                                <Comment />
-                                <Comment />
+                                <Comment product={product}/>
+                                <Comment product={product}/>
+                                <Comment product={product}/>
+                                <Comment product={product}/>
                             </div>
                         </div>
                     </>

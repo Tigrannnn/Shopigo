@@ -32,7 +32,7 @@ function Comment({product}) {
                 </p>
             </div>
             <div className={cls.imagesBlock}>
-                <img src={process.env.REACT_APP_API_URL + product.image} alt="" />
+                <img src={process.env.REACT_APP_API_URL + product?.image} alt="" />
             </div>
             <div className={cls.sellerAnswerBlock}>
                 <div className={cls.sellerAnswer}>
