@@ -24,10 +24,10 @@ function LogOutModal() {
                 <h2>Log Out</h2>
                 <XIcon onClick={() => closeCenterModal()}/>
             </div>
-            <div className={cls.logoutContent}>
+            <div className={cls.logOutContent}>
                 <p>Are you sure you want to log out?</p>
                 <button 
-                    className={cls.logoutButton} 
+                    className={cls.logOutButton} 
                     onClick={() => handleLogOut()}
                 >
                     Yes, Log Out

@@ -14,10 +14,13 @@ import { useLocation } from 'react-router-dom';
 import { REVIEW_ROUTE, QUESTION_ROUTE } from '../utils/consts';
 import { getOneProduct } from '../http/productApi';
 import Loader from '../components/Loader';
+import { useModalState } from '../store/useModalState';
 
 function Feedback() {
     const feedback = useFeedbackState((state) => state.feedback)
     const location = useLocation()
+
+    const openCenterModal = useModalState(state => state.openCenterModal)
 
     const { id } = useParams()
     const [product, setProduct] = useState({})
@@ -49,12 +52,12 @@ function Feedback() {
     const addToBasket = useBasketState(state => state.addToBasket)
     const basketProducts = useBasketState(state => state.basketProducts)
     const removeFromBasket = useBasketState(state => state.removeFromBasket)
-    const isBasket = basketProducts.some(item => item.id === id)
+    const isBasket = basketProducts.some(item => item.id === product.id)
 
     const addToFavorites = useFavoritesState(state => state.addToFavorites)
     const removeFromFavorites = useFavoritesState(state => state.removeFromFavorites)
     const favoriteProducts = useFavoritesState(state => state.favoriteProducts)
-    const isFavorite = favoriteProducts.some(item => item.id === id)
+    const isFavorite = favoriteProducts.some(item => item.id === product.id)
 
     const [reviewVariant, setReviewVariant] = useState('this')
 
@@ -137,7 +140,9 @@ function Feedback() {
                                 </div>
 
                                 <div className={cls.feedbackTopSideWrite}>
-                                    <button>Write a review</button>
+                                    <button onClick={() => openCenterModal('writeReview')}>
+                                        Write review
+                                    </button>
                                 </div>
 
                                 <div className={cls.feedbackTopSideSort}>

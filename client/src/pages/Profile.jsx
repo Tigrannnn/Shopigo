@@ -21,6 +21,7 @@ function Profile() {
     useEffect(() => {
         document.title = 'Profile'
     }, [])
+    
     const name = useProfileState(state => state.name)
     const role = useProfileState(state => state.role)
     const balance = useProfileState(state => state.balance)
@@ -116,7 +117,9 @@ function Profile() {
                     </div>
                     <div className={cls.supportInfoWrapper}>
                         <div className={cls.supportInfoItem}>
-                            <span><CommentIcon /> Write to support</span>
+                            <span onClick={() => openCenterModal('writeSupport')}>
+                                <CommentIcon /> Write to support
+                            </span>
                         </div>
                     </div>
                 </div>

@@ -105,7 +105,6 @@ function LayOut() {
             setFavoriteProducts([])
         }
     }, [role])
-    
 
     if (loading) return <Loader load="app"/>
 

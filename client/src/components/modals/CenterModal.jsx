@@ -7,6 +7,8 @@ import LogOutModal from './LogOutModal';
 import ShareModal from './ShareModal';
 import AddCategoryModal from './AddCategoryModal';
 import AddProductModal from './AddProductModal';
+import WriteReviewModal from './WriteReviewModal';
+import WriteSupportModal from './WriteSupportModal';
 
 function CenterModal() {
     const centerModal = useModalState(state => state.centerModal)
@@ -20,15 +22,13 @@ function CenterModal() {
             }
         }
 
-
         document.addEventListener('keydown', handleKeyDown)
-
         return () => {
             document.removeEventListener('keydown', handleKeyDown)
         }
     }, [centerModal, closeCenterModal])
 
-    
+
     return(
         <div 
             className={`${cls.CenterModal} ${cls[centerModal]} ${centerModal === '' ? '' : cls.open} `} 
@@ -68,6 +68,18 @@ function CenterModal() {
             {
                 centerModal === 'addCategory' && (
                     <AddCategoryModal />
+                )
+            }
+
+            {
+                centerModal === 'writeReview' && (
+                    <WriteReviewModal />
+                )
+            }
+            
+            {
+                centerModal === 'writeSupport' && (
+                    <WriteSupportModal />
                 )
             }
         </div>
