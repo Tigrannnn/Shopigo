@@ -25,7 +25,7 @@ function MenuModal({onClick}) {
                         }}
                     >
                         <div className={cls.categoryIcon}>
-                            <img src={category.icon} alt="" />
+                            <img src={`/static/${category.icon}`} alt="" />
                         </div>
                         <h4>{capitalizeFirstLetter(category.name)}</h4>
                     </div>

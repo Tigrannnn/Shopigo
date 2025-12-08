@@ -3,7 +3,7 @@ import { $authHost, $host } from './index.js'
 export const createCategory = async (name) => {
     try {
         const body = {name}
-
+        console.log(body);
         const {data} = await $authHost.post('/api/category', body)
         return data
     } catch (e) {

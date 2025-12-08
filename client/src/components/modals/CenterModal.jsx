@@ -1,19 +1,22 @@
 import { useProfileState } from '../../store/useProfileState'
 import cls from '../../styles/components/modals/CenterModal.module.scss'
-import { ReactComponent as CreditCardIcon } from '../../assets/icons/creditCard.svg';
 import { ReactComponent as XIcon } from '../../assets/icons/x.svg';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState, useCallback } from 'react';
 import { useModalState } from '../../store/useModalState';
 import { useToastState } from '../../store/useToastState';
 import { createCategory } from '../../http/categoryApi';
+import ChangeProfileModal from './ChangeProfileModal';
+import PaymentModal from './PaymentModal';
+import LogOutModal from './LogOutModal';
+import ShareModal from './ShareModal';
+import AddCategoryModal from './AddCategoryModal';
 
 function CenterModal() {
     const centerModal = useModalState(state => state.centerModal)
     const closeCenterModal = useModalState(state => state.closeCenterModal)
     const shareUrl = useModalState(state => state.shareUrl)
     const openCenterModal = useModalState(state => state.openCenterModal)
-    const logOut = useProfileState(state => state.logOut)
     const userName = useProfileState(state => state.name)
     const setUserName = useProfileState(state => state.setName)
 
@@ -23,20 +26,6 @@ function CenterModal() {
     
 
     const [nameValue, setNameValue] = useState(userName !== '' ? userName : '')
-
-    const navigate = useNavigate()
-
-    const handleLogOut = () => {
-        logOut()
-        closeCenterModal()
-        navigate('/')
-        localStorage.removeItem('token')
-    }
-
-    const saveProfileChanges = () => { 
-        setUserName(nameValue)
-        closeCenterModal()
-    }
 
     const addCategory = () => {
         if (!categoryNameInput) {
@@ -69,12 +58,7 @@ function CenterModal() {
             }
             
             if (e.key === 'Enter') {
-                if (centerModal === 'changeProfile') {
-                    saveProfileChanges()
-                    closeCenterModal()
-                } else if (centerModal === 'addCategory') {
-                    addCategory()
-                } else if (centerModal === 'addProduct') {
+                if (centerModal === 'addProduct') {
                     addProduct()
                 }
             }
@@ -84,14 +68,7 @@ function CenterModal() {
         return () => {
             document.removeEventListener('keydown', handleKeyDown)
         }
-    }, [centerModal, closeCenterModal, saveProfileChanges])
-
-    const toast = useToastState(state => state.toast)
-
-    const handleCopyProductLink = () => {
-        navigator.clipboard?.writeText(shareUrl); 
-        toast('Product link copied');
-    }
+    }, [centerModal, closeCenterModal])
 
     return(
         <div 
@@ -101,96 +78,25 @@ function CenterModal() {
 
             {
                 centerModal === 'changeProfile' && (
-                    <>
-                        <div className={cls.header}>
-                            <h2>Change profile</h2>
-                            <XIcon onClick={() => closeCenterModal()}/>
-                        </div>
-                        <div className={cls.changeProfileContent}>
-                            <h3>Name</h3>
-                            <input 
-                                type="text" 
-                                value={nameValue} 
-                                onChange={(e) => setNameValue(e.target.value)}
-                            />
-                        </div>
-                        <button className={cls.save} onClick={saveProfileChanges}>
-                            <p>Save</p>
-                        </button>
-                    </>
+                    <ChangeProfileModal />
                 )
             }
 
             {
                 centerModal === 'payment' && (
-                    <>
-                        <div className={cls.header}>
-                            <h2>Payment methods</h2>
-                            <XIcon onClick={() => closeCenterModal()}/>
-                        </div>
-                        <button className={cls.addCardBtn} onClick={() => openCenterModal('addCard')}>
-                            <CreditCardIcon />
-                            <span>Add new card</span>
-                            <span>›</span>
-                        </button>
-                    </>
-                )
-            }
-
-            {
-                centerModal === 'addCard' && (
-                    <>
-                        <div className={cls.header}>
-                            <h2>Add new card</h2>
-                            <XIcon onClick={() => closeCenterModal()}/>
-                        </div>
-                    </>
+                    <PaymentModal />
                 )
             }
 
             {
                 centerModal === 'logout' && (
-                    <>
-                        <div className={cls.header}>
-                            <h2>Log Out</h2>
-                            <XIcon onClick={() => closeCenterModal()}/>
-                        </div>
-                        <div className={cls.logoutContent}>
-                            <p>Are you sure you want to log out?</p>
-                            <button 
-                                className={cls.logoutButton} 
-                                onClick={() => handleLogOut()}
-                            >
-                                Yes, Log Out
-                            </button>
-                            <button 
-                                className={cls.cancelButton} 
-                                onClick={() => closeCenterModal()}
-                            >
-                                No, Cancel
-                            </button>
-                        </div>
-                    </>
+                    <LogOutModal />
                 )
             }
 
             {
                 centerModal === 'share' && (
-                    <>
-                        <div className={cls.header}>
-                            <h2>Share product</h2>
-                            <XIcon onClick={() => closeCenterModal()}/>
-                        </div>
-                        <div className={cls.shareContent}>
-                            <p>Copy link and share with friends</p>
-                            <input type="text" value={shareUrl} readOnly />
-                            <button 
-                                onClick={() => handleCopyProductLink()}
-                            >
-                                Copy link
-                            </button>
-                        </div>
-                    </>
+                    <ShareModal />
                 )
             }
 
@@ -239,30 +145,7 @@ function CenterModal() {
 
             {
                 centerModal === 'addCategory' && (
-                    <>
-                        <div className={cls.header}>
-                            <h2>Add category</h2>
-                            <XIcon onClick={() => closeCenterModal()}/>
-                        </div>
-                        <div className={cls.addContent}>
-                            <div className={cls.addItem}>
-                                <h3>Category name</h3>
-                                <input 
-                                    type="text" 
-                                    value={categoryNameInput}
-                                    onChange={(e) => setCategoryNameInput(e.target.value)}
-                                />
-                            </div>
-                            <div className={cls.addItem}>
-                                <h3>Category icon</h3>
-                                <input type="file" accept="image/*" />
-                            </div>
-                            {error && <span className={cls.errorText}>{error}</span>}
-                            <div className={cls.addItem}>
-                                <button onClick={() => addCategory()}>Add Category</button>
-                            </div>
-                        </div>
-                    </>
+                    <AddCategoryModal />
                 )
             }
         </div>

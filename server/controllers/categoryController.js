@@ -1,4 +1,7 @@
 const { Category, Product } = require('../models/models')
+const uuid = require('uuid')
+const path = require('path')
+const fs = require('fs')
 
 class CategoryController {
     async getAll(req, res) {
@@ -37,6 +40,24 @@ class CategoryController {
                 return res.status(400).json({ message: 'Category name is required' })
             }
             
+            // const { icon } = req.files
+            // if (!icon) {
+            //     return res.status(400).json({ message: 'Icon file is required' })
+            // }
+            
+            // const staticDir = path.resolve(__dirname, '..', 'static')
+            // if (!fs.existsSync(staticDir)) {
+            //     fs.mkdirSync(staticDir, { recursive: true })
+            // }
+
+            // const fileExtension = icon.name.split('.').pop()
+            // if (!fileExtension) {
+            //     return res.status(400).json({ message: 'Invalid icon file' })
+            // }
+
+            // let fileName = uuid.v4() + '.' + fileExtension
+            // await icon.mv(path.resolve(staticDir, fileName))
+
             const category = await Category.create({ name })
             return res.status(201).json(category)
         } catch (error) {
