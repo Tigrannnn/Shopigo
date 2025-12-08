@@ -28,7 +28,7 @@ function ChangeProfileModal() {
         return () => {
             document.removeEventListener('keydown', handleKeyDown)
         }
-    })
+    }, [])
 
     return (
         <>
