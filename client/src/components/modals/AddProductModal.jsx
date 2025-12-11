@@ -66,11 +66,13 @@ function AddProductModal() {
                                 openSelectModal()
                             )}
                         >
+                            <span><img width='25px' src={(process.env.REACT_APP_API_URL + productCategory?.icon) ?? ``} alt="" /></span>
                             <span>{capitalizeFirstLetter(productCategory?.name) ?? 'Select category'}</span>
-                            <span>{}</span>
+                            <span>{isSelectModalOpen ? '↓' : '↑'}</span>
                         </button>
                         <button className={cls.selectButton}>
                             <span>Select seller</span>
+                            <span>{isSelectModalOpen ? '↓' : '↑'}</span>
                         </button>
                         {
                             isSelectModalOpen && 

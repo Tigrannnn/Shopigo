@@ -162,6 +162,9 @@
         .selectButton {
             @include defaultButton(#fff);
             width: 50%;
+            height: 50px;
+            display: flex;
+            justify-content: space-around;
             font-size: 19px;
             color: $textColor;
             gap: 10px;
