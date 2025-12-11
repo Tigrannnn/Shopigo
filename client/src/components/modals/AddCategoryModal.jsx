@@ -5,11 +5,10 @@ import { useEffect, useState } from 'react';
 import { createCategory } from '../../http/categoryApi';
 
 function AddCategoryModal() {
-    const centerModal = useModalState(state => state.centerModal)
     const closeCenterModal = useModalState(state => state.closeCenterModal)
 
     const [nameInput, setNameInput] = useState('')
-
+    const [iconInput, setIconInput] = useState(null)
     const [error, setError] = useState('')
 
     const addCategory = () => {
@@ -19,7 +18,7 @@ function AddCategoryModal() {
                 setError('')
             }, 4000)
         } else {
-            createCategory(nameInput)
+            createCategory(nameInput, iconInput)
             closeCenterModal()
         }
     }
@@ -54,7 +53,7 @@ function AddCategoryModal() {
                 </div>
                 <div className={cls.addItem}>
                     <h3>Category icon</h3>
-                    <input type="file" accept="image/*" />
+                    <input type="file" accept="image/*" onChange={(e) => setIconInput(e.target.files[0])} />
                 </div>
                 {error && <span className={cls.errorText}>{error}</span>}
                 <div className={cls.addItem}>

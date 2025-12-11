@@ -9,11 +9,13 @@ import AddCategoryModal from './AddCategoryModal';
 import AddProductModal from './AddProductModal';
 import WriteReviewModal from './WriteReviewModal';
 import WriteSupportModal from './WriteSupportModal';
+import { useSelectState } from '../../store/useSelectState';
 
 function CenterModal() {
     const centerModal = useModalState(state => state.centerModal)
     const closeCenterModal = useModalState(state => state.closeCenterModal)
 
+    const closeSelectModal = useSelectState(state => state.closeSelectModal)
 
     useEffect(() => {
         const handleKeyDown = (e) => {
@@ -32,7 +34,10 @@ function CenterModal() {
     return(
         <div 
             className={`${cls.CenterModal} ${cls[centerModal]} ${centerModal === '' ? '' : cls.open} `} 
-            onClick={(e) => e.stopPropagation()}
+            onClick={(e) => (
+                e.stopPropagation(),
+                closeSelectModal()
+            )}
         >
 
             {
@@ -48,7 +53,7 @@ function CenterModal() {
             }
 
             {
-                centerModal === 'logout' && (
+                centerModal === 'logOut' && (
                     <LogOutModal />
                 )
             }

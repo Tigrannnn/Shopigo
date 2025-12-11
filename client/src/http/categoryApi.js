@@ -1,10 +1,12 @@
 import { $authHost, $host } from './index.js'
 
-export const createCategory = async (name) => {
+export const createCategory = async (name, icon) => {
     try {
-        const body = {name}
-        console.log(body);
-        const {data} = await $authHost.post('/api/category', body)
+        const body = {name, icon}
+        const formData = new FormData()
+        formData.append('name', name)
+        formData.append('icon', icon)
+        const {data} = await $authHost.post('/api/category', formData)
         return data
     } catch (e) {
         return e.message

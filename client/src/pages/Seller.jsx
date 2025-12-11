@@ -27,11 +27,11 @@ function Seller() {
     useEffect(() => {
         getOneSeller(id).then(data => {
             setSeller(data)
+        }).finally(() => {
+            getProducts({sellerId: id}).then(data => {
+                setProducts(data)
+            }).finally(() => setLoading(false))
         })
-        getProducts(null, id).then(data => {
-            setProducts(data)
-        })
-        setLoading(false)
     }, [seller])
 
     const openFilterModal = useCategoryState(state => state.openFilterModal)

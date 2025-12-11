@@ -1,5 +1,5 @@
 import cls from "../styles/components/Header.module.scss"
-import { Link, useLocation } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import { BASKET_ROUTE, FAVORITES_ROUTE, LOGIN_ROUTE, SHOP_ROUTE, ORDERS_ROUTE, PROFILE_ROUTE } from "../utils/consts"
 import { useMenuState } from "../store/useMenuState"
 import { useSearchState } from "../store/useSearchState"
@@ -13,29 +13,32 @@ import { ReactComponent as OrdersIcon } from '../assets/icons/orders.svg';
 import { useOrderState } from "../store/useOrderState"
 import { useRef, useEffect } from "react"
 import { useProfileState } from "../store/useProfileState"
+import { useToastState } from "../store/useToastState"
+import { useSearch } from "../hooks/useSearch"
 
 function Header() {
     const isMenuModalOpen = useMenuState(state => state.isMenuModalOpen)
     const setMenuModalToggle = useMenuState(state => state.setMenuModalToggle)
+
     const openSearchModal = useSearchState(state => state.openSearchModal)
     const isSearchModalOpen = useSearchState(state => state.isSearchModalOpen)
-    const location = useLocation()
+    const inputValue = useSearchState(state => state.inputValue)
+    const setInputValue = useSearchState(state => state.setInputValue)
+
     const basketProducts = useBasketState(state => state.basketProducts)
     const favoriteProducts = useFavoritesState(state => state.favoriteProducts)
     const orderProducts = useOrderState(state => state.orderProducts)
+
     const role = useProfileState(state => state.role)
-    const addToSearchHistory = useSearchState(state => state.addToSearchHistory)
-    const inputValue = useSearchState(state => state.inputValue)
-    const setInputValue = useSearchState(state => state.setInputValue)
+
+    const location = useLocation()
+    const navigate = useNavigate()
+
     const searchInputRef = useRef(null)
 
-    useEffect(() => {
-        if (isSearchModalOpen) {
-            searchInputRef.current?.focus()
-        } else {
-            searchInputRef.current?.blur()
-        }
-    }, [isSearchModalOpen])
+    const toast = useToastState(state => state.toast)
+
+    const closeSearchModal = useSearchState(state => state.closeSearchModal)
 
     const isActiveRoute = (route) => {
         return location.pathname === route
@@ -47,9 +50,27 @@ function Header() {
         openSearchModal()
     }
 
-    const handleSearchButton = () => {
-        addToSearchHistory(inputValue)
-    }
+    const handleSearch = useSearch()
+
+    useEffect(() => {
+        if (isSearchModalOpen) {
+            searchInputRef.current?.focus()
+        }
+        const handleKeyDown = (e) => {
+            if (isSearchModalOpen) {
+                if (e.key === 'Enter') {
+                    handleSearch()
+                } else if (e.key === 'Escape') {
+                    closeSearchModal()
+                }
+            }
+        }
+
+        document.addEventListener('keydown', handleKeyDown)
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown)
+        }
+    }, [isSearchModalOpen, inputValue])
 
     return(
         <header className={cls.header}>
@@ -88,7 +109,7 @@ function Header() {
                                 className={cls.searchIcon} 
                                 fill="none" 
                                 stroke="currentColor" 
-                                onClick={handleSearchButton}
+                                onClick={handleSearch}
                             />
                         </button>
                     </div>

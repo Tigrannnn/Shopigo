@@ -1,4 +1,5 @@
 const { Product, Seller, Category } = require('../models/models')
+const { Op } = require('sequelize')
 const uuid = require('uuid')
 const path = require('path')
 const fs = require('fs')
@@ -62,7 +63,7 @@ class ProductController {
 
     async getAll(req, res) {
         try {
-            let { categoryId, sellerId, limit, page } = req.query
+            let { categoryId, sellerId, limit, page, search } = req.query
             page = page || 1
             limit = limit || null
             let offset = page * limit - limit
@@ -73,6 +74,13 @@ class ProductController {
             }
             if (categoryId) {
                 where.categoryId = categoryId
+            }
+            if (search) {
+                where[Op.or] = [
+                    { name: { [Op.iLike]: `%${search}%` } },
+                    { article: { [Op.iLike]: `%${search}%` } },
+                    { description: { [Op.iLike]: `%${search}%` } }
+                ]
             }
 
             const products = await Product.findAll({ where, limit, offset, include: [

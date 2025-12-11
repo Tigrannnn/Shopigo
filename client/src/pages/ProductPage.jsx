@@ -70,7 +70,7 @@ function ProductPage() {
     }, []);
 
     useEffect(() => {
-        document.title = `${product?.name} ${product?.description} ${product.seller?.name}` || 'Product'
+        document.title = `${product.name} - ${product.seller?.name} - Shopigo` || 'Product'
     }, [product]);
 
 

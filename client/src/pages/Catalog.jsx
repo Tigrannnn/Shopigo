@@ -9,6 +9,7 @@ import { getOneCategory } from '../http/categoryApi';
 import { getProducts } from '../http/productApi';
 import Loader from '../components/Loader';
 import capitalizeFirstLetter from '../utils/useCapitalizeFirsLetter';
+import NotFound from './NotFound';
 
 function Catalog() {
   const [loading, setLoading] = useState(true)
@@ -26,11 +27,11 @@ function Catalog() {
     getOneCategory(id).then(data => {
       setCategory(data)
     })
-    getProducts(id).then(data => {
+    getProducts({categoryId: id}).then(data => {
       setProducts(data)
     })
     setLoading(false)
-  }, [category])
+  }, [id, setProducts])
 
   const openFilterModal = useCategoryState(state => state.openFilterModal)
 
@@ -42,40 +43,53 @@ function Catalog() {
 
   return (
     <div className={cls.Catalog}>
-      <div className={cls.catalogHeader}>
-        <h1>{capitalizeFirstLetter(category.name)}</h1>
-        <div className={cls.breadcrumbs}>
-          <ul>
-              <li onClick={() => navigate(SHOP_ROUTE)}>Main</li>
-              <span aria-hidden="true">›</span>
-              <li>{capitalizeFirstLetter(category.name)}</li>
-          </ul>
-        </div>
-        <div className={cls.filter}>
-          <div className={cls.filterItem} onClick={() => openFilterModal()}>
-            <span>All filters</span>
-          </div>
-          <div className={cls.filterItem} onClick={() => console.log('hello')}>
-            <span>Subcategory</span>
-            <span>↓</span>
-          </div>
-          <div className={cls.filterItem} onClick={() => console.log('hello')}>
-            <span>Price (dram)</span>
-            <span>↓</span>
-          </div>
-          <div className={cls.filterItem} onClick={() => console.log('hello')}>
-            <span>Delivery time</span>
-            <span>↓</span>
-          </div>
-        </div>
-      </div>
-      <div className={cls.catalogContent}>
-        {
-          products.map(product => (
-            <ProductCard key={product.id} product={product} />
-          ))
-        }
-      </div>
+      {
+        !category.id && (
+          <>
+            <NotFound />
+          </>
+        )
+      }
+      {
+        category.id && (
+          <>
+            <div className={cls.catalogHeader}>
+              <h1>{capitalizeFirstLetter(category.name)}</h1>
+              <div className={cls.breadcrumbs}>
+                <ul>
+                    <li onClick={() => navigate(SHOP_ROUTE)}>Main</li>
+                    <span aria-hidden="true">›</span>
+                    <li>{capitalizeFirstLetter(category.name)}</li>
+                </ul>
+              </div>
+              <div className={cls.filter}>
+                <div className={cls.filterItem} onClick={() => openFilterModal()}>
+                  <span>All filters</span>
+                </div>
+                <div className={cls.filterItem} onClick={() => console.log('hello')}>
+                  <span>Subcategory</span>
+                  <span>↓</span>
+                </div>
+                <div className={cls.filterItem} onClick={() => console.log('hello')}>
+                  <span>Price (dram)</span>
+                  <span>↓</span>
+                </div>
+                <div className={cls.filterItem} onClick={() => console.log('hello')}>
+                  <span>Delivery time</span>
+                  <span>↓</span>
+                </div>
+              </div>
+            </div>
+            <div className={cls.catalogContent}>
+              {
+                products.map(product => (
+                  <ProductCard key={product.id} product={product} />
+                ))
+              }
+            </div>
+          </>
+        )
+      }
     </div>
   )
 }

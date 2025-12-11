@@ -4,9 +4,10 @@ import { PRIVACY_POLICY_ROUTE, TERMS_OF_USE_ROUTE } from '../utils/consts'
 import { ReactComponent as EnvelopeIcon } from '../assets/icons/envelope.svg';
 import { ReactComponent as PhoneIcon } from '../assets/icons/phone.svg';
 import { useState, useEffect } from 'react';
-import { useCountrySelectState } from '../store/useCountrySelectState';
+import { useSelectState } from '../store/useSelectState';
 import { login } from '../http/userApi';
 import { useProfileState } from '../store/useProfileState';
+import SelectModal from '../components/modals/SelectModal';
 
 function Login() {
     useEffect(() => {
@@ -39,13 +40,16 @@ function Login() {
         },
     ]
 
-    const isCountrySelectModalOpen = useCountrySelectState(state => state.isCountrySelectModalOpen)
-    const closeCountrySelectModal = useCountrySelectState(state => state.closeCountrySelectModal)
-    const openCountrySelectModal = useCountrySelectState(state => state.openCountrySelectModal)
+    const sortedCountries = countries.sort((a, b) => a.name.localeCompare(b.name))
 
-    const [authMethod, setAuthMethod] = useState('email')
+    const isSelectModalOpen = useSelectState(state => state.isSelectModalOpen)
+    const closeSelectModal = useSelectState(state => state.closeSelectModal)
+    const openSelectModal = useSelectState(state => state.openSelectModal)
+
+    const [authMethod, setAuthMethod] = useState('phone')
     const [step, setStep] = useState('enter')
     const [countrySelect, setCountrySelect] = useState(countries.find(country => country.name === 'Armenia'))
+    
     const [inputPhoneState, setInputPhoneState] = useState('')
     const [inputEmailState, setInputEmailState] = useState('')
     const [inputPasswordState, setInputPasswordState] = useState('')
@@ -57,16 +61,6 @@ function Login() {
 
     const [code, setCode] = useState('')
     const [inputCode, setInputCode] = useState('')
-    
-    function handleCountrySelect(country) {
-        setCountrySelect(country)
-        closeCountrySelectModal()
-    }
-
-    function handleCountrySelectModal() {
-        openCountrySelectModal()
-    }
-
 
     async function handleLogin() {
         if (step === 'enter') {
@@ -146,39 +140,27 @@ function Login() {
                             
                             <section className={cls.loginInputSection}>
                                 {
-                                    isCountrySelectModalOpen && (
-                                        <div className={cls.countryDropdown}>
-                                            {
-                                                countries.sort((a, b) => a.name.localeCompare(b.name)).map((country) => (
-                                                    <div 
-                                                        className={cls.countryDropdownItem + (countrySelect.code === country.code ? ' ' + cls.active : '')} 
-                                                        key={country.code} 
-                                                        onClick={() => handleCountrySelect(country)}
-                                                    >
-                                                        <span className={cls.countryFlag}>{country.flag}</span>
-                                                        <span className={cls.countryName}>{country.name}</span>
-                                                        <span className={cls.countryCode}>{country.code}</span>
-                                                    </div>
-                                                ))
-                                            }
-                                        </div>
+                                    isSelectModalOpen && (
+                                        <SelectModal 
+                                            items={sortedCountries} 
+                                            handleSelect={(country) => setCountrySelect(country)} 
+                                            selectedItem={countrySelect} 
+                                        />
                                     )
                                 }
                                 {
                                     authMethod === 'phone' ? (
                                         <div className={cls.inputWrapper}>
                                             <button 
-                                                className={cls.countrySelectButton + (isCountrySelectModalOpen ? ' ' + cls.active : '')} 
+                                                className={cls.countrySelectButton + (isSelectModalOpen ? ' ' + cls.active : '')} 
                                                 type="button" 
                                                 aria-label="Select country" 
-                                                onClick={handleCountrySelectModal}
+                                                onClick={() => openSelectModal()}
                                             >
                                                 <span className={cls.countryFlag}>{countrySelect.flag}</span>
                                                 <span className={cls.countryCode}>{countrySelect.code}</span>
                                                 <span className={cls.countryDropdownArrow}>
-                                                    {
-                                                        isCountrySelectModalOpen ? '↓' : '↑'
-                                                    }
+                                                    {isSelectModalOpen ? '↓' : '↑'}
                                                 </span>
                                             </button>
                                             <input

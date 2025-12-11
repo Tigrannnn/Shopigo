@@ -60,7 +60,7 @@ function Profile() {
                     </div>
                     <span>Payment methods</span>
                 </button>
-                <button className={cls.profileButton} onClick={() => openCenterModal('logout')}>
+                <button className={cls.profileButton} onClick={() => openCenterModal('logOut')}>
                     <div className={cls.profileButtonIcon}>
                         <LogOut />
                     </div>

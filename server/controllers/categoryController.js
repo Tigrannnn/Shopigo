@@ -40,25 +40,25 @@ class CategoryController {
                 return res.status(400).json({ message: 'Category name is required' })
             }
             
-            // const { icon } = req.files
-            // if (!icon) {
-            //     return res.status(400).json({ message: 'Icon file is required' })
-            // }
+            const { icon } = req.files
+            if (!icon) {
+                return res.status(400).json({ message: 'Icon file is required' })
+            }
             
-            // const staticDir = path.resolve(__dirname, '..', 'static')
-            // if (!fs.existsSync(staticDir)) {
-            //     fs.mkdirSync(staticDir, { recursive: true })
-            // }
+            const staticDir = path.resolve(__dirname, '..', 'static')
+            if (!fs.existsSync(staticDir)) {
+                fs.mkdirSync(staticDir, { recursive: true })
+            }
 
-            // const fileExtension = icon.name.split('.').pop()
-            // if (!fileExtension) {
-            //     return res.status(400).json({ message: 'Invalid icon file' })
-            // }
+            const fileExtension = icon.name.split('.').pop()
+            if (!fileExtension) {
+                return res.status(400).json({ message: 'Invalid icon file' })
+            }
 
-            // let fileName = uuid.v4() + '.' + fileExtension
-            // await icon.mv(path.resolve(staticDir, fileName))
+            let fileName = uuid.v4() + '.' + fileExtension
+            await icon.mv(path.resolve(staticDir, fileName))
 
-            const category = await Category.create({ name })
+            const category = await Category.create({ name, icon: fileName })
             return res.status(201).json(category)
         } catch (error) {
             console.error('Error creating category:', error)
@@ -73,13 +73,11 @@ class CategoryController {
                 return res.status(400).json({ message: 'Category ID is required' })
             }
 
-            // Проверяем существование категории
             const category = await Category.findByPk(id)
             if (!category) {
                 return res.status(404).json({ message: 'Category not found' })
             }
 
-            // Проверяем, есть ли продукты в этой категории
             const productsInCategory = await Product.count({ where: { categoryId: id } })
             if (productsInCategory > 0) {
                 return res.status(400).json({ 
@@ -87,7 +85,6 @@ class CategoryController {
                 })
             }
 
-            // Удаляем категорию
             await Category.destroy({ where: { id } })
             
             return res.json({ message: 'Category deleted successfully' })

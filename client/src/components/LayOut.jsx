@@ -5,7 +5,7 @@ import MenuModal from "./modals/MenuModal"
 import SearchModal from "./modals/SearchModal"
 import { useMenuState } from "../store/useMenuState"
 import { useSearchState } from "../store/useSearchState"
-import { useCountrySelectState } from "../store/useCountrySelectState"
+import { useSelectState } from "../store/useSelectState"
 import { useSellerInfoState } from "../store/useSellerInfoState"
 import { useToastState } from "../store/useToastState"
 import { useCategoryState } from "../store/useCategoryState"
@@ -37,8 +37,8 @@ function LayOut() {
     const isSearchModalOpen = useSearchState(state => state.isSearchModalOpen)
     const closeSearchModal = useSearchState(state => state.closeSearchModal)
 
-    const isCountrySelectModalOpen = useCountrySelectState(state => state.isCountrySelectModalOpen)
-    const closeCountrySelectModal = useCountrySelectState(state => state.closeCountrySelectModal)
+    const isSelectModalOpen = useSelectState(state => state.isSelectModalOpen)
+    const closeSelectModal = useSelectState(state => state.closeSelectModal)
 
     const isSellerInfoModalOpen = useSellerInfoState(state => state.isSellerInfoModalOpen)
     const closeSellerInfoModal = useSellerInfoState(state => state.closeSellerInfoModal)
@@ -66,8 +66,8 @@ function LayOut() {
         if (isSearchModalOpen) {
             closeSearchModal()
         }
-        if (isCountrySelectModalOpen) {
-            closeCountrySelectModal()
+        if (isSelectModalOpen) {
+            closeSelectModal()
         }
         if (isSellerInfoModalOpen) {
             closeSellerInfoModal()
