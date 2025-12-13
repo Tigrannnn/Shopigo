@@ -25,7 +25,7 @@ class BasketController {
     async addBasketProduct(req, res) {
         try{
             const userId = req.user.id
-            const { productId, quantity } = req.body
+            const { productId, quantity, selected } = req.body
 
             let basket = await Basket.findOne({ where: { userId } })
             if(!basket){
@@ -39,7 +39,7 @@ class BasketController {
                 return res.json(existingProduct)
             }
 
-            const newProduct = await BasketProduct.create({ basketId: basket.id, productId, quantity })
+            const newProduct = await BasketProduct.create({ basketId: basket.id, productId, quantity, selected })
             return res.json(newProduct)
         } catch (e) {
             return res.status(500).json({ message: e.message })
@@ -72,7 +72,7 @@ class BasketController {
         }
     }
 
-    async updateQuantityBasketProduct(req, res) {
+    async updateQuantity(req, res) {
         try{
             const userId = req.user.id
             const { productId, quantity } = req.body
@@ -101,6 +101,61 @@ class BasketController {
             await basketProduct.save()
             
             return res.json(basketProduct)
+        } catch (e) {
+            return res.status(500).json({ message: e.message })
+        }
+    }
+
+    async toggleSelected(req, res) {
+        try{
+            const userId = req.user.id
+            const { productId } = req.body
+
+            if (!productId) {
+                return res.status(400).json({ message: 'Product ID is required' })
+            }
+
+            const basket = await Basket.findOne({ where: { userId } })
+            if(!basket){
+                return res.status(400).json({ message: 'Basket not found' })
+            }
+
+            const basketProduct = await BasketProduct.findOne({ where: { basketId: basket.id, productId } })
+            if(!basketProduct){
+                return res.status(400).json({ message: 'Product not found in basket' })
+            }
+
+            basketProduct.selected = !basketProduct.selected
+            await basketProduct.save()
+            return res.json(basketProduct)
+        } catch (e) {
+            return res.status(500).json({ message: e.message })
+        }
+    }
+
+    async toggleSelectAll(req, res) {
+        try{
+            const userId = req.user.id
+
+            const basket = await Basket.findOne({ where: { userId } })
+            if (!basket){
+                return res.status(400).json({ message: 'Basket not found' })
+            }
+
+            const basketProducts = await BasketProduct.findAll({
+                where: { basketId: basket.id }
+            })
+            if (basketProducts.length === 0) {
+                return res.json({ message: 'Basket is empty' })
+            }
+
+            const isAllSelected = basketProducts.every(product => product.selected === true)
+
+            const updatedProducts = await BasketProduct.update(
+                {selected: !isAllSelected},
+                {where: {basketId: basket.id}}
+            )
+            return res.json(updatedProducts)
         } catch (e) {
             return res.status(500).json({ message: e.message })
         }

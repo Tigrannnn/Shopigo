@@ -19,8 +19,7 @@ function Basket() {
     }, [])
     const role = useProfileState(state => state.role)
     const basketProducts = useBasketState(state => state.basketProducts)
-    // const selectedIds = useBasketState(state => state.selectedIds)
-    // const selectAll = useBasketState(state => state.selectAll)
+    const toggleSelectAll = useBasketState(state => state.toggleSelectAll)
     // const deleteSelected = useBasketState(state => state.deleteSelected)
     // const clearSelected = useBasketState(state => state.clearSelected)
     // const addOrder = useOrderState(state => state.addOrder)
@@ -59,13 +58,13 @@ function Basket() {
                         <div className={cls.mainBlock}>
                             <section className={cls.leftSide}>
                                 <div className={cls.selectAllBlock}>
-                                    {/* <label htmlFor="selectAll" className="neon-checkbox">
+                                    <label htmlFor="selectAll" className="neon-checkbox">
                                         <input 
                                             type="checkbox" 
                                             id='selectAll' 
-                                            onChange={() => selectedIds.length === basketProducts.length ? clearSelected() : selectAll()}
-                                            checked={selectedIds.length === basketProducts.length}
                                             aria-label="Select all products"
+                                            onChange={toggleSelectAll}
+                                            checked={basketProducts.every(product => product.selected)}
                                         />
                                         <div className="neon-checkbox__frame">
                                             <div className="neon-checkbox__box"></div>
@@ -73,7 +72,7 @@ function Basket() {
                                             <div className="neon-checkbox__glow"></div>
                                         </div>
                                         <span className={cls.selectAllText}>Select All</span>
-                                    </label> */}
+                                    </label>
                                 </div>
                                 
                                 <div className={cls.productListBlock}>

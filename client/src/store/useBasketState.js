@@ -1,34 +1,32 @@
 
 import { create } from 'zustand';
 import { useToastState } from './useToastState';
-import { addBasketProduct, removeBasketProduct, updateQuantityBasketProduct } from '../http/basketApi';
+import { addBasketProduct, removeBasketProduct, updateQuantity, toggleSelected, toggleSelectAll } from '../http/basketApi';
 
 export const useBasketState = create((set) => ({
     basketProducts: [],
+    // isAllSelected: ,
     setBasketProducts: (products) => set({ basketProducts: products }),
-
-    selectedIds: [],
 
     addToBasket: (product) => set((state) => {
         addBasketProduct(product.id);
-        const newSelectedIds = state.basketProducts.map((p) => p.id);
+
         return {
-            basketProducts: [...state.basketProducts, { ...product, quantity: 1 }],
-            selectedIds: newSelectedIds,
+            basketProducts: [...state.basketProducts, { ...product, quantity: 1, selected: true }],
             toast: useToastState.getState().toast('Product added to basket', false)
         };
     }),
  
     increaseQuantity: (productId) => set((state) => {
         const newBasketProducts = state.basketProducts.map((product) => product.id === productId ? { ...product, quantity: product.quantity += 1 } : product);
-        updateQuantityBasketProduct(productId, '+');
+        updateQuantity(productId, '+');
         return {
             basketProducts: newBasketProducts
         };
     }),
     decreaseQuantity: (productId) => set((state) => {
         const newBasketProducts = state.basketProducts.map((product) => product.id === productId ? { ...product, quantity: product.quantity -= 1 } : product);
-        updateQuantityBasketProduct(productId, '-');
+        updateQuantity(productId, '-');
         return {
             basketProducts: newBasketProducts
         };
@@ -37,10 +35,8 @@ export const useBasketState = create((set) => ({
     removeFromBasket: (product) => set((state) => {
         const newBasketProducts = state.basketProducts.filter((basketProduct) => basketProduct.id !== product.id);
         removeBasketProduct(product.id);
-        const newSelectedIds = state.selectedIds.filter((id) => id !== product.id);
         return {
             basketProducts: newBasketProducts,
-            selectedIds: newSelectedIds,
             toast: useToastState.getState().toast(
                 'Product removed from basket',
                 true,
@@ -52,20 +48,30 @@ export const useBasketState = create((set) => ({
         };
     }),
     
-    toggleSelected: (productId) => set((state) => ({
-        selectedIds: state.selectedIds.includes(productId)
-            ? state.selectedIds.filter((id) => id !== productId)
-            : [...state.selectedIds, productId]
-    })),
-    selectAll: () => set((state) => ({
-        selectedIds: state.basketProducts.map((product) => product.id)
-    })),
-    clearSelected: () => set({ selectedIds: [] }),
-    deleteSelected: () => set((state) => {
-        const newBasketProducts = state.basketProducts.filter((product) => !state.selectedIds.includes(product.id));
+    toggleSelected: (productId) => set((state) => {
+        toggleSelected(productId);
         return {
-            basketProducts: newBasketProducts,
-            selectedIds: []
+            basketProducts: state.basketProducts.map((product) => 
+                product.id === productId ? { ...product, selected: !product.selected } : product
+            )
         };
     }),
+    toggleSelectAll: () => set((state) => {
+        const isAllSelected = state.basketProducts.every(product => product.selected)
+        toggleSelectAll()
+        return {
+            basketProducts: state.basketProducts.map((product) => ({
+                ...product,
+                selected: !isAllSelected
+            }))
+        };
+    }),
+    // clearSelected: () => set({ selectedIds: [] }),
+    // deleteSelected: () => set((state) => {
+    //     const newBasketProducts = state.basketProducts.filter((product) => !state.selectedIds.includes(product.id));
+    //     return {
+    //         basketProducts: newBasketProducts,
+    //         selectedIds: []
+    //     };
+    // }),
 }));

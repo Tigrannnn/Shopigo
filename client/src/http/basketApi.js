@@ -6,6 +6,7 @@ export const getBasket = async () => {
         const products = data.basketProducts.map(basketProduct => ({
             ...basketProduct.product,
             quantity: basketProduct.quantity,
+            selected: basketProduct.selected,
             basketProductId: basketProduct.id
         }))
         return products
@@ -14,9 +15,9 @@ export const getBasket = async () => {
     }
 }
  
-export const addBasketProduct = async (productId, quantity = 1) => {
+export const addBasketProduct = async (productId, quantity = 1, selected = true) => {
     try {
-        const body = { productId, quantity }
+        const body = { productId, quantity, selected }
 
         const {data} = await $authHost.post('/api/basket', body)
         return data
@@ -34,11 +35,31 @@ export const removeBasketProduct = async (productId) => {
     }
 }
 
-export const updateQuantityBasketProduct = async (productId, quantity) => {
+export const updateQuantity = async (productId, quantity) => {
     try {
         const body = { productId, quantity }
 
-        const {data} = await $authHost.put('/api/basket', body)
+        const {data} = await $authHost.put('/api/basket/update-quantity', body)
+        return data
+    } catch (e) {
+        return e.message
+    }
+}
+
+export const toggleSelected = async (productId) => {
+    try {
+        const body = { productId }
+        const {data} = await $authHost.put('/api/basket/toggle-selected', body)
+        return data
+    } catch (e) {
+        console.error('Error toggling selected basket product:', e)
+        return e.message
+    }
+}
+
+export const toggleSelectAll = async () => {
+    try{
+        const {data} = await $authHost.put('/api/basket/select-all')
         return data
     } catch (e) {
         return e.message

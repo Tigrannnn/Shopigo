@@ -9,20 +9,20 @@ import { ReactComponent as ShareIcon } from '../assets/icons/share.svg'
 import useHandleShare from '../utils/useHandleShare'
 
 function BasketProduct ({checkedAll, product}) {
-    const { id, name, color, deliveryDays, image, price, quantity } = product
+    const { id, name, color, deliveryDays, image, price, quantity, selected } = product
 
     const removeFromBasket = useBasketState(state => state.removeFromBasket)
 
     const increaseQuantity = useBasketState(state => state.increaseQuantity)
     const decreaseQuantity = useBasketState(state => state.decreaseQuantity)
 
-    // const toggleSelected = useBasketState(state => state.toggleSelected)
-    // const selectedIds = useBasketState(state => state.selectedIds)
+    const toggleSelected = useBasketState(state => state.toggleSelected)
 
     const addToFavorites = useFavoritesState(state => state.addToFavorites)
     const removeFromFavorites = useFavoritesState(state => state.removeFromFavorites)
     const favoriteProducts = useFavoritesState(state => state.favoriteProducts)
     const isFavorite = favoriteProducts.some(item => item.id === id)
+    
 
     const navigate = useNavigate()
 
@@ -34,8 +34,8 @@ function BasketProduct ({checkedAll, product}) {
                 <input 
                     type="checkbox" 
                     id={id} 
-                    // checked={checkedAll ? checkedAll : selectedIds.includes(id)} 
-                    // onChange={() => toggleSelected(id)}
+                    checked={selected} 
+                    onChange={() => toggleSelected(id)}
                     aria-label="Select product"
                 />
                 <div className="neon-checkbox__frame">

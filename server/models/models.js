@@ -62,14 +62,13 @@ const Basket = sequelize.define('basket', {
 const BasketProduct = sequelize.define('basketProduct', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     quantity: {type: DataTypes.INTEGER, defaultValue: 1},
+    selected: {type: DataTypes.BOOLEAN, defaultValue: true},
 })
 
 // Order & OrderProduct
 const Order = sequelize.define('order', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     status: {type: DataTypes.STRING, defaultValue: 'pending'},
-    createdAt: {type: DataTypes.DATE, defaultValue: DataTypes.NOW},
-    updatedAt: {type: DataTypes.DATE, defaultValue: DataTypes.NOW},
 })
 const OrderProduct = sequelize.define('orderProduct', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},

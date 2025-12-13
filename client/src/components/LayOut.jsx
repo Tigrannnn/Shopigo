@@ -95,7 +95,7 @@ function LayOut() {
     useEffect(() => {
         if (role) {
             getBasket().then(data => {
-                setBasketProducts(data)                
+                setBasketProducts(data)            
             })
             getFavorites().then(data => {
                 setFavoriteProducts(data)
