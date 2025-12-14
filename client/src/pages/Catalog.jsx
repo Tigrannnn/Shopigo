@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import cls from '../styles/pages/Catalog.module.scss'
 import { useCategoryState } from '../store/useCategoryState'
 import { SHOP_ROUTE } from '../utils/consts';
@@ -26,11 +26,9 @@ function Catalog() {
   useEffect(() => {
     getOneCategory(id).then(data => {
       setCategory(data)
-    })
-    getProducts({categoryId: id}).then(data => {
-      setProducts(data)
-    })
-    setLoading(false)
+    }).then(() => getProducts({categoryId: id}).then(data => {
+        setProducts(data)
+      }).finally(() => setLoading(false)))
   }, [id, setProducts])
 
   const openFilterModal = useCategoryState(state => state.openFilterModal)
@@ -52,6 +50,14 @@ function Catalog() {
       }
       {
         category.id && (
+          products.length <= 0 ? (
+            <div className={cls.emptyCatalog}>
+              <h1>{capitalizeFirstLetter(category.name)}</h1>
+              <h2>No products in this category yet <br/> We will add them soon</h2>
+              <h3>Take a look at the main page <br/> We have collected products there that you might like</h3>
+              <Link to={SHOP_ROUTE}>Go to main page</Link>
+            </div>
+          ) : (
           <>
             <div className={cls.catalogHeader}>
               <h1>{capitalizeFirstLetter(category.name)}</h1>
@@ -88,6 +94,7 @@ function Catalog() {
               }
             </div>
           </>
+          )
         )
       }
     </div>

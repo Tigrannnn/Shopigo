@@ -42,9 +42,18 @@ class UserController {
     }
 
     async auth(req, res) {
-        const token = generateJwt(req.user.id, req.user.email, req.user.role, req.user.name)
-        const user = req.user
-        return res.json({ token, user })
+        try{
+            const token = generateJwt(req.user.id, req.user.email, req.user.role, req.user.name)
+            const user = req.user
+
+            if (!token || !user) {
+                return;
+            }
+            
+            return res.json({ token, user })
+        } catch (e) {
+            res.status(500).json({ message: e.message })
+        }
     }
 }
 

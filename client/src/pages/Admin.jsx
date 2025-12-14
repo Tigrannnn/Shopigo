@@ -11,6 +11,7 @@ import { ReactComponent as CameraIcon } from '../assets/icons/camera.svg'
 import { ReactComponent as SearchIcon } from '../assets/icons/search.svg'
 import { useState, useEffect } from 'react'
 import { useModalState } from "../store/useModalState"
+import { useCategoryState } from "../store/useCategoryState"
 
 function Admin() {
     const [products, setProducts] = useState([])
@@ -67,6 +68,8 @@ function Admin() {
             default: return 'Unknown'
         }
     }
+
+    const categories = useCategoryState(state => state.categories)
 
     return(
         <div className={cls.Admin}>
@@ -349,9 +352,21 @@ function Admin() {
                                 <input type="text" placeholder="Search categories..." className={cls.searchInput} />
                             </div>
                             <div className={cls.placeholderContent}>
-                                <BasketIcon className={cls.placeholderIcon} />
-                                <h3>Category Management</h3>
-                                <p>Organize products into categories</p>
+                                {categories.length <= 0 ? (
+                                    <>
+                                        <h3>Category Management</h3>
+                                        <p>Organize products into categories</p>
+                                        <p>No categories found</p>
+                                    </>
+                                ) : (
+                                    <div className={cls.categoriesList}>
+                                        {categories?.map(category => (
+                                            <div key={category.id} className={cls.categoryItem}>
+                                                <h3>{category.name}</h3>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
                             </div>
                         </div>
                     )}

@@ -2,8 +2,9 @@ import capitalizeFirstLetter from '../../utils/useCapitalizeFirsLetter'
 import cls from '../../styles/components/modals/SelectModal.module.scss'
 import { useState } from 'react'
 import { useSelectState } from '../../store/useSelectState'
+import { ReactComponent as SearchIcon } from '../../assets/icons/search.svg';
 
-function SelectModal({ items, handleSelect, selectedItem = null }) {
+function SelectModal({ items, handleSelect, selectedItem = null, top }) {
     const [search, setSearch] = useState('')
 
     const closeSelectModal = useSelectState(state => state.closeSelectModal)
@@ -22,8 +23,9 @@ function SelectModal({ items, handleSelect, selectedItem = null }) {
     
 
     return (
-        <div className={cls.SelectModal} onClick={(e) => e.stopPropagation()}>
+        <div className={cls.SelectModal} onClick={(e) => e.stopPropagation()} style={{top: top}}>
             <div className={cls.selectModalSearch}>
+                <SearchIcon />
                 <input 
                     type="text" 
                     placeholder="Search" 

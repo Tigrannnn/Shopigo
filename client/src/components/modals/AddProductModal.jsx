@@ -3,27 +3,37 @@ import { ReactComponent as XIcon } from '../../assets/icons/x.svg';
 import { useEffect, useState } from 'react';
 import { useModalState } from '../../store/useModalState';
 import { createProduct } from '../../http/productApi';
-import { useSelectState } from '../../store/useSelectState';
 import SelectModal from './SelectModal';
 import { getCategories } from '../../http/categoryApi';
 import { useCategoryState } from '../../store/useCategoryState';
+import { getSellers } from '../../http/sellerApi';
 import capitalizeFirstLetter from '../../utils/useCapitalizeFirsLetter';
 
 function AddProductModal() {
     const closeCenterModal = useModalState(state => state.closeCenterModal)
 
-    const openSelectModal = useSelectState(state => state.openSelectModal)
-    const isSelectModalOpen = useSelectState(state => state.isSelectModalOpen)
+    const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false)
+    const [isSellerModalOpen, setIsSellerModalOpen] = useState(false)
 
     const [nameInput, setNameInput] = useState('')
     const [descriptionInput, setDescriptionInput] = useState('')
     const [priceInput, setPriceInput] = useState(0)
     const [imageInput, setImageInput] = useState(null)
     const [productCategory, setProductCategory] = useState(null)
+    const [productSeller, setProductSeller] = useState(null)
+    const [sellers, setSellers] = useState([])
     
     const categories = useCategoryState(state => state.categories)
 
     const [error, setError] = useState('')
+
+    useEffect(() => {
+        getSellers().then(data => {
+            if (Array.isArray(data)) {
+                setSellers(data)
+            }
+        })
+    }, [])
 
      const addProduct = () => {
         if (!nameInput) {
@@ -61,25 +71,49 @@ function AddProductModal() {
                     <div className={cls.selectWrapper}>
                         <button 
                             className={cls.selectButton}
-                            onClick={(e) => (
-                                e.stopPropagation(),
-                                openSelectModal()
-                            )}
+                            onClick={(e) => {
+                                e.stopPropagation()
+                                setIsCategoryModalOpen(!isCategoryModalOpen)
+                                setIsSellerModalOpen(false)
+                            }}
                         >
                             <span><img width='25px' src={(process.env.REACT_APP_API_URL + productCategory?.icon) ?? ``} alt="" /></span>
                             <span>{capitalizeFirstLetter(productCategory?.name) ?? 'Select category'}</span>
-                            <span>{isSelectModalOpen ? '↓' : '↑'}</span>
+                            <span>{isCategoryModalOpen ? '↓' : '↑'}</span>
                         </button>
-                        <button className={cls.selectButton}>
-                            <span>Select seller</span>
-                            <span>{isSelectModalOpen ? '↓' : '↑'}</span>
+                        <button 
+                            className={cls.selectButton}
+                            onClick={(e) => {
+                                e.stopPropagation()
+                                setIsSellerModalOpen(!isSellerModalOpen)
+                                setIsCategoryModalOpen(false)
+                            }}
+                        >
+                            <span>{capitalizeFirstLetter(productSeller?.name) ?? 'Select seller'}</span>
+                            <span>{isSellerModalOpen ? '↓' : '↑'}</span>
                         </button>
                         {
-                            isSelectModalOpen && 
+                            isCategoryModalOpen && 
                             <SelectModal 
                                 items={categories} 
-                                handleSelect={setProductCategory} 
+                                handleSelect={(item) => {
+                                    setProductCategory(item)
+                                    setIsCategoryModalOpen(false)
+                                }} 
                                 selectedItem={productCategory}
+                                top={135}
+                            />
+                        }
+                        {
+                            isSellerModalOpen && 
+                            <SelectModal 
+                                items={sellers} 
+                                handleSelect={(item) => {
+                                    setProductSeller(item)
+                                    setIsSellerModalOpen(false)
+                                }} 
+                                selectedItem={productSeller}
+                                top={135}
                             />
                         }
                     </div>

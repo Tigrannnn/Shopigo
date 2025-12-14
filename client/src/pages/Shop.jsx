@@ -13,11 +13,9 @@ function Shop() {
 
     useEffect(() => {
         document.title = 'Shopigo'
-        // setTimeout(() => {
-            getProducts().then(data => {
-                setProducts(data)
-            }).finally(() => setLoading(false))
-        // }, 2000);
+        getProducts().then(data => {
+            setProducts(data)
+        }).finally(() => setLoading(false))
     }, [])
     
 
