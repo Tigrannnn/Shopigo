@@ -1,4 +1,5 @@
 const { Basket, BasketProduct, Seller, Product } = require('../models/models')
+const ApiError = require('../exceptions/ApiError')
 
 class BasketService {
     async getBasket(userId) {
@@ -19,14 +20,14 @@ class BasketService {
 
     async addBasketProduct(userId, productId, quantity, selected) {
         if (!productId || !quantity || !selected) {
-            return { message: 'Product ID, quantity and selected are required' }
+            throw ApiError.BadRequest('Product ID, quantity and selected are required')
         }
         if (!userId) {
-            return { message: 'User ID is required' }
+            throw ApiError.BadRequest('User ID is required')
         }
         const basket = await this.getBasket(userId)
         if (!basket) {
-            return { message: 'Basket not found' }
+            throw ApiError.NotFound('Basket not found')
         }
         const existingProduct = await BasketProduct.findOne({ where: { basketId: basket.id, productId } })
         if(existingProduct){
@@ -40,35 +41,35 @@ class BasketService {
 
     async removeBasketProduct(userId, productId) {
         if (!productId) {
-            return { message: 'Product ID is required' }
+            throw ApiError.BadRequest('Product ID is required')
         }
         if (!userId) {
-            return { message: 'User ID is required' }
+            throw ApiError.BadRequest('User ID is required')
         }
         const basket = await this.getBasket(userId)
         if (!basket) {
-            return { message: 'Basket not found' }
+            throw ApiError.NotFound('Basket not found')
         }
         const basketProduct = await BasketProduct.findOne({ where: { basketId: basket.id, productId } })
         if (!basketProduct) {
-            return { message: 'Product not found in basket' }
+            throw ApiError.NotFound('Product not found in basket')
         }
         await basketProduct.destroy()
-        return basket
+        return { message: 'Product removed from basket' }
     }
 
     async updateQuantity(userId, productId, quantity) {
         if (!productId || !quantity) {
-            return { message: 'Product ID and quantity are required' }
+            throw ApiError.BadRequest('Product ID and quantity are required')
         }
 
         const basket = await this.getBasket(userId)
         if (!basket) {
-            return { message: 'Basket not found' }
+            throw ApiError.NotFound('Basket not found')
         }
         const basketProduct = await BasketProduct.findOne({ where: { basketId: basket.id, productId } })
         if (!basketProduct) {
-            return { message: 'Product not found in basket' }
+            throw ApiError.NotFound('Product not found in basket')
         }
         quantity === '+' ? 
         basketProduct.quantity += 1 : 
@@ -81,18 +82,18 @@ class BasketService {
 
     async toggleSelected(userId, productId) {
         if (!productId) {
-            return { message: 'Product ID is required' }
+            throw ApiError.BadRequest('Product ID is required')
         }
         if (!userId) {
-            return { message: 'User ID is required' }
+            throw ApiError.BadRequest('User ID is required')
         }
         const basket = await this.getBasket(userId)
         if (!basket) {
-            return { message: 'Basket not found' }
+            throw ApiError.NotFound('Basket not found')
         }
         const basketProduct = await BasketProduct.findOne({ where: { basketId: basket.id, productId } })
         if (!basketProduct) {
-            return { message: 'Product not found in basket' }
+            throw ApiError.NotFound('Product not found in basket')
         }
         basketProduct.selected = !basketProduct.selected
         await basketProduct.save()
@@ -102,14 +103,14 @@ class BasketService {
     async toggleSelectAll(userId) {
         const basket = await this.getBasket(userId)
         if (!basket){
-            return { message: 'Basket not found' }
+            throw ApiError.NotFound('Basket not found')
         }
 
         const basketProducts = await BasketProduct.findAll({
             where: { basketId: basket.id }
         })
         if (basketProducts.length === 0) {
-            return { message: 'Basket is empty' }
+            throw ApiError.NotFound('Basket is empty')
         }
 
         const isAllSelected = basketProducts.every(product => product.selected === true)

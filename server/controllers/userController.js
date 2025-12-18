@@ -1,58 +1,23 @@
-const { User, Basket, Favorites } = require('../models/models')
-const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
-
-const generateJwt = (id, email, role, name) => {
-    return jwt.sign(
-        { id, email, role, name }, 
-        process.env.JWT_SECRET_KEY, 
-        { expiresIn: '24h' }
-    )
-}
+const UserService = require('../service/userService');
 
 class UserController {
-    async login(req, res) {
-        const { email, password, role } = req.body
+    async login(req, res, next) {
+        try{
+            const body = req.body
 
-        if (!email || !password) {
-            return res.status(400).json({ message: 'Email and password are required' })
-        }
-
-        const user = await User.findOne({ where: { email } })
-        if (user) {
-            const comparePassword = bcrypt.compareSync(password, user.password)
-            if (!comparePassword) {
-                return res.status(400).json({ message: 'Invalid password' })
-            }
-            const token = generateJwt(user.id, user.email, role || user.role, user.name)
-            return res.status(200).json({ token })
-        } else {
-            try {
-                const hashPassword = await bcrypt.hash(password, 10)
-                const newUser = await User.create({ email, password: hashPassword, role })
-                const basket = await Basket.create({ userId: newUser.id })
-                const favorites = await Favorites.create({ userId: newUser.id })
-                const token = generateJwt(newUser.id, newUser.email, newUser.role, newUser.name)
-                return res.status(200).json({ token })
-            } catch (e) {
-                console.log(e)
-                return res.status(500).json({ message: e.message })
-            }
+            const token = await UserService.login(body)
+            return res.json({ token })
+        } catch (e) {
+            next(e)
         }
     }
 
-    async auth(req, res) {
+    async auth(req, res, next) {
         try{
-            const token = generateJwt(req.user.id, req.user.email, req.user.role, req.user.name)
-            const user = req.user
-
-            if (!token || !user) {
-                return;
-            }
-            
+            const { token, user } = await UserService.auth(req.user)
             return res.json({ token, user })
         } catch (e) {
-            res.status(500).json({ message: e.message })
+            next(e)
         }
     }
 }

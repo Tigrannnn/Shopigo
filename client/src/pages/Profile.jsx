@@ -10,7 +10,8 @@ import { ADMIN_ROUTE, BASKET_ROUTE, FAVORITES_ROUTE, ORDERS_ROUTE } from '../uti
 import { useNavigate } from 'react-router-dom';
 import { ReactComponent as CommentIcon } from '../assets/icons/comment.svg';
 import { ReactComponent as CreditCardIcon } from '../assets/icons/creditCard.svg';
-import { ReactComponent as LogOut } from '../assets/icons/logout.svg';
+import { ReactComponent as LogOutIcon } from '../assets/icons/logout.svg';
+import { ReactComponent as AdminIcon } from '../assets/icons/admin.svg';
 import { useModalState } from "../store/useModalState";
 import ProductCard from "../components/ProductCard";
 import { useRecentlyWatchedState } from "../store/useRecentlyWatchedState";
@@ -50,25 +51,28 @@ function Profile() {
                 </div>
                 <button className={cls.profileButton} onClick={() => openCenterModal('changeProfile')}>
                     <div className={cls.profileButtonIcon}>
-                        <UserIcon />
+                        <UserIcon width={"35px"}/>
                     </div>
                     <span>Change Profile</span>
                 </button>
                 <button className={cls.profileButton} onClick={() => openCenterModal('payment')}>
                     <div className={cls.profileButtonIcon}>
-                        <CreditCardIcon />
+                        <CreditCardIcon width={"32px"}/>
                     </div>
                     <span>Payment methods</span>
                 </button>
                 <button className={cls.profileButton} onClick={() => openCenterModal('logOut')}>
                     <div className={cls.profileButtonIcon}>
-                        <LogOut />
+                        <LogOutIcon width={"32px"}/>
                     </div>
                     <span>Log Out</span>
                 </button>
                 {
                     role === 'ADMIN' &&
                     <button className={cls.profileButton} onClick={() => navigate(ADMIN_ROUTE)}>
+                        <div className={cls.profileButtonIcon}>
+                            <AdminIcon width={"40px"}/>
+                        </div>
                         <span>Admin Panel</span>
                     </button>
                 }

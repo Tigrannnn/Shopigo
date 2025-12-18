@@ -1,17 +1,16 @@
 const { Order, OrderProduct, User, Product } = require('../models/models')
 
 class OrderController {
-    async getAll(req, res) {
+    async getAll(req, res, next) {
         try {
             const orders = await Order.findAll()
             return res.json(orders)
-        } catch (error) {
-            console.error('Error getting orders:', error)
-            return res.status(500).json({ message: 'Internal server error' })
+        } catch (e) {
+            next(e)
         }
     }
 
-    async getById(req, res) {
+    async getById(req, res, next) {
         try {
             const { id } = req.params
             if (!id) {
@@ -25,13 +24,12 @@ class OrderController {
             }
 
             return res.json(order)
-        } catch (error) {
-            console.error('Error getting order by ID:', error)
-            return res.status(500).json({ message: 'Internal server error' })
+        } catch (e) {
+            next(e)
         }
     }
 
-    async create(req, res) {
+    async create(req, res, next) {
         try {
             const { userId, products } = req.body
 
@@ -80,13 +78,12 @@ class OrderController {
             })
 
             return res.status(201).json(createdOrder)
-        } catch (error) {
-            console.error('Error creating order:', error)
-            return res.status(500).json({ message: 'Internal server error' })
+        } catch (e) {
+            next(e)
         }
     }
 
-    async update(req, res) {
+    async update(req, res, next) {
         try {
             const { id } = req.params
             const updateData = req.body
@@ -113,13 +110,12 @@ class OrderController {
             })
             
             return res.json(updatedOrder)
-        } catch (error) {
-            console.error('Error updating order:', error)
-            return res.status(500).json({ message: 'Internal server error' })
+        } catch (e) {
+            next(e)
         }
     }
 
-    async delete(req, res) {
+    async delete(req, res, next) {
         try {
             const { id } = req.params
             if (!id) {
@@ -146,14 +142,13 @@ class OrderController {
             await Order.destroy({ where: { id } })
             
             return res.json({ message: 'Order deleted successfully' })
-        } catch (error) {
-            console.error('Error deleting order:', error)
-            return res.status(500).json({ message: 'Internal server error' })
+        } catch (e) {
+            next(e)
         }
     }
 
     // Дополнительный метод для получения заказов пользователя
-    async getByUserId(req, res) {
+    async getByUserId(req, res, next) {
         try {
             const { userId } = req.params
             if (!userId) {
@@ -169,9 +164,8 @@ class OrderController {
             })
 
             return res.json(orders)
-        } catch (error) {
-            console.error('Error getting user orders:', error)
-            return res.status(500).json({ message: 'Internal server error' })
+        } catch (e) {
+            next(e) 
         }
     }
 }

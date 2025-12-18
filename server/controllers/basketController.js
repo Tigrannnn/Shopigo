@@ -1,18 +1,17 @@
-const { Basket, BasketProduct, Seller, Product } = require('../models/models')
 const BasketService = require('../service/basketService')
 
 class BasketController {
-    async getBasket(req, res) {
+    async getBasket(req, res, next) {
         try{
             const userId = req.user.id
             const basket = await BasketService.getBasket(userId)
             return res.json(basket)
         } catch (e) {
-            return res.status(500).json({ message: e.message })
+            next(e)
         }
     }
 
-    async addBasketProduct(req, res) {
+    async addBasketProduct(req, res, next) {
         try{
             const userId = req.user.id
             const { productId, quantity, selected } = req.body
@@ -21,11 +20,11 @@ class BasketController {
 
             return res.json(basket)
         } catch (e) {
-            return res.status(500).json({ message: e.message })
+            next(e)
         }
     }
 
-    async removeBasketProduct(req, res) {
+    async removeBasketProduct(req, res, next) {
         try{
             const userId = req.user.id
             const { productId } = req.body
@@ -33,11 +32,11 @@ class BasketController {
             const basket = await BasketService.removeBasketProduct(userId, productId)
             return res.json(basket)
         } catch (e) {
-            return res.status(500).json({ message: e.message })
+            next(e)
         }
     }
 
-    async updateQuantity(req, res) {
+    async updateQuantity(req, res, next) {
         try{
             const userId = req.user.id
             const { productId, quantity } = req.body
@@ -45,11 +44,11 @@ class BasketController {
             const basketProduct = await BasketService.updateQuantity(userId, productId, quantity)
             return res.json(basketProduct)
         } catch (e) {
-            return res.status(500).json({ message: e.message })
+            next(e)
         }
     }
 
-    async toggleSelected(req, res) {
+    async toggleSelected(req, res, next) {
         try{
             const userId = req.user.id
             const { productId } = req.body
@@ -57,18 +56,18 @@ class BasketController {
             const basketProduct = await BasketService.toggleSelected(userId, productId)
             return res.json(basketProduct)
         } catch (e) {
-            return res.status(500).json({ message: e.message })
+            next(e)
         }
     }
 
-    async toggleSelectAll(req, res) {
+    async toggleSelectAll(req, res, next) {
         try{
             const userId = req.user.id
 
             const updatedProducts = await BasketService.toggleSelectAll(userId)
             return res.json(updatedProducts)
         } catch (e) {
-            return res.status(500).json({ message: e.message })
+            next(e)
         }
     }
 }

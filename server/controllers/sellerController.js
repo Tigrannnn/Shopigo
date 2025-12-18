@@ -1,68 +1,57 @@
-const { Seller } = require('../models/models')
+const SellerService = require('../service/sellerService')
 
 class SellerController {
-    async getAll(req, res) {
+    async getAll(req, res, next) {
         try {
-            const sellers = await Seller.findAll()
+            const sellers = await SellerService.getAll()
             res.json(sellers)
-        } catch (error) {
-            res.status(500).json({ message: error.message })
+        } catch (e) {
+            next(e)
         }
     }
 
-    async getById(req, res) {
+    async getById(req, res, next) {
         try {
-            const seller = await Seller.findByPk(req.params.id)
-            if (seller) {
-                res.json(seller)
-            } else {
-                res.status(404).json({ message: 'Seller not found' })
-            }
-        } catch (error) {
-            res.status(500).json({ message: error.message })
+            const { id } = req.params
+
+            const seller = await SellerService.getById(id)
+            res.json(seller)
+        } catch (e) {
+            next(e)
         }
     }
 
-    async create(req, res) {
+    async create(req, res, next) {
         try {
-            const seller = await Seller.create(req.body)
-            if (!seller) {
-                return res.status(400).json({ message: 'Seller creation failed' })
-            }
-            if (!seller.name) {
-                return res.status(400).json({ message: 'Seller name is required' })
-            }
+            const { name } = req.body
+
+            const seller = await SellerService.create(name)
             res.status(201).json(seller)
-        } catch (error) {
-            res.status(500).json({ message: error.message })
+        } catch (e) {
+            next(e)
         }
     }
 
-    async update(req, res) {
+    async update(req, res, next) {
         try {
-            const seller = await Seller.findByPk(req.params.id)
-            if (seller) {
-                await seller.update(req.body)
-                res.json(seller)
-            } else {
-                res.status(404).json({ message: 'Seller not found' })
-            }
-        } catch (error) {
-            res.status(500).json({ message: error.message })
+            const { id } = req.params
+            const { name, logo } = req.body
+
+            const updatedSeller = await SellerService.update(id, name, logo)
+            res.json(updatedSeller)
+        } catch (e) {
+            next(e)
         }
     }
 
-    async delete(req, res) {
+    async delete(req, res, next) {
         try {
-            const seller = await Seller.findByPk(req.params.id)
-            if (seller) {
-                await seller.destroy()
-                res.json({ message: 'Seller deleted successfully' })
-            } else {
-                res.status(404).json({ message: 'Seller not found' })
-            }
-        } catch (error) {
-            res.status(500).json({ message: error.message })
+            const { id } = req.params
+
+            await SellerService.delete(id)
+            res.json({ message: 'Seller deleted successfully' })
+        } catch (e) {
+            next(e)
         }
     }
 }

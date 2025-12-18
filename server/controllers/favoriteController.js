@@ -1,69 +1,38 @@
-const { Favorites, FavoriteProduct, Seller, Product } = require('../models/models')
+const FavoriteService = require('../service/favoriteService')
 
 class FavoriteController {
-    async getFavorites(req, res) {
+    async getFavorites(req, res, next) {
         try{
             const userId = req.user.id
-            let favorites = await Favorites.findOne({
-                where: { userId },
-                include: [{ 
-                    model: FavoriteProduct, include: [{
-                        model: Product, 
-                        include: [{ model: Seller, attributes: ['id', 'name']}]
-                    }] 
-                }] 
-            })
-            if(!favorites){
-                favorites = await Favorites.create({ userId })
-            }
+            
+            const favorites = await FavoriteService.getFavorites(userId)
             return res.json(favorites)
         } catch (e) {
-            return res.status(500).json({ message: e.message })
+            next(e)
         }
     }
 
-    async addFavoriteProduct(req, res) {
+    async addFavoriteProduct(req, res, next) {
         try{
             const userId = req.user.id
             const { productId } = req.body
 
-            let favorites = await Favorites.findOne({ where: { userId } })
-            if(!favorites){
-                favorites = await Favorites.create({ userId })
-            }
-
-            const newProduct = await FavoriteProduct.create({ favoritesId: favorites.id, productId })
+            const newProduct = await FavoriteService.addFavoriteProduct(userId, productId)
             return res.json(newProduct)
         } catch (e) {
-            return res.status(500).json({ message: e.message })
+            next(e)
         }
     }
 
-    async removeFavoriteProduct(req, res) {
+    async removeFavoriteProduct(req, res, next) {
         try{
             const userId = req.user.id
             const { productId } = req.body
 
-            if (!productId) {
-                return res.status(400).json({ message: 'Product ID is required' })
-            }
-
-            const favorites = await Favorites.findOne({ where: { userId } })
-            if(!favorites){
-                return res.status(400).json({ message: 'Favorites not found' })
-            }
-            
-            const favoritesProduct = await FavoriteProduct.findOne({
-                where: { favoritesId: favorites.id, productId }
-            })
-            if (!favoritesProduct) {
-                return res.status(400).json({ message: 'Product not found in favorites' })
-            }
-            
-            await favoritesProduct.destroy()
+            await FavoriteService.removeFavoriteProduct(userId, productId)
             return res.json({ message: 'Product removed from favorites' })
         } catch (e) {
-            return res.status(500).json({ message: e.message })
+            next(e)
         }
     }
 }

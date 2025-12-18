@@ -79,6 +79,17 @@ function LayOut() {
             closeFilterModal()
         }
     }
+
+    useEffect(() => {
+        if (role) {
+            getBasket().then(data => {
+                setBasketProducts(data)            
+            })
+            getFavorites().then(data => {
+                setFavoriteProducts(data)
+            })
+        }
+    }, [role])
     
     useEffect(() => {
         auth().then(data => {
@@ -91,20 +102,6 @@ function LayOut() {
             }).finally(() => setLoading(false))
         )
     }, [])
-
-    useEffect(() => {
-        if (role) {
-            getBasket().then(data => {
-                setBasketProducts(data)            
-            })
-            getFavorites().then(data => {
-                setFavoriteProducts(data)
-            })
-        } else {
-            setBasketProducts([])
-            setFavoriteProducts([])
-        }
-    }, [role])
 
     if (loading) return <Loader load="app"/>
 

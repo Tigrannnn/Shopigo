@@ -23,7 +23,7 @@ function Search() {
         setLoading(true)
         getProducts({search}).then(data => {
             data.length === 1 ? 
-            navigate(`${PRODUCT_ROUTE}/${data[0].id}`) :
+            navigate(`${PRODUCT_ROUTE}/${data[0].id}`, {replace: true}) :
             setProducts(data)
         }).finally(() => 
             setLoading(false)

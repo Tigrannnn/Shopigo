@@ -61,17 +61,19 @@ function ProductPage() {
     const setFeedback = useFeedbackState(state => state.setFeedback)
 
     useEffect(() => {
+        setLoading(true)
         setFeedback('reviews')
-        closeSellerInfoModal();
+        closeSellerInfoModal()
         getOneProduct(id).then(data => {
             setProduct(data)
-            setLoading(false)
-        });
+        }).finally(() => setLoading(false))
     }, []);
 
     useEffect(() => {
-        document.title = `${product.name} - ${product.seller?.name} - Shopigo` || 'Product'
-    }, [product]);
+        const name = product?.name
+        const sellerName = product?.seller?.name
+        document.title = name && sellerName ? `${name} - ${sellerName} - Shopigo` : 'Product - Shopigo'
+    }, [product, document.title]);
 
 
     // function handleColorVariantHover(e, index) {

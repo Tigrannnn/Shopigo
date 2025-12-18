@@ -64,6 +64,7 @@
 
         .profileButton {
             @include boxShadowButton;
+            height: 70px;
             width: 100%;
             padding: 20px;
             gap: 10px;
@@ -81,9 +82,9 @@
                 justify-content: center;
 
                 svg {
-                    width: 30px;
-                    height: 30px;
-                    object-fit: cover;
+                    // width: 30px;
+                    // height: 30px;
+                    // object-fit: cover;
                 }
             }
         }
