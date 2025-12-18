@@ -97,7 +97,15 @@ const FavoriteProduct = sequelize.define('favoriteProduct', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
 })
 
+const Token = sequelize.define('token', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    refreshToken: {type: DataTypes.STRING, allowNull: false},
+})
+
 // Associations
+Token.belongsTo(User)
+User.hasOne(Token)
+
 User.hasOne(Basket)
 Basket.belongsTo(User)
 
@@ -159,5 +167,6 @@ module.exports = {
     OrderProduct,
     Review,
     Favorites,
-    FavoriteProduct
+    FavoriteProduct,
+    Token,
 }

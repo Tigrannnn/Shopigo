@@ -5,8 +5,8 @@ class UserController {
         try{
             const body = req.body
 
-            const token = await UserService.login(body)
-            return res.json({ token })
+            const accessToken = await UserService.login(body)
+            return res.json({ accessToken })
         } catch (e) {
             next(e)
         }
@@ -14,8 +14,8 @@ class UserController {
 
     async auth(req, res, next) {
         try{
-            const { token, user } = await UserService.auth(req.user)
-            return res.json({ token, user })
+            const { accessToken, user } = await UserService.auth(req.user)
+            return res.json({ accessToken, user })
         } catch (e) {
             next(e)
         }
