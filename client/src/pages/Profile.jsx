@@ -14,15 +14,13 @@ import { ReactComponent as LogOutIcon } from '../assets/icons/logout.svg';
 import { ReactComponent as AdminIcon } from '../assets/icons/admin.svg';
 import { useModalState } from "../store/useModalState";
 import ProductCard from "../components/ProductCard";
-import { useRecentlyWatchedState } from "../store/useRecentlyWatchedState";
-import { useEffect } from 'react'
+import { useRecentlyViewedState } from "../store/useRecentlyViewedState";
+import { useEffect, useState } from 'react'
 import { useProfileState } from "../store/useProfileState";
+import { getRecentlyViewed } from "../http/recentlyViewedApi";
+import Loader from "../components/Loader";
 
 function Profile() {
-    useEffect(() => {
-        document.title = 'Profile'
-    }, [])
-    
     const name = useProfileState(state => state.name)
     const role = useProfileState(state => state.role)
     const balance = useProfileState(state => state.balance)
@@ -30,11 +28,24 @@ function Profile() {
     const orderProducts = useOrderState(state => state.orderProducts)
     const basketProducts = useBasketState(state => state.basketProducts)
 
-    const recentlyWatched = useRecentlyWatchedState(state => state.recentlyWatched)
+    const [loading, setLoading] = useState(true)
+
+    const recentlyViewed = useRecentlyViewedState(state => state.recentlyViewed)
+    const setRecentlyViewed = useRecentlyViewedState(state => state.setRecentlyViewed)
 
     const navigate = useNavigate()
 
     const openCenterModal = useModalState(state => state.openCenterModal)
+
+    useEffect(() => {
+        document.title = 'Profile'
+        getRecentlyViewed().then(data => {
+            setRecentlyViewed(data)
+        }).finally(() => setLoading(false))
+    }, [])
+
+
+    if (loading) return <Loader/>
 
     return (
         <div className={cls.Profile}>
@@ -129,12 +140,12 @@ function Profile() {
                 </div>
                 
                 {
-                    recentlyWatched.length > 0 &&
-                    <div className={cls.recentlyWatchedWrapper}>
-                        <h3>Recently Watched</h3>
-                        <div className={cls.recentlyWatched}>
+                    recentlyViewed.length > 0 &&
+                    <div className={cls.recentlyViewedWrapper}>
+                        <h3>Recently viewed</h3>
+                        <div className={cls.recentlyViewed}>
                             {
-                                recentlyWatched.map((product) => (
+                                recentlyViewed.map((product) => (
                                     <ProductCard 
                                         key={product.id}
                                         product={product}

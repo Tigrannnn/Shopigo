@@ -2,7 +2,6 @@ import { $authHost, $host } from './index.js'
 
 export const createCategory = async (name, icon) => {
     try {
-        const body = {name, icon}
         const formData = new FormData()
         formData.append('name', name)
         formData.append('icon', icon)

@@ -213,7 +213,7 @@
             }
         }
 
-        .recentlyWatchedWrapper{
+        .recentlyViewedWrapper{
             display: flex;
             flex-direction: column;
             gap: 5px;
@@ -221,7 +221,7 @@
             border-radius: 10px;
             @include boxShadow;
 
-            .recentlyWatched {
+            .recentlyViewed {
                 @include productList(180px);
                 overflow-x: auto;
                 padding: 20px;

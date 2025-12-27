@@ -22,7 +22,6 @@ function BasketProduct ({checkedAll, product}) {
     const removeFromFavorites = useFavoritesState(state => state.removeFromFavorites)
     const favoriteProducts = useFavoritesState(state => state.favoriteProducts)
     const isFavorite = favoriteProducts.some(item => item.id === id)
-    
 
     const navigate = useNavigate()
 

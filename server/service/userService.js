@@ -1,40 +1,56 @@
-const { User, Basket, Favorites } = require('../models/models')
-const bcrypt = require('bcrypt')
+const { User, Basket, Favorites, RecentlyViewed } = require('../models/models')
 const ApiError = require('../exceptions/ApiError')
 const TokenService = require('./tokenService')
-
+const UserDto = require('../dtos/userDto')
+const mailService = require('./mailService')
+const redis = require('../db/redis')
 
 class UserService {
-    async login(body) {
-        const {email, password, role } = body
+    async sendCode (body) {
+        const { email } = body
 
-        if (!email || !password) {
-            throw ApiError.BadRequest('Email and password are required')
+        if (!email) {
+            throw ApiError.BadRequest('Email is required');
         }
 
-        const code = Math.floor(100000 + Math.random() * 900000)
+        const serverCode = Math.floor(100000 + Math.random() * 900000).toString();
 
-        const user = await User.findOne({ where: { email } })
-        if (user) {
-            const comparePassword = bcrypt.compareSync(password, user.password)
-            if (!comparePassword) {
-                throw ApiError.BadRequest('Invalid password')
+        await redis.set(`otp:${email}`, serverCode, 'EX', 600);
+
+        await mailService.sendMail(email, serverCode);
+        return { email, serverCode }
+    }
+
+    async login(body) {
+        const { email, inputCode } = body
+        if (!email) {
+            throw ApiError.BadRequest('Email are required')
+        }
+        if (!inputCode) {
+            throw ApiError.BadRequest('Code is required')
+        }
+
+        let user = await User.findOne({ where: { email } })
+
+        const serverCode = await redis.get(`otp:${email}`)
+        if (!serverCode) {
+            throw ApiError.BadRequest('Code expired or not found')
+        }
+
+        if (String(serverCode) === String(inputCode)) {
+            if (!user) {
+                user = await User.create({ email, role: 'USER' })
+                const basket = await Basket.create({ userId: user.id })
+                const favorites = await Favorites.create({ userId: user.id })
+                const recentlyViewed = await RecentlyViewed.create({ userId: user.id })
             }
-            const { accessToken } = TokenService.generateTokens({ id: user.id, email: user.email, role: role || user.role, name: user.name })
-            return accessToken
+            const userDto = new UserDto(user)
+            const { accessToken, refreshToken } = TokenService.generateTokens({ ...userDto })
+            await TokenService.saveToken(userDto.id, refreshToken)
+            await redis.del(`otp:${email}`)
+            return { accessToken, refreshToken, user }
         } else {
-            try {
-                const hashPassword = await bcrypt.hash(password, 10)
-                const newUser = await User.create({ email, password: hashPassword, role })
-                const basket = await Basket.create({ userId: newUser.id })
-                const favorites = await Favorites.create({ userId: newUser.id })
-                const { accessToken } = TokenService.generateTokens({
-                    id: newUser.id, email: newUser.email, role: newUser.role, name: newUser.name
-                })
-                return accessToken
-            } catch (e) {
-                throw ApiError.Internal(e.message)
-            }
+            throw ApiError.BadRequest('Wrong code')
         }
     }
 
@@ -42,9 +58,18 @@ class UserService {
         if (!user) {
             return;
         }
-        const { id, email, role, name } = user
-        const { accessToken } = TokenService.generateTokens({ id, email, role, name })
-        return { accessToken, user }
+        const userDto = new UserDto(user)
+        const { accessToken, refreshToken } = TokenService.generateTokens({ ...userDto })
+        return { accessToken, refreshToken, user }
+    }
+
+    async logout(refreshToken) {
+        await TokenService.removeToken(refreshToken)
+        return { message: 'Logged out' }
+    }
+
+    async refresh(refreshToken) {
+       
     }
 }
 

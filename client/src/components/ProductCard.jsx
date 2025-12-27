@@ -7,7 +7,7 @@ import { useBasketState } from '../store/useBasketState';
 import { useFavoritesState } from '../store/useFavoritesState';
 import { BASKET_ROUTE, ORDERS_ROUTE, PRODUCT_ROUTE } from '../utils/consts';
 import { useOrderState } from '../store/useOrderState';
-import { useRecentlyWatchedState } from '../store/useRecentlyWatchedState';
+import { useRecentlyViewedState } from '../store/useRecentlyViewedState';
 
 function ProductCard({product}) {
     const addToBasket = useBasketState(state => state.addToBasket)
@@ -19,7 +19,7 @@ function ProductCard({product}) {
     const isInFavorites = favoriteProducts.some(item => item.id === product.id)
     const orderProducts = useOrderState(state => state.orderProducts)
     const isInOrder = orderProducts.some(item => item.id === product.id)
-    const addRecentlyWatched = useRecentlyWatchedState(state => state.addRecentlyWatched)
+    const addRecentlyViewed = useRecentlyViewedState(state => state.addRecentlyViewed)
     const navigate = useNavigate()
 
     const handleClick = (e) => {
@@ -51,7 +51,7 @@ function ProductCard({product}) {
         e.stopPropagation();
         e.preventDefault();
         navigate(`${PRODUCT_ROUTE}/${product.id}`)
-        addRecentlyWatched(product)
+        addRecentlyViewed(product)
     }
 
     return(

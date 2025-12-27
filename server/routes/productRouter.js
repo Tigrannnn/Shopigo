@@ -7,10 +7,16 @@ router.get('/', ProductController.getAll)
 
 router.get('/:id', ProductController.getById)
 
-router.post('/', checkRoleMiddleware('ADMIN'), ProductController.create)
+// router.post('/', checkRoleMiddleware('ADMIN'), ProductController.create)
 
-router.put('/:id', checkRoleMiddleware('ADMIN'), ProductController.update)
+// router.put('/:id', checkRoleMiddleware('ADMIN'), ProductController.update)
 
-router.delete('/:id', checkRoleMiddleware('ADMIN'), ProductController.delete)
+// router.delete('/:id', checkRoleMiddleware('ADMIN'), ProductController.delete)
+
+router.post('/', ProductController.create)
+
+router.put('/:id', ProductController.update)
+
+router.delete('/:id', ProductController.delete)
 
 module.exports = router

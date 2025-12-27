@@ -7,6 +7,7 @@ const sellerRouter = require('./sellerRouter')
 const orderRouter = require('./orderRouter')
 const basketRouter = require('./basketRouter')
 const favoriteRouter = require('./favoriteRouter')
+const recentlyViewedRouter = require('./recentlyViewedRouter')
 
 router.use('/user', userRouter)
 router.use('/product', productRouter)
@@ -15,5 +16,6 @@ router.use('/seller', sellerRouter)
 router.use('/order', orderRouter)
 router.use('/basket', basketRouter)
 router.use('/favorites', favoriteRouter)
+router.use('/recentlyViewed', recentlyViewedRouter)
 
 module.exports = router

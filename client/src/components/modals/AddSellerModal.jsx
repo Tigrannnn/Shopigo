@@ -8,9 +8,8 @@ import { getCategories } from '../../http/categoryApi';
 import { useCategoryState } from '../../store/useCategoryState';
 import { getSellers } from '../../http/sellerApi';
 import capitalizeFirstLetter from '../../utils/useCapitalizeFirsLetter';
-import { useToastState } from '../../store/useToastState';
 
-function AddProductModal() {
+function AddSellerModal() {
     const closeCenterModal = useModalState(state => state.closeCenterModal)
 
     const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false)
@@ -29,8 +28,6 @@ function AddProductModal() {
 
     const [error, setError] = useState('')
 
-    const toast = useToastState(state => state.toast)
-
     useEffect(() => {
         getSellers().then(data => {
             if (Array.isArray(data)) {
@@ -40,12 +37,12 @@ function AddProductModal() {
     }, [])
 
      const addProduct = async () => {
-        if (!nameInput || !descriptionInput || !priceInput || !imageInput || !productCategory || !productSeller) {
-            setError('Unvalid value')  
-            setTimeout(() => {
-                setError('')
-            }, 4000)
-        } else {
+        // if (!nameInput || !descriptionInput || !priceInput || !imageInput || !productCategory || !productSeller) {
+        //     setError('Unvalid value')  
+        //     setTimeout(() => {
+        //         setError('')
+        //     }, 4000)
+        // } else {
             try {
                 await createProduct({
                     name: nameInput,
@@ -56,15 +53,14 @@ function AddProductModal() {
                     sellerId: productSeller.id,
                     image: imageInput
                 })
-                toast('Product added successfully')
-                closeCenterModal()
+                // closeCenterModal()
             } catch (e) {
                 setError(e.message)
                 setTimeout(() => {
                     setError('')
                 }, 4000)
             }
-        }
+        // }
     }
 
     useEffect(() => {
@@ -179,4 +175,4 @@ function AddProductModal() {
     )
 }
 
-export default AddProductModal
+export default AddSellerModal

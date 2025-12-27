@@ -15,7 +15,7 @@ function LogOutModal() {
         logOut()
         closeCenterModal()
         navigate('/')
-        localStorage.removeItem('token')
+        localStorage.removeItem('accessToken')
     }
 
     return (

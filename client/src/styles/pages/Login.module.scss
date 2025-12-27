@@ -15,6 +15,12 @@
         @include boxShadow;
         backdrop-filter: blur(10px);
         border: 1px solid rgba(255, 255, 255, 0.2);
+        position: relative;
+
+        .loaderWrapper{
+            border: 1px solid red;
+            height: 100%;
+        }
     }
 }
 

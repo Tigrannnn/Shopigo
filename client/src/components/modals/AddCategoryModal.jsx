@@ -13,7 +13,12 @@ function AddCategoryModal() {
 
     const addCategory = () => {
         if (!nameInput) {
-            setError('Unvalid value')  
+            setError('Category name is required')
+            setTimeout(() => {
+                setError('')
+            }, 4000)
+        } else if (!iconInput) {
+            setError('Category icon is required')
             setTimeout(() => {
                 setError('')
             }, 4000)

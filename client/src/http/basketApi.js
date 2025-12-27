@@ -7,7 +7,6 @@ export const getBasket = async () => {
             ...basketProduct.product,
             quantity: basketProduct.quantity,
             selected: basketProduct.selected,
-            basketProductId: basketProduct.id
         }))
         return products
     } catch (e) {

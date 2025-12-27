@@ -5,9 +5,10 @@ import { ReactComponent as EnvelopeIcon } from '../assets/icons/envelope.svg';
 import { ReactComponent as PhoneIcon } from '../assets/icons/phone.svg';
 import { useState, useEffect } from 'react';
 import { useSelectState } from '../store/useSelectState';
-import { login } from '../http/userApi';
+import { login, sendEmail } from '../http/userApi';
 import { useProfileState } from '../store/useProfileState';
 import SelectModal from '../components/modals/SelectModal';
+import Loader from '../components/Loader';
 
 function Login() {
     useEffect(() => {
@@ -42,25 +43,23 @@ function Login() {
 
     const sortedCountries = countries.sort((a, b) => a.name.localeCompare(b.name))
 
+    const [loading, setLoading] = useState(false)
+
     const isSelectModalOpen = useSelectState(state => state.isSelectModalOpen)
-    const closeSelectModal = useSelectState(state => state.closeSelectModal)
     const openSelectModal = useSelectState(state => state.openSelectModal)
 
-    const [authMethod, setAuthMethod] = useState('phone')
+    const [authMethod, setAuthMethod] = useState('email')
     const [step, setStep] = useState('enter')
     const [countrySelect, setCountrySelect] = useState(countries.find(country => country.name === 'Armenia'))
     
     const [inputPhoneState, setInputPhoneState] = useState('')
     const [inputEmailState, setInputEmailState] = useState('')
-    const [inputPasswordState, setInputPasswordState] = useState('')
+    const [inputCode, setInputCode] = useState('')
     const [error, setError] = useState('')
 
     const setUser = useProfileState(state => state.setUser)
     const setPhoneNumber = useProfileState(state => state.setPhoneNumber)
-    const setEmail = useProfileState(state => state.setEmail)
 
-    const [code, setCode] = useState('')
-    const [inputCode, setInputCode] = useState('')
 
     async function handleLogin() {
         if (step === 'enter') {
@@ -72,16 +71,15 @@ function Login() {
                         setError('')
                     }, 3000)
                 } else {
-                    setError(false)
-                    setStep('password')
-                    handleGetNewCode()
+                    setError('')
                 }
             } else if (authMethod === 'email') {
                 if (inputEmailState.includes('@') && inputEmailState.includes('.')) {
-                    setEmail(inputEmailState)
                     setError(false)
-                    setStep('password')
-                    handleGetNewCode()
+                    setLoading(true)
+                    await sendEmail(inputEmailState)
+                    setStep('code')
+                    setLoading(false)
                 } else {
                     setError('Incorrect email format')
                     setTimeout(() => {
@@ -90,44 +88,27 @@ function Login() {
                 }
             }
         } else if (step === 'code') {
-            if (inputCode === code) {
-                setUser('')
-            } else {
-                setError('')
+            try {
+                setLoading(true)
+                const data = await login(inputEmailState, inputCode)
+                setLoading(false)
+                setUser(data)
+            } catch (e) {
+                setLoading(false)
+                setError(e.response?.data?.message)
                 setTimeout(() => {
                     setError('')
-                }, 4000)
-            }
-        } else if (step === 'password') {
-            if (inputPasswordState.length >= 8) {
-                try {
-                    const data = await login(inputEmailState, inputPasswordState)
-                    setUser(data)
-                } catch (error) {
-                    setError(error.response.data.message)
-                    setTimeout(() => {
-                        setError('')
-                    }, 4000)
-                }
-            } else {
-                setError('Incorrect password format')
-                setTimeout(() => {
-                    setError('')
-                }, 4000)
+                }, 4000);
             }
         }
-    }
-    
-    function handleGetNewCode() {
-        const randomCode = Array.from({ length: 6 }, () => Math.floor(Math.random() * 10)).join('');
-        setCode(randomCode)
-        console.log(randomCode)
-        // alert(randomCode)
     }
     
     return(
         <div className={cls.Login}>
             <div className={cls.loginWrapper}>
+                {loading && (
+                    <Loader variant='modal'/>
+                )}
                 {
                     step === 'enter' && (
                         <>
@@ -272,34 +253,6 @@ function Login() {
                     )
                 }
                 {
-                    step === 'password' && (
-                        <>
-                            <section className={cls.loginHeaderSection}>
-                                <h1 className={cls.loginTitle}>Shopigo</h1>
-                            </section>
-                            <section className={cls.loginInputSection}>
-                                <div className={cls.inputWrapper}>
-                                    <input 
-                                        type="password" 
-                                        placeholder="Password" 
-                                        className={cls.input}
-                                        value={inputPasswordState}
-                                        onChange={(e) => setInputPasswordState(e.target.value)}
-                                        onKeyDown={(e) => {
-                                            if (e.key === 'Enter') {
-                                                handleLogin()
-                                            }
-                                        }}
-                                    />
-                                </div>
-                                {
-                                    error && <span className={cls.errorText}>{error}</span>
-                                }
-                            </section>
-                        </>
-                    )
-                }
-                {
                     step === 'code' && (
                         <> 
                              <section className={cls.loginHeaderSection}>
@@ -346,7 +299,7 @@ function Login() {
                                 {
                                     error && <span className={cls.errorText}>{error}</span>
                                 }
-                                <span className={cls.getNewCode} onClick={handleGetNewCode}>Get new code</span>
+                                <span className={cls.getNewCode} onClick={async () => await sendEmail(inputEmailState)}>Get new code</span>
                             </section>
 
                             <section className={cls.buttonsSection}>

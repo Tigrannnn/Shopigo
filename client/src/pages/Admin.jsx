@@ -122,11 +122,10 @@ function Admin() {
                         </button>
                         
                         <button 
-                            className={`${cls.navButton} ${activeTab === 'reviews' ? cls.active : ''}`}
-                            onClick={() => setActiveTab('reviews')}
+                            className={`${cls.navButton} ${activeTab === 'sellers' ? cls.active : ''}`}
+                            onClick={() => setActiveTab('sellers')}
                         >
-                            <StarIcon className={cls.navIcon} />
-                            <span>Reviews</span>
+                            <span>Sellers</span>
                         </button>
                     </nav>
                 </aside>
@@ -371,20 +370,24 @@ function Admin() {
                         </div>
                     )}
 
-                    {activeTab === 'reviews' && (
+                    {activeTab === 'sellers' && (
                         <div className={cls.reviewsTab}>
                             <div className={cls.tabHeader}>
-                                <h2>Review Management</h2>
-                                <button className={cls.addButton}>View All Reviews</button>
+                                <h2>Seller Management</h2>
+                                <button 
+                                    className={cls.addButton}
+                                    onClick={() => openCenterModal('addSeller')}
+                                >
+                                    Add New Seller
+                                </button>
                             </div>
                             <div className={cls.searchBar}>
                                 <SearchIcon className={cls.searchIcon} />
-                                <input type="text" placeholder="Search reviews..." className={cls.searchInput} />
+                                <input type="text" placeholder="Search sellers..." className={cls.searchInput} />
                             </div>
                             <div className={cls.placeholderContent}>
-                                <StarIcon className={cls.placeholderIcon} />
-                                <h3>Review Management</h3>
-                                <p>Moderate and manage customer reviews</p>
+
+                                <h3>Seller Management</h3>
                             </div>
                         </div>
                     )}

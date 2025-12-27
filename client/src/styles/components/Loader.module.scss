@@ -3,8 +3,12 @@
     height: 100vh;
     display: flex;
     justify-content: center;
+    align-items: center;
     background-color: rgba(255, 255, 255, 0.8);
-    z-index: 9999;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 99;
     cursor: wait;
 
     svg{
@@ -45,4 +49,10 @@
         }
       }
     }
+}
+
+.modal{
+  padding-top: 48%;
+  padding-bottom: 52%;
+  height: 100%;
 }

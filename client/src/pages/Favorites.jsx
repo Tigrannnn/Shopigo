@@ -29,7 +29,7 @@ function Favorites() {
                         <div className={cls.mainBlock}>
                             <div className={cls.productListBlock}>
                                 {favoriteProducts.map((product) => (
-                                    <ProductCard key={product.id} liked={true} product={product}/>
+                                    <ProductCard key={product.id} product={product}/>
                                 ))}
                             </div>
                         </div>

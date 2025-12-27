@@ -99,7 +99,9 @@ function LayOut() {
         ).finally(
             getCategories().then(data => {
                 setCategories(data)
-            }).finally(() => setLoading(false))
+            }).finally(() => 
+                setLoading(false)
+            )
         )
     }, [])
 

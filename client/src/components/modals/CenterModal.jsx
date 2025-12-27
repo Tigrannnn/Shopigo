@@ -10,6 +10,7 @@ import AddProductModal from './AddProductModal';
 import WriteReviewModal from './WriteReviewModal';
 import WriteSupportModal from './WriteSupportModal';
 import { useSelectState } from '../../store/useSelectState';
+import AddSellerModal from './AddSellerModal';
 
 function CenterModal() {
     const centerModal = useModalState(state => state.centerModal)
@@ -85,6 +86,12 @@ function CenterModal() {
             {
                 centerModal === 'writeSupport' && (
                     <WriteSupportModal />
+                )
+            }
+
+            {
+                centerModal === 'addSeller' && (
+                    <AddSellerModal />
                 )
             }
         </div>

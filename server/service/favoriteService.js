@@ -41,14 +41,14 @@ class FavoriteService {
             throw ApiError.NotFound('Favorites not found')
         }
         
-        const favoritesProduct = await FavoriteProduct.findOne({
+        const favoriteProduct = await FavoriteProduct.findOne({
             where: { favoritesId: favorites.id, productId }
         })
-        if (!favoritesProduct) {
+        if (!favoriteProduct) {
             throw ApiError.NotFound('Product not found in favorites')
         }
         
-        await favoritesProduct.destroy()
+        await favoriteProduct.destroy()
         return { message: 'Product removed from favorites' }
     }
 }

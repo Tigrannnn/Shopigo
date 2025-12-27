@@ -4,13 +4,14 @@ const uuid = require('uuid')
 const path = require('path')
 const fs = require('fs')
 const ApiError = require('../exceptions/ApiError')
+const generateArticle = require('../utils/generateArticle')
 
 class ProductService {
     async create (body, files) {
-        const { name, price, description, rating, article, categoryId, sellerId } = body
+        const { name, price, description, rating = 0, categoryId, sellerId } = body
         const { image } = files
         
-        if (!name || !price || !article || !categoryId || !sellerId) {
+        if (!name || !price || !categoryId || !sellerId) {
             throw ApiError.BadRequest('Name, price, article, categoryId and sellerId are required')
         }
 
@@ -41,6 +42,8 @@ class ProductService {
         if (!seller) {
             throw ApiError.NotFound('Seller not found')
         }
+
+        const article = await generateArticle()
 
         const product = await Product.create({
             name,

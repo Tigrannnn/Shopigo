@@ -15,7 +15,9 @@ function Shop() {
         document.title = 'Shopigo'
         getProducts().then(data => {
             setProducts(data)
-        }).finally(() => setLoading(false))
+        }).finally(() => 
+            setLoading(false)
+        )
     }, [])
     
 

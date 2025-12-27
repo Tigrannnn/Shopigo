@@ -15,9 +15,9 @@ function AppRouter() {
                 })}
                 {routes.map(({path, element}) => {
                     if (!role && path === PROFILE_ROUTE) {
-                        return <Route key={path} path={path} element={<Navigate to={LOGIN_ROUTE} />} />
+                        return <Route key={path} path={path} element={<Navigate to={LOGIN_ROUTE} replace={true}/>} />
                     } else if (role && path === LOGIN_ROUTE) {
-                        return <Route key={path} path={path} element={<Navigate to={PROFILE_ROUTE} />} />
+                        return <Route key={path} path={path} element={<Navigate to={PROFILE_ROUTE} replace={true}/>} />
                     }
                     return <Route key={path} path={path} element={element} />
                 })}

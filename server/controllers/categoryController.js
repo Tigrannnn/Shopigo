@@ -26,7 +26,7 @@ class CategoryController {
             const { name } = req.body
             const { icon } = req.files
 
-            const category = CategoryService.create(name, icon)
+            const category = await CategoryService.create(name, icon)
             return res.status(201).json(category)
         } catch (e) {
             next(e)

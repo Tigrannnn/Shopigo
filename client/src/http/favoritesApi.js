@@ -3,10 +3,7 @@ import { $authHost } from './index.js'
 export const getFavorites = async () => {
     try {
         const {data} = await $authHost.get('/api/favorites')
-        const products = data.favoriteProducts.map(favoriteProduct => ({
-            ...favoriteProduct.product,
-            favoriteProductId: favoriteProduct.id
-        }))
+        const products = data.favoriteProducts.map(favoriteProduct => favoriteProduct.product)
         return products
     } catch (e) {
         return e.message

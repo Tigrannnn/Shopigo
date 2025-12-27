@@ -12,6 +12,6 @@ export const useProfileState = create((set) => ({
         role: null,
         name: '',
         phoneNumber: '',
-        email: ''
+        email: '',
     }))
 }));
