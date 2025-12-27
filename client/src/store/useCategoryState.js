@@ -6,6 +6,11 @@ export const useCategoryState = create((set) => ({
         return {...state, categories}
     }),
 
+    categoryProducts: [],
+    setCategoryProducts: (products) => set((state) => {
+        return {...state, categoryProducts: products}
+    }),
+
     isFilterModalOpen: false,
     openFilterModal: () => set({ isFilterModalOpen: true }),
     closeFilterModal: () => set({ isFilterModalOpen: false }),

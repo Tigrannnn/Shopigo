@@ -1,5 +1,5 @@
 const { Product, Seller, Category } = require('../models/models')
-const { Op } = require('sequelize')
+const { Op, Sequelize } = require('sequelize')
 const uuid = require('uuid')
 const path = require('path')
 const fs = require('fs')
@@ -76,16 +76,18 @@ class ProductService {
             where[Op.or] = [
                 { name: { [Op.iLike]: `%${search}%` } },
                 { article: { [Op.iLike]: `%${search}%` } },
-                { description: { [Op.iLike]: `%${search}%` } }
+                { description: { [Op.iLike]: `%${search}%` } },
             ]
         }
 
         const products = await Product.findAll({ where, limit, offset, include: [
+                {model: Category, attributes: ['id', 'name']},
                 {model: Seller, attributes: ['id', 'name']},
             ]
         })
 
         return products
+        
     }
 
     async getById(id) {

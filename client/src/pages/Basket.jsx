@@ -3,11 +3,10 @@ import cls from '../styles/pages/Basket.module.scss'
 import { ReactComponent as CheckboxCheckIcon } from '../assets/icons/checkbox-check.svg'
 import { useBasketState } from '../store/useBasketState'
 import { LOGIN_ROUTE, SHOP_ROUTE } from '../utils/consts'
-import { Link } from 'react-router-dom'
 import { useOrderState } from '../store/useOrderState.js'
 import { useNavigate } from 'react-router-dom'
 import { ORDERS_ROUTE } from '../utils/consts'
-import RecomendedBlock from '../components/RecommendedBlock.jsx';
+import RecommendedBlock from '../components/RecommendedBlock.jsx';
 import { useEffect, useState } from 'react'
 import { useProfileState } from '../store/useProfileState'
 import Loader from '../components/Loader'
@@ -47,7 +46,7 @@ function Basket() {
                     <div className={cls.emptyBasket}>
                         <h1>Basket is empty</h1>
                         <h2>Take a look at the main page <br/> We have collected products there that you might like</h2>
-                        <Link to={SHOP_ROUTE} className={cls.goToMainPage}>Go to main page</Link>
+                        <button onClick={() => navigate(SHOP_ROUTE)}>Go to main page</button>
                     </div>
                 ) : (
                     <>
@@ -141,7 +140,7 @@ function Basket() {
                 )
             }
 
-            <RecomendedBlock />
+            <RecommendedBlock />
         </div>
     )
 }

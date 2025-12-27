@@ -2,13 +2,13 @@ import { addRecentlyViewed } from '../http/recentlyViewedApi';
 import { create } from 'zustand';
 
 export const useRecentlyViewedState = create((set) => ({
-    recentlyViewed: [],
+    recentlyViewedProducts: [],
 
-    setRecentlyViewed: (products) => set({ recentlyViewed: products }),
+    setRecentlyViewedProducts: (products) => set({ recentlyViewedProducts: products }),
 
     addRecentlyViewed: (product) => set((state) => {
         // Check if product already exists in the list
-        const existingIndex = state.recentlyViewed.findIndex(item => item.id === product.id);
+        const existingIndex = state.recentlyViewedProducts.findIndex(item => item.id === product.id);
         
         let updatedList;
         // if (existingIndex !== -1) {
@@ -23,11 +23,11 @@ export const useRecentlyViewedState = create((set) => ({
 
         if (existingIndex === -1) {
             addRecentlyViewed(product.id)
-            updatedList = [...state.recentlyViewed, product];
+            updatedList = [...state.recentlyViewedProducts, product];
         } else {
-            return { recentlyViewed: state.recentlyViewed }
+            return { recentlyViewedProducts: state.recentlyViewedProducts }
         }
 
-        return { recentlyViewed: updatedList };
+        return { recentlyViewedProducts: updatedList };
     }),
 }));

@@ -115,6 +115,16 @@ const RecentlyViewedProduct = sequelize.define('recentlyViewedProduct', {
 })
 
 
+// User Search History
+const SearchHistory = sequelize.define('searchHistory', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true}
+})
+const SearchHistoryItem = sequelize.define('searchHistoryItem', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    search: {type: DataTypes.STRING}
+})
+
+
 // Token
 const Token = sequelize.define('token', {
     refreshToken: {type: DataTypes.STRING, allowNull: false},
@@ -197,6 +207,13 @@ RecentlyViewedProduct.belongsTo(RecentlyViewed)
 Product.hasMany(RecentlyViewedProduct)
 RecentlyViewedProduct.belongsTo(Product)
 
+// Search History
+User.hasOne(SearchHistory)
+SearchHistory.belongsTo(User)
+
+SearchHistory.hasMany(SearchHistoryItem)
+SearchHistoryItem.belongsTo(SearchHistory)
+
 module.exports = {
     User,
     Seller,
@@ -214,5 +231,7 @@ module.exports = {
     FavoriteProduct,
     RecentlyViewed,
     RecentlyViewedProduct,
+    SearchHistory,
+    SearchHistoryItem,
     Token,
 }

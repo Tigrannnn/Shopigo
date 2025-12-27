@@ -1,9 +1,7 @@
 @import '../global.scss';
 
 .Seller {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
+    @include catalogPageWrapper;
 
     .sellerDetails {
         @include boxShadow;
@@ -61,21 +59,10 @@
     .productListBlock{
         display: flex;
         flex-direction: column;
-        gap: 20px;
-        margin-bottom: 100px;
-
-        .filter{
-            @include filter;
-        }
+        gap: 10px;
 
         .productList {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
-
-            @media (max-width: 768px) {
-                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            }
+            @include productList;
         }
     }
 }

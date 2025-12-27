@@ -19,29 +19,7 @@
 }
 
 .emptyBasket {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    gap: 20px;
-    text-align: center;
-    color: $textColor;
-
-    h2 {
-        font-size: 20px;
-        font-weight: 500;
-        color: $textColor;
-        margin: 0;
-        letter-spacing: 2.5px;
-        line-height: 1.5;
-        margin-top: 20px;
-        margin-bottom: 20px;
-    }
-
-    .goToMainPage {
-        @include defaultButton;
-        padding: 15px 25px;
-    }
+    @include emptyPage;
 }
 
 .basketHeader {

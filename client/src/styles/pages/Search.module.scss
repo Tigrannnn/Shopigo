@@ -1,5 +1,9 @@
 @import '../global.scss';
 
-.searchContent{
-    @include productList();
+.Search{
+    @include catalogPageWrapper(15px);
+
+    .searchContent{
+        @include productList();
+    }
 }

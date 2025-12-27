@@ -30,8 +30,8 @@ function Profile() {
 
     const [loading, setLoading] = useState(true)
 
-    const recentlyViewed = useRecentlyViewedState(state => state.recentlyViewed)
-    const setRecentlyViewed = useRecentlyViewedState(state => state.setRecentlyViewed)
+    const recentlyViewedProducts = useRecentlyViewedState(state => state.recentlyViewedProducts)
+    const setRecentlyViewedProducts = useRecentlyViewedState(state => state.setRecentlyViewedProducts)
 
     const navigate = useNavigate()
 
@@ -40,7 +40,7 @@ function Profile() {
     useEffect(() => {
         document.title = 'Profile'
         getRecentlyViewed().then(data => {
-            setRecentlyViewed(data)
+            setRecentlyViewedProducts(data)
         }).finally(() => setLoading(false))
     }, [])
 
@@ -140,12 +140,12 @@ function Profile() {
                 </div>
                 
                 {
-                    recentlyViewed.length > 0 &&
+                    recentlyViewedProducts.length > 0 &&
                     <div className={cls.recentlyViewedWrapper}>
                         <h3>Recently viewed</h3>
                         <div className={cls.recentlyViewed}>
                             {
-                                recentlyViewed.map((product) => (
+                                recentlyViewedProducts.map((product) => (
                                     <ProductCard 
                                         key={product.id}
                                         product={product}

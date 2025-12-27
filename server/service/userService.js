@@ -1,4 +1,4 @@
-const { User, Basket, Favorites, RecentlyViewed } = require('../models/models')
+const { User, Basket, Favorites, RecentlyViewed, SearchHistory } = require('../models/models')
 const ApiError = require('../exceptions/ApiError')
 const TokenService = require('./tokenService')
 const UserDto = require('../dtos/userDto')
@@ -40,9 +40,10 @@ class UserService {
         if (String(serverCode) === String(inputCode)) {
             if (!user) {
                 user = await User.create({ email, role: 'USER' })
-                const basket = await Basket.create({ userId: user.id })
-                const favorites = await Favorites.create({ userId: user.id })
-                const recentlyViewed = await RecentlyViewed.create({ userId: user.id })
+                await Basket.create({ userId: user.id })
+                await Favorites.create({ userId: user.id })
+                await RecentlyViewed.create({ userId: user.id })
+                await SearchHistory.create({ userId: user.id })
             }
             const userDto = new UserDto(user)
             const { accessToken, refreshToken } = TokenService.generateTokens({ ...userDto })

@@ -1,7 +1,12 @@
 import { create } from 'zustand';
 
-export const useSellerInfoState = create((set) => ({
+export const useSellerState = create((set) => ({
     isSellerInfoModalOpen: false,
     openSellerInfoModal: () => set({ isSellerInfoModalOpen: true }),
     closeSellerInfoModal: () => set({ isSellerInfoModalOpen: false }),
+
+    sellerProducts: [],
+    setSellerProducts: (products) => set((state) => {
+        return {...state, sellerProducts: products}
+    }),
 })); 

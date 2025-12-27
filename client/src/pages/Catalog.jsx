@@ -10,6 +10,8 @@ import { getProducts } from '../http/productApi';
 import Loader from '../components/Loader';
 import capitalizeFirstLetter from '../utils/useCapitalizeFirsLetter';
 import NotFound from './NotFound';
+import RecommendedBlock from '../components/RecommendedBlock';
+import Filter from '../components/Filter';
 
 function Catalog() {
   const [loading, setLoading] = useState(true)
@@ -21,19 +23,17 @@ function Catalog() {
     document.title = capitalizeFirstLetter(category?.name) || 'Catalog'
   }, [category])
 
-  const setProducts = useProductsState(state => state.setProducts)
+  const setCategoryProducts = useCategoryState(state => state.setCategoryProducts)
 
   useEffect(() => {
     getOneCategory(id).then(data => {
       setCategory(data)
     }).then(() => getProducts({categoryId: id}).then(data => {
-        setProducts(data)
+        setCategoryProducts(data)
       }).finally(() => setLoading(false)))
-  }, [id, setProducts])
+  }, [id, setCategoryProducts])
 
-  const openFilterModal = useCategoryState(state => state.openFilterModal)
-
-  const products = useProductsState(state => state.products)
+  const categoryProducts = useCategoryState(state => state.categoryProducts)
 
   const navigate = useNavigate()
 
@@ -50,12 +50,14 @@ function Catalog() {
       }
       {
         category.id && (
-          products.length <= 0 ? (
+          categoryProducts.length <= 0 ? (
             <div className={cls.emptyCatalog}>
               <h1>{capitalizeFirstLetter(category.name)}</h1>
-              <h2>No products in this category yet <br/> We will add them soon</h2>
-              <h3>Take a look at the main page <br/> We have collected products there that you might like</h3>
-              <Link to={SHOP_ROUTE}>Go to main page</Link>
+              <div>
+                <h2>No products in this category yet <br/> We will add them soon</h2>
+                <h3>Take a look at the main page <br/> We have collected products there that you might like</h3>
+              </div>
+              <button onClick={() => navigate(SHOP_ROUTE)}>Go to main page</button>
             </div>
           ) : (
           <>
@@ -68,27 +70,11 @@ function Catalog() {
                     <li>{capitalizeFirstLetter(category.name)}</li>
                 </ul>
               </div>
-              <div className={cls.filter}>
-                <div className={cls.filterItem} onClick={() => openFilterModal()}>
-                  <span>All filters</span>
-                </div>
-                <div className={cls.filterItem} onClick={() => console.log('hello')}>
-                  <span>Subcategory</span>
-                  <span>↓</span>
-                </div>
-                <div className={cls.filterItem} onClick={() => console.log('hello')}>
-                  <span>Price (dram)</span>
-                  <span>↓</span>
-                </div>
-                <div className={cls.filterItem} onClick={() => console.log('hello')}>
-                  <span>Delivery time</span>
-                  <span>↓</span>
-                </div>
-              </div>
+              <Filter />
             </div>
             <div className={cls.catalogContent}>
               {
-                products.map(product => (
+                categoryProducts.map(product => (
                   <ProductCard key={product.id} product={product} />
                 ))
               }
@@ -97,6 +83,7 @@ function Catalog() {
           )
         )
       }
+      <RecommendedBlock />
     </div>
   )
 }

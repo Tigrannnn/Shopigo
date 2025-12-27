@@ -33,9 +33,7 @@ function AddProductModal() {
 
     useEffect(() => {
         getSellers().then(data => {
-            if (Array.isArray(data)) {
-                setSellers(data)
-            }
+            setSellers(data)
         })
     }, [])
 

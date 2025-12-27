@@ -1,20 +1,21 @@
 import cls from "../styles/pages/Seller.module.scss"
 import { useParams } from "react-router-dom";
-import { useProductsState } from "../store/useProductsState";
 import { ReactComponent as StarIcon } from '../assets/icons/star.svg';
 import ProductCard from "../components/ProductCard";
 import { useCategoryState } from "../store/useCategoryState";
-import RecomendedBlock from "../components/RecommendedBlock";
+import RecommendedBlock from "../components/RecommendedBlock";
 import { useEffect, useState } from 'react'
 import { getProducts } from "../http/productApi";
 import Loader from "../components/Loader";
 import { getOneSeller } from "../http/sellerApi";
+import { useSellerState } from "../store/useSellerState";
+import Filter from "../components/Filter";
 
 function Seller() {
     const [loading, setLoading] = useState(true)
 
-    const products = useProductsState(state => state.products)
-    const setProducts = useProductsState(state => state.setProducts)
+    const sellerProducts = useSellerState(state => state.sellerProducts)
+    const setSellerProducts = useSellerState(state => state.setSellerProducts)
 
     const { id } = useParams()
 
@@ -29,10 +30,10 @@ function Seller() {
             setSeller(data)
         }).finally(() => {
             getProducts({sellerId: id}).then(data => {
-                setProducts(data)
+                setSellerProducts(data)
             }).finally(() => setLoading(false))
         })
-    }, [seller])
+    }, [seller, setSellerProducts])
 
     const openFilterModal = useCategoryState(state => state.openFilterModal)
 
@@ -78,33 +79,17 @@ function Seller() {
             </div>
             <div className={cls.productListBlock}>
                 <h2>All products</h2>
-                 <div className={cls.filter}>
-                    <div className={cls.filterItem} onClick={() => openFilterModal()}>
-                        <span>All filters</span>
-                    </div>
-                    <div className={cls.filterItem} onClick={() => console.log('hello')}>
-                        <span>Subcategory</span>
-                        <span>↓</span>
-                    </div>
-                    <div className={cls.filterItem} onClick={() => console.log('hello')}>
-                        <span>Price (dram)</span>
-                        <span>↓</span>
-                    </div>
-                    <div className={cls.filterItem} onClick={() => console.log('hello')}>
-                        <span>Delivery time</span>
-                        <span>↓</span>
-                    </div>
-                </div>
+                 <Filter />
                 <div className={cls.productList}>
                     {
-                        products.map(product => 
+                        sellerProducts.map(product => 
                             <ProductCard key={product.id} product={product} />
                         )
                     }
                 </div>
             </div>
 
-            <RecomendedBlock />
+            <RecommendedBlock />
         </div>
     )
 }

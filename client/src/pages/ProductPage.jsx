@@ -11,7 +11,7 @@ import { ReactComponent as CopyIcon } from '../assets/icons/copy.svg';
 import { ReactComponent as BackIcon } from '../assets/icons/back.svg';
 import { useColorVariantState } from '../store/useColorVariantState';
 import ColorVariantModal from '../components/modals/ColorVariantModal';
-import { useSellerInfoState } from '../store/useSellerInfoState';
+import { useSellerState } from '../store/useSellerState';
 import SellerInfoModal from '../components/modals/SellerInfoModal';
 import { useParams } from 'react-router-dom';
 import { useBasketState } from '../store/useBasketState';
@@ -21,7 +21,7 @@ import { useToastState } from '../store/useToastState';
 import Comment from '../components/Comment';
 import { useFeedbackState } from '../store/useFeedbackState';
 import { useEffect } from 'react';
-import RecomendedBlock from '../components/RecommendedBlock.jsx'
+import RecommendedBlock from '../components/RecommendedBlock.jsx'
 import { getOneProduct } from '../http/productApi';
 import Loader from '../components/Loader';
 import useHandleShare from '../utils/useHandleShare';
@@ -41,9 +41,9 @@ function ProductPage() {
     const openColorVariantModal = useColorVariantState(state => state.openColorVariantModal)
     const closeColorVariantModal = useColorVariantState(state => state.closeColorVariantModal)
 
-    const isSellerInfoModalOpen = useSellerInfoState(state => state.isSellerInfoModalOpen)
-    const openSellerInfoModal = useSellerInfoState(state => state.openSellerInfoModal)
-    const closeSellerInfoModal = useSellerInfoState(state => state.closeSellerInfoModal)
+    const isSellerInfoModalOpen = useSellerState(state => state.isSellerInfoModalOpen)
+    const openSellerInfoModal = useSellerState(state => state.openSellerInfoModal)
+    const closeSellerInfoModal = useSellerState(state => state.closeSellerInfoModal)
 
     const addToBasket = useBasketState(state => state.addToBasket)
     const basketProducts = useBasketState(state => state.basketProducts)
@@ -329,7 +329,7 @@ function ProductPage() {
                 </div>
             </section>
 
-            <RecomendedBlock />
+            <RecommendedBlock />
         </div>
     )
 }

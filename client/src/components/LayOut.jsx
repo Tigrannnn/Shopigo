@@ -6,7 +6,7 @@ import SearchModal from "./modals/SearchModal"
 import { useMenuState } from "../store/useMenuState"
 import { useSearchState } from "../store/useSearchState"
 import { useSelectState } from "../store/useSelectState"
-import { useSellerInfoState } from "../store/useSellerInfoState"
+import { useSellerState } from "../store/useSellerState"
 import { useToastState } from "../store/useToastState"
 import { useCategoryState } from "../store/useCategoryState"
 import FilterModal from "./modals/FilterModal"
@@ -21,6 +21,7 @@ import { useBasketState } from "../store/useBasketState"
 import { getBasket } from "../http/basketApi"
 import { getFavorites } from "../http/favoritesApi"
 import { useFavoritesState } from "../store/useFavoritesState"
+import { getSearchHistory } from "../http/searchHistoryApi"
 
 function LayOut() {
     const [loading, setLoading] = useState(true)
@@ -36,12 +37,13 @@ function LayOut() {
 
     const isSearchModalOpen = useSearchState(state => state.isSearchModalOpen)
     const closeSearchModal = useSearchState(state => state.closeSearchModal)
+    const setSearchHistory = useSearchState(state => state.setSearchHistory)
 
     const isSelectModalOpen = useSelectState(state => state.isSelectModalOpen)
     const closeSelectModal = useSelectState(state => state.closeSelectModal)
 
-    const isSellerInfoModalOpen = useSellerInfoState(state => state.isSellerInfoModalOpen)
-    const closeSellerInfoModal = useSellerInfoState(state => state.closeSellerInfoModal)
+    const isSellerInfoModalOpen = useSellerState(state => state.isSellerInfoModalOpen)
+    const closeSellerInfoModal = useSellerState(state => state.closeSellerInfoModal)
 
     const isToastShow = useToastState(state => state.isToastShow)
     const message = useToastState(state => state.message)
@@ -100,7 +102,13 @@ function LayOut() {
             getCategories().then(data => {
                 setCategories(data)
             }).finally(() => 
+                // getSearchHistory().then(data => {
+                //     setSearchHistory(data)
+                // }).finally(() => {
+                //     setLoading(false)
+                // })
                 setLoading(false)
+
             )
         )
     }, [])

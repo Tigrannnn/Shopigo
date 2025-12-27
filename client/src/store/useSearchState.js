@@ -1,6 +1,12 @@
+import { addSearchHistory } from "../http/searchHistoryApi";
 import { create } from "zustand";
 
 export const useSearchState = create((set) => ({
+    searchProducts: [],
+    setSearchProducts: (products) => set((state) => {
+        return {...state, searchProducts: products}
+    }),
+
     isSearchModalOpen: false,
     openSearchModal: () => set({ isSearchModalOpen: true }),
     closeSearchModal: () => set({ isSearchModalOpen: false }),
@@ -9,19 +15,21 @@ export const useSearchState = create((set) => ({
     setInputValue: (value) => set({ inputValue: value }),
 
     searchHistory: [],
+    // setSearchHistory: (searchItems) => set((state) => {
+    //     return {...state, searchHistory: searchItems}
+    // }),
     addToSearchHistory: (value) => set((state) => {
-        // Если значение уже существует или пустое, возвращаем текущее состояние
         if (state.searchHistory.some(item => item.value === value) || value === '') {
             return { searchHistory: state.searchHistory };
         }
         
-        // Добавляем новый элемент
         const newHistory = [...state.searchHistory, {id: state.searchHistory.length + 1, value}];
         
-        // Если больше 4 элементов, удаляем самый старый (первый)
         if (newHistory.length > 4) {
             return { searchHistory: newHistory.slice(1) };
         }
+
+        // addSearchHistory(value)
         
         return { searchHistory: newHistory };
     }),

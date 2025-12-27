@@ -203,30 +203,7 @@ $inputOutlineColor: rgba(76, 155, 201, 0.3);
       color: #adb5bd;
   }
 }
-@mixin filter {
-  width: 100%;
-  display: flex;
-  gap: 20px;
-  padding: 20px 0;
 
-  .filterItem {
-      @include boxShadowButton;
-      height: 40px;
-      padding: 20px;
-      gap: 10px;
-      font-size: 14px;
-      color: lighten($textColor, 40%);
-
-      &:hover {
-          color: $textColor;
-      }
-
-      svg{
-          width: 20px;
-          height: 20px;
-      }
-  }
-}
 @mixin productList($width: 220px, $gap: 25px) {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax($width, 1fr));
@@ -256,6 +233,48 @@ $inputOutlineColor: rgba(76, 155, 201, 0.3);
   }
 }
 
+@mixin emptyPage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+  text-align: center;
+  color: $textColor;
+
+  h2 {
+      font-size: 20px;
+      font-weight: 500;
+      color: $textColor;
+      margin: 0;
+      letter-spacing: 2.5px;
+      line-height: 1.5;
+      margin-top: 20px;
+      margin-bottom: 20px;
+  }
+
+  h3 {
+    font-size: 17px;
+    font-weight: 500;
+    color: lighten($textColor, $amount: 40%);
+    margin: 0;
+    letter-spacing: 2.5px;
+    line-height: 1.5;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  button {
+      @include defaultButton;
+      padding: 15px 25px;
+  }
+}
+
+@mixin catalogPageWrapper($gap: 30px) {
+  display: flex; 
+  flex-direction: column;
+  gap: $gap;
+}
 
 *{
     margin: 0;

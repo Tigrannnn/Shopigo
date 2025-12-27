@@ -1,0 +1,5 @@
+@import '../global.scss';
+
+.notFoundContent{
+    @include emptyPage();
+}

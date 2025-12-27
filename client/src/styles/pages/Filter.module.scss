@@ -1,0 +1,26 @@
+@import '../global.scss';
+
+.Filter {
+    width: 100%;
+    display: flex;
+    gap: 20px;
+    padding: 20px 0;
+  
+    .filterItem {
+        @include boxShadowButton;
+        height: 40px;
+        padding: 20px;
+        gap: 10px;
+        font-size: 14px;
+        color: lighten($textColor, 40%);
+  
+        &:hover {
+            color: $textColor;
+        }
+  
+        svg{
+            width: 20px;
+            height: 20px;
+        }
+    }
+  }

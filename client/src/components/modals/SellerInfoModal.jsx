@@ -1,15 +1,16 @@
-import { useSellerInfoState } from '../../store/useSellerInfoState';
+import { useSellerState } from '../../store/useSellerState';
 import cls from '../../styles/components/modals/SellerInfoModal.module.scss';
 import { ReactComponent as StarIcon } from '../../assets/icons/star.svg';
 import { SELLER_ROUTE } from '../../utils/consts';
 import { useNavigate } from 'react-router-dom';
 
 function SellerInfoModal({product}) {
-    const isSellerInfoModalOpen = useSellerInfoState(state => state.isSellerInfoModalOpen)
+    const isSellerInfoModalOpen = useSellerState(state => state.isSellerInfoModalOpen)
+    const closeSellerInfoModal = useSellerState(state => state.closeSellerInfoModal)
     const navigate = useNavigate()
 
     return(
-        <div className={`${cls.SellerInfoModal} ${isSellerInfoModalOpen ? cls.open : ''}`} onClick={(e) => e.stopPropagation()}>
+        <div className={`${cls.SellerInfoModal} ${isSellerInfoModalOpen ? cls.open : ''}`} onClick={(e) => closeSellerInfoModal()}>
             <div className={cls.sellerHeader}>
                 <h2 className={cls.sellerName}>{product.seller.name}</h2>
                 <div className={cls.ratingInfo}>

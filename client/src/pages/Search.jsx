@@ -1,21 +1,22 @@
 import cls from '../styles/pages/Search.module.scss'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { useProductsState } from '../store/useProductsState'
+import { useSearchState } from '../store/useSearchState'
 import { useEffect, useState } from 'react'
 import { getProducts } from '../http/productApi'
 import Loader from '../components/Loader'
 import ProductCard from '../components/ProductCard'
 import capitalizeFirstLetter from '../utils/useCapitalizeFirsLetter'
-import RecomendedBlock from '../components/RecommendedBlock'
+import RecommendedBlock from '../components/RecommendedBlock'
 import { PRODUCT_ROUTE } from '../utils/consts'
+import Filter from '../components/Filter'
 
 function Search() {
     const [searchParams, setSearchParams] = useSearchParams()
     const search = capitalizeFirstLetter(searchParams.get('search'))
     const [loading, setLoading] = useState(true)
 
-    const products = useProductsState(state => state.products)
-    const setProducts = useProductsState(state => state.setProducts)
+    const searchProducts = useSearchState(state => state.searchProducts)
+    const setSearchProducts = useSearchState(state => state.setSearchProducts)
 
     const navigate = useNavigate()
 
@@ -24,7 +25,7 @@ function Search() {
         getProducts({search}).then(data => {
             data.length === 1 ? 
             navigate(`${PRODUCT_ROUTE}/${data[0].id}`, {replace: true}) :
-            setProducts(data)
+            setSearchProducts(data)
         }).finally(() => 
             setLoading(false)
         )
@@ -33,22 +34,24 @@ function Search() {
     if (loading) return <Loader />
 
     return (
-        <div>
+        <div className={cls.Search}>
             {
-                products.length === 0 && (
+                searchProducts.length === 0 && (
                     <>
                         <h1>Nothing was found for the search «{search}»</h1>
-                        {/* <RecomendedBlock /> */}
                     </>
                 )
             }
             {
-                products.length > 0 && (
+                searchProducts.length > 0 && (
                     <>
-                        <h1>{search}</h1>
+                        <div className={cls.header}>
+                            <h1 className={cls.title}>{search}</h1>
+                            <Filter />
+                        </div>
                         <div className={cls.searchContent}>
                             {
-                                products.map(product => (
+                                searchProducts.map(product => (
                                     <ProductCard key={product.id} product={product} />
                                 ))
                             }
@@ -56,6 +59,7 @@ function Search() {
                     </>
                 )
             }
+            <RecommendedBlock />
         </div>
     )
 }
