@@ -1,0 +1,10 @@
+@use '../../styles' as *;
+
+.Search{
+    @include catalogPageWrapper(15px);
+    padding-top: 10px;
+
+    .notFoundText{
+        font-size: 28px;
+    }
+}

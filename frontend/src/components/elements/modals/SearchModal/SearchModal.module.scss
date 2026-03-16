@@ -1,0 +1,54 @@
+@use '../../../../styles/' as *;
+
+.searchItemWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    .searchItem {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        padding: 5px 10px;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: $transition;
+        
+        &:hover {
+            background: #f0f0f0;
+        }
+
+        svg {
+            color: rgb(131, 148, 163);
+            width: 25px;
+            flex-shrink: 0;
+        }
+
+        .searchInfoWrapper {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex: 1;
+            overflow: hidden;
+
+            p {
+                font-size: 16px;
+                font-weight: 600;
+                color: $textColor;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                line-height: 1.2;
+            }
+        }
+
+        .trashIcon {
+            transition: $transition;
+
+            &:hover {
+                color: black;
+            }
+        }
+    }
+}

@@ -1,0 +1,32 @@
+@use '../../../../styles/variables' as *;
+@use '../../../../styles/mixins' as *;
+
+.productCell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  white-space: nowrap;
+}
+
+.actionButton {
+  @include actionButton(1.1);
+  padding: 8px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  @media (max-width: 768px) {
+    padding: 6px;
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+}

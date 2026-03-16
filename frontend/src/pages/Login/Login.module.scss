@@ -1,0 +1,331 @@
+@use '../../styles' as *;
+
+.Login {
+    display: flex;
+    justify-content: center;
+
+    .loginWrapper {
+        width: 100%;
+        max-width: 480px;
+        padding: 40px;
+        display: flex;
+        flex-direction: column;
+        background: white;
+        border-radius: 10px;
+        @include boxShadow;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        position: relative;
+
+        @media (max-width: 450px) {
+            padding: 30px;
+        }
+    }
+}
+
+
+.loginHeaderSection {
+    text-align: center;
+    margin-bottom: 25px;
+
+    h1 {
+        font-size: 32px;
+        font-weight: 700;
+        color: $siteBcColor;
+        margin-bottom: 25px;
+        letter-spacing: 1px;
+    }
+
+    h2 {
+        font-size: 20px;
+        font-weight: 600;
+        color: $textColor;
+    }
+
+    p {
+        font-size: 14px;
+        color: #7f8c8d;
+        line-height: 1.5;
+        margin-top: 10px;
+    }
+
+    .changeNumber{
+        color: $siteBcColor;
+        @include underline;
+    }
+
+    @media (max-width: 450px) {
+        margin-bottom: 20px;
+
+        h1 {
+            margin-bottom: 20px;
+        }
+    }
+}
+
+
+.loginInputSection {
+    margin-bottom: 32px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+
+    .inputWrapper {
+        @include input;
+        width: 100%;
+        height: 56px;
+        border-radius: 10px;
+        padding: 0;
+
+        .countrySelectButton {
+            width: 120px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 19px;
+            font-weight: 600;
+            color: $textColor;
+            transition: .65s;
+            gap: 10px;
+            border-radius: 10px;
+            border: 2px solid #d5d5d5;
+            padding: 0 10px;
+            transform: scale(0.87);
+            background-color: #fcfcfc;
+
+            &:hover {
+                border-color: $siteBcColor;
+                transform: scale(1.03);
+            }
+
+            &.active {
+                border-color: $siteBcColor;
+            }
+
+            &:active {
+                transition: .1s;
+                transform: scale(0.9);
+            }
+        }
+
+        .input {
+            width: 100%;
+            height: 100%;
+            font-size: 16px;
+            border: none;
+            outline: none;
+            background: transparent;
+            padding: 0 20px;
+            display: flex;
+    
+            &::placeholder {
+                color: #adb5bd;
+            }
+        }
+    }
+
+    .loginButton {
+        width: 100%;
+        height: 56px;
+        font-size: 16px;
+        font-weight: 600;
+        @include defaultButton();
+
+        span {
+            font-weight: 600;
+        }
+    }
+
+    .resendCode{
+        @include underline;
+    }
+
+    .timerText{
+        color: rgb(169, 169, 169);
+    }
+
+    @media (max-width: 450px) {
+        .inputWrapper{
+            height: 50px;
+
+            .input {
+                font-size: 14px;
+            }
+        }
+
+        .loginButton{
+            font-size: 14px;
+            height: 46px;
+        }
+    }
+}
+
+
+.loginDivider {
+    display: flex;
+    align-items: center;
+    color: #7f8c8d;
+    font-size: 14px;
+    font-weight: 500;
+
+    &::before,
+    &::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: #e9ecef;
+    }
+
+    span {
+        padding: 0 16px;
+        background: white;
+    }
+
+    @media (max-width: 450px) {
+
+    }
+}
+
+
+.loginAltAccessSection {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 32px;
+
+    .socialButton {
+        @include defaultButton(white, 1.04);
+        width: 100%;
+        background: white;
+        border: 2px solid #cdcdcd;
+        display: flex;
+        justify-content: flex-start;
+        gap: 15px;
+        color: #3c3c3c;
+        padding: 15px 30px;
+
+        &:hover {
+            background: #f5f5f5;
+        }
+
+        &:active {
+            background: #e1e1e1;
+        }
+
+        svg,
+        img {
+            width: 24px;
+        }
+
+        span {
+            font-size: 16px;
+            font-weight: 500;
+            color: $textColor;
+            margin-left: 16px;
+            text-align: left;
+        }
+
+        @media (max-width: 450px) {
+            padding: 12px 20px;
+            gap: 5px;
+
+            svg,
+            img {
+                width: 20px;
+            }
+
+            span{
+                font-size: 14px;
+            }
+        }
+    }
+
+    .policyLinksWrapper {
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+        margin-top: 20px;
+        padding-top: 24px;
+        border-top: 1px solid #e9ecef;
+    }
+
+    .policyLink {
+        font-size: 14px;
+        @include underline;
+
+        @media (max-width: 450px) {
+            font-size: 12px;
+        }
+    }
+}
+
+
+.buttonsSection{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+
+    button{
+        @include defaultButton;
+        width: 100%;
+        padding: 20px;
+    }
+
+    .spanButton{
+        @include underline;
+    }
+}
+
+
+@media (max-width: 768px) {
+    .Login {
+        padding: 16px;
+    }
+
+    .loginWrapper {
+        padding: 32px 24px;
+    }
+
+    .loginHeaderSection {
+        .loginTitle {
+            font-size: 28px;
+        }
+
+        .loginSubtitle {
+            font-size: 18px;
+        }
+    }
+
+    .loginAltAccessSection {
+        .policyLinks {
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .loginWrapper {
+        padding: 24px 20px;
+    }
+
+    .loginHeaderSection {
+        .loginTitle {
+            font-size: 24px;
+        }
+
+        .loginSubtitle {
+            font-size: 16px;
+        }
+
+        .loginDescription {
+            font-size: 13px;
+        }
+    }
+}

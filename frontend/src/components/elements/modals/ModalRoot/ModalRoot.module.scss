@@ -1,0 +1,373 @@
+@use "../../../../styles/" as *;
+
+// ==================================
+// MIXINS
+// ==================================
+
+@mixin stack($gap: 15px) {
+  display: flex;
+  flex-direction: column;
+  gap: $gap;
+}
+
+@mixin formLayout {
+  .modalBody {
+    @include stack(24px);
+  }
+
+  .modalSection {
+    @include stack(6px);
+  }
+}
+
+// ==================================
+// OVERLAY
+// ==================================
+
+@keyframes overlayFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.35);
+  z-index: 101;
+  opacity: 0;
+  pointer-events: none;
+  transition: $transition;
+
+  &.open {
+    opacity: 1;
+    pointer-events: auto;
+    animation: overlayFadeIn 0.5s ease;
+  }
+
+  &.headerModalOverlay {
+    z-index: 99;
+  }
+}
+
+// ==================================
+// MODAL ROOT
+// ==================================
+
+@keyframes fadeOutScale {
+  from {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.9);
+  }
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes slideInFromLeft {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes slideOutToLeft {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
+
+@keyframes slideInFromTop {
+  from { 
+    opacity: 0;
+    /* start off-screen above and keep horizontal centering */
+    transform: translate(-50%, -100%);
+  }
+  to { 
+    opacity: 1;
+    /* end at centered x-axis with zero vertical offset */
+    transform: translate(-50%, 0);
+  }
+}
+
+@keyframes slideOutFromTop {
+  from { 
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+
+  to { 
+    opacity: 0;
+    transform: translate(-50%, -100%);
+  }
+}
+
+.modalShell {
+  @include boxShadow;
+  width: min(520px, 100vw - 32px);
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 30px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform-origin: center center;
+  transform: translate(-50%, -50%) scale(0.9);
+  z-index: 109;
+  pointer-events: none;
+  background-color: white;
+  opacity: 0;
+  border-radius: 10px;
+  @include stack(20px);
+  color: $textColor;
+
+  &.open {
+    pointer-events: auto;
+    animation: fadeInScale 0.4s ease forwards;
+  }
+
+  &:not(.open) {
+    animation: fadeOutScale 0.4s ease forwards;
+  }
+
+  &.categoryModal {
+    min-width: 400px;
+    max-height: 100vh;
+    width: 400px;
+    height: 100vh;
+    background-color: #fff;
+    position: fixed;
+    padding: 120px 20px 20px 20px;
+    left: 0;
+    top: 0;
+    transform: translateX(-100%);
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    overflow-y: auto;
+    z-index: 100;
+    @include boxShadow();
+    border-radius: 0;
+    opacity: 1;
+
+    &.open {
+      animation: slideInFromLeft 0.4s ease forwards;
+    }
+
+    &:not(.open) {
+      animation: slideOutToLeft 0.4s ease forwards;
+    }
+
+    @media (max-width: 480px) {
+      min-width: 100vw;
+      width: 100vw;
+      padding: 100px 16px 16px 16px;
+    }
+  }
+
+  &.searchModal {
+    width: 70vw;
+    max-height: 65vh;
+    position: fixed;
+    top: 105px;
+    left: 50%;
+    background: white;
+    border-radius: 10px;
+    @include boxShadow;
+    /* keep centering by default */
+    transform: translateX(-50%);
+    transition: $transition;
+    z-index: 100;
+    pointer-events: auto;
+    padding: 15px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+
+    @media (max-width: 1023px) {
+        width: 100%;
+        top: 100px;
+    }
+
+    @media (max-width: 480px) {
+        top: 80px;
+        max-height: 75vh;
+        padding: 12px 14px;
+    }
+
+    &.open {
+      /* ensure horizontal offset remains during animation */
+      animation: slideInFromTop 0.4s ease forwards;
+      transform: translateX(-50%);
+    }
+
+    &:not(.open) {
+      animation: slideOutFromTop 0.4s ease forwards;
+      transform: translateX(-50%);
+    }
+  }
+
+  .modalHeader {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 2px;
+    align-items: center;
+
+    h2 {
+      font-size: 24px;
+      color: $textColor;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    svg {
+      width: 25px;
+      height: 25px;
+      cursor: pointer;
+      transition: $transition;
+      color: lighten($textColor, 50%);
+
+      &:hover {
+        color: $textColor;
+        transform: scale(1.15);
+      }
+
+      @include active;
+    }
+  }
+
+  .modalBody {
+    @include stack(24px);
+  }
+
+  .modalSection {
+    @include stack(6px);
+  }
+
+  .modalFooter {
+    display: flex;
+    justify-content: flex-start;
+    padding-top: 4px;
+
+    > button {
+      width: 200px;
+    }
+
+    @media (max-width: 768px) {
+      > button {
+        width: 100%;
+      }
+    }
+  }
+
+  input,
+  textarea {
+    @include input;
+  }
+
+  textarea {
+    height: 100px;
+    padding: 6px;
+  }
+
+  h3 {
+    font-size: 16px;
+    color: lighten($textColor, 40%);
+    font-weight: 500;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  @media (max-width: 768px) {
+    width: calc(100vw - 24px);
+    max-height: 90vh;
+    padding: 20px;
+    gap: 16px;
+
+    .modalHeader h2 {
+      font-size: 20px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    width: calc(100vw - 16px);
+    padding: 16px;
+    gap: 14px;
+
+    .modalHeader h2 {
+      font-size: 18px;
+    }
+  }
+}
+
+// ==================================
+// MODAL VARIANTS
+// ==================================
+.logout {
+  .logoutContent {
+    @include stack();
+
+    .logoutButton {
+      @include defaultButton;
+      padding: 15px 20px;
+      width: 100%;
+    }
+
+    .cancelButton {
+      @include secondaryButton;
+      padding: 15px 20px;
+      width: 100%;
+    }
+  }
+}
+
+.changeProfile {
+  .changeProfileContent {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+}
+
+
+.share {
+  .shareContent {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  p {
+    color: lighten($textColor, 40%);
+  }
+
+  input {
+    @include input;
+    width: 100%;
+  }
+
+  button {
+    @include defaultButton;
+    padding: 10px;
+    width: 150px;
+    font-size: 14px;
+  }
+}
+
+// Modal variants (CSS module keys must match MODALS values)
+.productForm,
+.categoryForm,
+.sellerForm {
+  @include formLayout;
+}
+

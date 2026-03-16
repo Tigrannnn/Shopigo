@@ -1,0 +1,66 @@
+.LoaderWrapper {
+    width: 100%;
+    min-height: 240px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    left: 0;
+    top: 0;
+    z-index: 98;
+    cursor: wait;
+
+  svg {
+    width: 120px; 
+    height: 120px;
+    animation: rotate 3s linear infinite;
+    display: block;
+
+    circle {
+      fill: none;
+      stroke-width: 10;
+      stroke: rgb(6, 117, 117);
+      stroke-linecap: round;
+      
+      stroke-dasharray: 440;
+      stroke-dashoffset: 440;
+      animation: load 2s ease-in-out infinite;
+    }
+  }
+}
+
+.modal{
+  position: absolute;
+  background-color: #ffffffaa;
+  padding-top: 48%;
+  padding-bottom: 52%;
+  height: 100%;
+}
+
+.app{
+  min-height: 100vh;
+}
+
+.page{
+  min-height: 80vh;
+}
+
+@keyframes load {
+  0%, 100% {
+    stroke-dashoffset: 440;
+  }
+  50% {
+    stroke-dashoffset: 0;
+  }
+  50.1% {
+    stroke-dashoffset: 880;
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

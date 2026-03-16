@@ -1,0 +1,14 @@
+@use '../../../styles' as *;
+
+.RecommendedBlock {
+    .productListWrapper{
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        margin-top: 25px;
+
+        .productList{
+            @include productList();
+        }
+    }
+}

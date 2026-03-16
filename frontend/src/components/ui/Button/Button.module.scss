@@ -1,0 +1,143 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.button {
+    border-radius: 10px;
+    border: 0;
+    transition: $transition;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    color: white;
+    @include boxShadow;
+    gap: 8px;
+    padding: 12px 24px;
+    font-size: 16px;
+
+    &:hover:not(:disabled) {
+        transform: scale(1.03);
+    }
+
+    &:active:not(:disabled) {
+        transform: scale(0.98);
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+        transform: none;
+    }
+}
+
+.primary {
+    background-color: $siteBcColor;
+
+    &:hover:not(:disabled) {
+        background-color: lighten($siteBcColor, 8%);
+    }
+
+    &:active:not(:disabled) {
+        background-color: darken($siteBcColor, 2%);
+    }
+
+    &:disabled {
+        background-color: adjust-color($siteBcColor, $saturation: -55%, $lightness: 20%);
+    }
+}
+
+.secondary {
+    background-color: lighten($siteBcColor, 40%);
+    color: black;
+
+    &:hover:not(:disabled) {
+        background-color: lighten($siteBcColor, 50%);
+    }
+
+    &:active:not(:disabled) {
+        background-color: lighten($siteBcColor, 35%);
+    }
+
+    &:disabled {
+        background-color: lighten($siteBcColor, 60%);
+    }
+}
+
+.white {
+    background-color: white;
+    color: $textColor;
+    
+    &:hover{
+        background-color: darken(white, 6%);
+    }
+    
+    &:active {
+        background-color: darken(white, 12%);
+    }
+}
+
+.danger {
+    background-color: #dc3545;
+
+    &:hover:not(:disabled) {
+        background-color: lighten(#dc3545, 8%);
+    }
+
+    &:active:not(:disabled) {
+        background-color: darken(#dc3545, 2%);
+    }
+
+    &:disabled {
+        background-color: adjust-color(#dc3545, $saturation: -30%, $lightness: 25%);
+    }
+}
+
+.action {
+    background: none;
+    border: none;
+    color: $textColor;
+    padding: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: $transition;
+    box-shadow: none !important;
+    
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+        transform: scale(1.1);
+    }
+    
+    &:focus-visible {
+        outline: 2px solid $siteBcColor;
+        outline-offset: 2px;
+    }
+    
+    @include active;
+}
+
+.disabled {
+    transition: .1s;
+    pointer-events: none;
+}
+
+.spinner {
+    width: 18px;
+    height: 18px;
+    animation: spin 1s linear infinite;
+}
+
+.spinnerTrack {
+    opacity: 0.3;
+}
+
+.spinnerArrow {
+    opacity: 1;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

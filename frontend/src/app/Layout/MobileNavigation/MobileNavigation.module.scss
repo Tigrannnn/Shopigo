@@ -1,0 +1,37 @@
+@use '../../../styles/' as *;
+
+.MobileNavigation{
+    @include navContainer;
+    height: 50px;
+    bottom: -1px;
+    justify-content: space-around;
+    position: fixed;
+    transition: $transition;
+}
+
+.navHidden {
+    transform: translateY(100%);
+}
+
+.MobileNavigation{
+    .navItem{
+        @include navItem;
+        padding: 6px 10px;
+
+        .navIcon {
+            width: 20px !important;
+        }
+    }
+
+    @media (min-width: 1024px) {
+        display: none;
+    }
+
+    @media (max-width: 400px) {
+        gap: 8px;
+
+        .navItem{
+            padding: 5px 8px;
+        }
+    }
+}

@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@tanstack/react-query": "^5.90.20",
+    "react-helmet-async": "^3.0.0"
+  }
+}

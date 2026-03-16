@@ -1,0 +1,36 @@
+@use '../../styles' as *;
+
+.Favorites{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 0;
+    gap: 20px;
+
+    @media (max-width: 550px) {
+        gap: 5px;
+        padding-top: 10px;
+    }
+
+    .emptyFavorites {
+        @include emptyPage;
+    }
+
+    .favoritesHeader {
+        h1 {
+            font-size: 32px;
+            font-weight: 600;
+            color: $textColor;
+            margin: 0;
+            sup {
+                font-size: 18px;
+                color: $siteBcColor;
+                font-weight: 500;
+            }
+        }
+    }
+
+    .productList {
+        @include productList;
+    }
+}

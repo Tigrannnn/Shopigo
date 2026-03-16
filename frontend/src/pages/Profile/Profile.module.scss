@@ -1,0 +1,230 @@
+@use '../../styles' as *;
+
+.Profile {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+
+    @media (max-width: 1023px) {
+        padding: 0;
+    }
+
+    .sidebar {
+        width: 450px;
+        height: fit-content;
+        padding: 30px;
+        @include boxShadow;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        .sidebarHeader {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+
+            .userImageWrapper {
+                width: 55px;
+                height: 55px;
+                border-radius: 50%;
+                background-color: #f0f0f0;
+                padding: 10px;
+                flex-shrink: 0;
+
+                .userImage {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+            }
+
+            .profileUserNameWrapper {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+
+                .profileUserName, span {
+                    font-size: 30px;
+                    font-weight: 600;
+                    text-wrap: wrap;
+                    margin: 0;
+                    color: $textColor;
+                    transition: $transition;
+                }
+            }
+        }
+
+        .profileButton {
+            @include boxShadowButton;
+            height: 70px;
+            width: 100%;
+            padding: 20px;
+            gap: 10px;
+            justify-content: flex-start;
+
+            &:hover {
+                color: $siteBcColor;
+            }
+
+            .profileButtonIcon {
+                width: 15%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                svg {
+                    // width: 30px;
+                    // height: 30px;
+                    // object-fit: cover;
+                }
+            }
+        }
+    }
+
+    .mainSection {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        .userActivity {
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+
+            .userActivityButton {
+                @include boxShadowButton;
+                padding: 20px;
+                gap: 10px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                .infoWrapper {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 5px;
+                }
+
+                svg {
+                    width: 35px;
+                    object-fit: cover;
+                }
+
+                h2{
+                    font-size: 30px;
+                }
+
+                @media (max-width: 1440px) {
+                    h2{
+                        font-size: 28px;
+                    }
+
+                    p{
+                        font-size: 13px;
+                    }
+
+                    svg{
+                        width: 32px;
+                    }
+                }
+
+                @media (max-width: 1340px) {
+                    h2{
+                        font-size: 25px;
+                    }
+
+                    svg{
+                        width: 28px;
+                    }
+                }
+            }
+
+            @media (max-width: 1200px) and (min-width: 550px) {
+                grid-template-columns: repeat(2, 1fr);
+
+                *:nth-child(1) {
+                    grid-column: span 2;
+                }
+            }
+
+            @media (max-width: 550px) {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .support {
+            width: 100%;
+            padding: 20px;
+            @include boxShadow;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+
+            .supportHeader {
+                display: flex;
+                align-items: center;
+
+                h2 {
+                    font-size: 23px;
+                    font-weight: 600;
+                    margin: 0;
+                    color: $textColor;
+                }  
+            }
+
+            .supportInfoWrapper {
+                display: flex;
+                gap: 10px;
+
+                .supportInfoItem {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+
+                    span {
+                        font-size: 18px;
+                        font-weight: 600;
+                        margin: 0;
+                        color: $textColor;
+                        cursor: pointer;
+                        transition: $transition;
+                        display: flex;
+                        align-items: center;
+                        gap: 10px;
+
+                        &:hover {
+                            transform: scale(1.03);
+                            color: $siteBcColor;
+                        }
+
+                        &:active {
+                            color: darken($siteBcColor, 5%);
+                        }
+
+                        @include active;
+
+                        svg {
+                            width: 30px;
+                            height: 30px;
+                            object-fit: cover;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @media (max-width: 1023px){
+        flex-direction: column;
+
+        .sidebar{
+            width: 100%;
+        }
+    }
+}

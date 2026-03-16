@@ -1,0 +1,306 @@
+@use '../../../styles' as *;
+
+@mixin quantityControls {
+    height: 50px;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    align-items: center;
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 0 15px;
+    
+    @media (max-width: 1350px) {
+        height: 45px;
+        gap: 10px;
+        padding: 0 12px;
+    }
+
+    @media (max-width: 1350px) {
+        height: 42px;
+        gap: 6px;
+        padding: 0 8px;
+    }
+
+    .btn {
+        width: 35px;
+        height: 35px;
+        @include defaultButton();
+        color: white;
+        font-size: 18px;
+        font-weight: 600;
+
+        @media (max-width: 1350px) {
+            width: 30px;
+            height: 30px;
+            font-size: 16px;
+        }
+
+        @media (max-width: 1023px) {
+            width: 28px;
+            height: 28px;
+            font-size: 16px;
+        }
+    }
+
+    .disabledBtn {
+        background-color: rgb(93, 93, 93);
+        cursor: default;
+
+        &:hover {
+            transform: scale(1);
+            background-color: rgb(93, 93, 93);
+        }
+    }
+    
+    .quantity {
+        min-width: 30px;
+        display: flex;
+        justify-content: center;
+        font-size: 18px;
+        font-weight: 600;
+        color: $textColor;
+        
+        @media (max-width: 1350px) {
+            min-width: 25px;
+            font-size: 16px;
+        }
+    }
+}
+
+@mixin price {
+    font-size: 20px;
+    font-weight: 700;
+    color: $textColor;
+    margin: 0;
+    
+    @media (max-width: 1350px) {
+        font-size: 17px;
+    }
+}
+
+.BasketProduct {
+    max-width: 100%;
+    min-height: 135px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
+    @include boxShadow;
+    
+    &:hover {
+        transform: translateY(-1px);
+    }
+    
+    @media (max-width: 768px) {
+        min-height: 120px;
+        padding: 15px;
+        gap: 15px;
+    }
+}
+
+.imgWrapper {
+    flex-shrink: 0;
+    transition: $transition;
+    cursor: pointer;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    gap: 20px;
+    position: relative;
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+
+        label {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+        }
+    }
+
+    &:hover {
+        transform: scale(1.03);
+    }
+    
+    &:focus-visible {
+        outline: 2px solid $siteBcColor;
+        outline-offset: 2px;
+    }
+    
+    @include active;
+
+    .productImage {
+        width: 100px;
+        object-fit: cover;
+        border-radius: 8px;
+
+        @media (max-width: 1350px) {
+            width: 80px;
+        }
+    }
+}
+
+.infoWrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    min-width: 0;
+    
+    @media (max-width: 1350px) {
+        gap: 6px;
+    }
+
+    .productNameWrapper{
+        max-width: 100%;
+        @include underline;
+
+        .productName {
+            font-size: 18px;
+            font-weight: 700;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 250px;
+            line-height: 1.2;
+
+            @media (max-width: 1350px) {
+                font-size: 15px;
+                max-width: 200px;
+            }
+
+            @media (max-width: 768px) {
+                max-width: 180px;
+            }
+
+            @media (max-width: 480px) {
+                max-width: 150px;
+            }
+        }
+    }
+
+    .price {
+        display: none;
+
+        @media (max-width: 768px) {
+            display: block;
+            @include price;
+        }
+    }
+
+    .productColor,
+    .productDate {
+        color: lighten($textColor, 20%);
+        margin: 0;
+        font-size: 14px;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+
+        @media (max-width: 1023px) {
+            font-size: 11px;
+        }
+    }
+
+    .bottomButtons {
+        display: flex;
+        gap: 12px;
+        margin-top: 8px;
+        
+        @media (max-width: 1350px) {
+            gap: 10px;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 1023px) {
+            gap: 16px;
+        }
+
+        @media (max-width: 390px) {
+            flex-direction: column;
+        }
+
+        .quantityControls{
+            @include quantityControls();
+
+            @media (min-width: 768px) {
+                display: none;
+            }
+        }
+
+        .actionButtons{
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+
+            .actionButton {
+                background: none;
+                border: none;
+                padding: 8px;
+                border-radius: 6px;
+                cursor: pointer;
+                transition: $transition;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+    
+                @media (max-width: 1023px) {
+                    padding: 0px;
+                }
+                
+                &:hover {
+                    @media (min-width: 1023px) {
+                        background-color: rgba(0, 0, 0, 0.05);
+                        transform: scale(1.1);
+                    }
+                }
+                
+                &:focus-visible {
+                    outline: 2px solid $siteBcColor;
+                    outline-offset: 2px;
+                }
+                
+                @include active;
+    
+                .likeIcon,
+                .shareIcon,
+                .trashIcon {
+                    width: 28px;
+                    color: #666;
+                    stroke-width: 2;
+                    transition: $transition;
+                    
+                    @media (max-width: 1350px) {
+                        width: 22px;
+                    }
+                }
+    
+                .likeIcon {
+                    color: $likeColor;
+                }
+            }
+        }
+    }
+}
+
+
+    
+
+.price {
+    @include price;
+    
+    @media (max-width: 768px) {
+        display: none;
+    }
+}
+
+.quantityControls {
+    @include quantityControls;
+
+    @media (max-width: 768px) {
+        display: none;
+    }
+}

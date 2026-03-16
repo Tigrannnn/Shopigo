@@ -1,0 +1,30 @@
+@use '../../../styles' as *;
+
+.RecentlyViewed{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 20px;
+    border-radius: 10px;
+    @include boxShadow;
+
+    .productList {
+        display: flex;
+        padding: 20px;
+        gap: 15px;
+        overflow-x: scroll;
+
+        article {
+            width: auto;
+            width: 200px;
+        }
+
+        @media (max-width: 750px) {
+            padding: 10px;
+            
+            article {
+                width: 150px;
+            }
+        }
+    }
+}

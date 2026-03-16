@@ -1,0 +1,6 @@
+# Allow all crawlers
+User-agent: *
+Allow: /
+
+# Sitemap (helps search engines discover your pages)
+Sitemap: https://shopigo-psi.vercel.app/sitemap.xml
